@@ -1,4 +1,4 @@
-name: servirApplications
+name: sams
 channels:
   - conda-forge
   - defaults
@@ -6,4 +6,3 @@ dependencies:
   - python=3.9
   - django
   - pillow
-prefix: C:\ProgramData\Anaconda3\envs\servirApplications
