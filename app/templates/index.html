@@ -1,0 +1,30 @@
+{% extends "apps_base.html" %}
+{% load static %}
+{% block title %}ClimateSERV - Map{% endblock %}
+{% block content %}
+<div style="display: flex; flex-direction: row; flex-wrap: wrap">
+
+    {% for app in apps %}
+    <div class="card" style="width: 18rem; margin: 10px">
+        <img src="{{ app.icon.url }}" class="card-img-top" style="width:18rem; max-height: 18rem">
+        <div class="card-body">
+            <div style="display: flex; flex-direction: row">
+                <h5 class="card-title">{{ app.name}}</h5>
+                {#  Colored cirlce:#}
+{#                <div style="#}
+{#          background: red;#}
+{#          width: 20px;#}
+{#          height: 20px;#}
+{#          margin-left: 10px;#}
+{#          border-radius: 50%;#}
+{#        "></div>#}
+            </div>
+            <p class="card-text">{{ app.description }}</p>
+{#            <a href="/command/{{ app.id }}/info" class="btn btn-primary" style="width:45%">Info</a>#}
+            <a href="{{ app.url }}" class="btn btn-primary"  style="width:100%">Visit</a>
+
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

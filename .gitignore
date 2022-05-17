@@ -1,0 +1,11 @@
+.DS_Store
+venv
+**/__pycache__
+.idea
+db.sqlite3
+package-lock.json
+staticfiles
+node_modules
+media
+*logfile.txt
+*.pyc
