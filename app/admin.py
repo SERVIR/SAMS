@@ -1,14 +1,21 @@
 from django.contrib import admin
-from .models import Application, Organization, ServiceArea, Service, Developer, Log, Dataset, DeploymentEnvironment
+from .models import Application, Organization, ServiceArea, Service, Developer, Scientist, Log, Dataset, DeploymentEnvironment, ApplicationComponent
 
 admin.site.site_header = "SERVIR Apps Portal"
 
 # Register your models here.
+@admin.register(ApplicationComponent)
+class ApplicationComponentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')
+    search_fields = ('name', 'description')
+    ordering = ('name',)
+
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
     list_display = ('name', 'organization', 'active', 'shown')
     list_filter = ('active', 'shown', 'organization', 'deployment_environment', 'primary_developer')
     search_fields = ('name', 'organization__name')
+    filter_horizontal = ('datasets', 'scientists', 'serviceareas', 'developers', 'application_components')
     ordering = ('name',)
 
 @admin.register(Organization)
@@ -31,6 +38,13 @@ class ServiceAdmin(admin.ModelAdmin):
     ordering = ('name',)
 
 @admin.register(Developer)
+class DeveloperAdmin(admin.ModelAdmin):
+    list_display = ('name', 'organization', 'active')
+    list_filter = ('active','organization')
+    search_fields = ('name', )
+    ordering = ('name',)
+
+@admin.register(Scientist)
 class DeveloperAdmin(admin.ModelAdmin):
     list_display = ('name', 'organization', 'active')
     list_filter = ('active','organization')
