@@ -49,6 +49,17 @@ class Developer(models.Model):
     def __str__(self):
         return self.name
 
+# Scientist model
+class Scientist(models.Model):
+    name = models.CharField(help_text="Name of the developer", max_length=250)
+    photo = models.ImageField(upload_to='icons/', blank=True, null=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    organization = models.ForeignKey('Organization', on_delete=models.CASCADE)
+    active = models.BooleanField(default=True, help_text="Is the scientist active?")
+    def __str__(self):
+        return self.name
+
 # Log model for tracking changes to the applications
 class Log(models.Model):
     application = models.ForeignKey('Application', on_delete=models.CASCADE)
@@ -78,23 +89,34 @@ class DeploymentEnvironment(models.Model):
     def __str__(self):
         return self.name
 
+# Application component model
+class ApplicationComponent(models.Model):
+    name = models.CharField(help_text="Name of the application component (indicate version if relevant)", max_length=250)
+    description = models.TextField(help_text="Further details for the application component", blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+
 # Application list model
 class Application(models.Model):
     name = models.CharField(help_text="Application name", max_length=250)
     description = models.TextField(help_text="Brief application description", blank=True)
-    url = models.URLField(max_length=200)
-    icon = models.ImageField(upload_to='icons/')
-    organization = models.ForeignKey('Organization', on_delete=models.CASCADE, help_text="Organization that developed the application")
+    url = models.URLField(max_length=200, blank=True)
+    icon = models.ImageField(upload_to='icons/', blank=True)
+    organization = models.ForeignKey('Organization', on_delete=models.CASCADE, help_text="Organization that developed the application", blank=True)
     serviceareas = models.ManyToManyField('ServiceArea', blank=True)
     datasets = models.ManyToManyField('Dataset', blank=True)
     active = models.BooleanField(default=True, help_text="Is this application active?")
     shown = models.BooleanField(default=False, help_text="Is this application visible?")
-    # developers = models.ManyToManyField('Developer', blank=True)
-    primary_developer = models.ForeignKey('Developer', on_delete=models.CASCADE)
+    developers = models.ManyToManyField('Developer', blank=True, related_name='developers')
+    primary_developer = models.ForeignKey('Developer', on_delete=models.CASCADE, blank=True)
+    scientists = models.ManyToManyField('Scientist', blank=True)
     code_repo_url = models.URLField(max_length=250, blank=True, help_text="Code repository location")
     design_documentation_url = models.URLField(max_length=250, blank=True, help_text="Design documentation location")
+    application_components = models.ManyToManyField('ApplicationComponent', blank=True)
     platform_description = models.TextField(help_text="Brief description of platform used in the app", blank=True)
-    deployment_environment = models.ForeignKey('DeploymentEnvironment', on_delete=models.CASCADE)
+    deployment_environment = models.ForeignKey('DeploymentEnvironment', on_delete=models.CASCADE, blank=True)
     deployment_env_further_details = models.TextField(help_text="Further details about the deployment environment", blank=True)
     date_released = models.DateField(default=utils.timezone.now, help_text="Approximate date the application was released")
     date_decommissioned = models.DateField(blank=True, null=True, help_text="Approximate date the application was decommissioned")
