@@ -65,6 +65,11 @@ body {
     font-size: 1rem;
     background-color: #000000;
     z-index: 3000;
+    padding: 0.5rem 1rem;
+}
+
+.mr-auto, .mx-auto {
+    margin-right: auto!important;
 }
 
 .navbar-collapse {

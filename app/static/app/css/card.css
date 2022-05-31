@@ -3,6 +3,8 @@
   color: #4a4a4a;
   max-width: 100%;
   position: relative;
+  color: unset;
+  border-radius: unset;
 }
 
 .carousel-control-prev-icon {

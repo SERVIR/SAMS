@@ -2,22 +2,82 @@
 {% load static %}
 {% block title %}ClimateSERV - Map{% endblock %}
 {% block script %}
-    <link href="{% static 'app/css/home.css' %}" rel="stylesheet"/>
+    <link href="{% static 'app/css/detail.css' %}" rel="stylesheet"/>
 {% endblock %}
 {% block content %}
-    <div style="display: flex; flex-direction: row; flex-wrap: wrap">
+    <div class="flex-wrapper">
+        <div class="card">
+            <form action="/">
+                <input
+                        type="submit"
+                        value=""
+                        class="btn-close btn-close-white pull-right"
+                        aria-label="Close"
+                        style="position: absolute;right: 10px;top: 10px;"
+                />
+            </form>
+            <div class="container-fliud">
+                <div class="wrapper row">
+                    <div class="preview col-md-6">
 
-        {% for app in apps %}
+                        <div class="preview-pic tab-content">
+                            <div class="tab-pane active" id="pic-1"><img src="{{ app.icon.url }}" /></div>
+                            <form action="{{ app.url }}" class="app-button-wrapper">
+                                <input
+                                        type="submit"
+                                        value="Open App"
+                                        class="open-app btn btn-default"
+                                />
+                            </form>
 
-            <div id="app_{{ app.id }}" class="gallery-card ember-view">
-                <div class="inner img-wrapper" style="background-image:url({{ app.icon.url }})">
-                    <a href="#" class="img-link">
-                        <div class="image">
-                            <p class="app-title">{{ app.name }}</p>
                         </div>
-                    </a>
+
+
+                    </div>
+                    <div class="details col-md-6">
+                        <div class="service-icons">
+                            <div class="icons">
+                                {% for servicearea in app.serviceareas.all %}
+                                <img src="{{ servicearea.icon.url }}" atl="capacity_building" style="max-width:40px; display:inline-block" />
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                        <h3 class="product-title">{{ app.name }}</h3>
+
+                        <p class="product-description">
+                            {{ app.description }}
+                        </p>
+                        <p style="margin-bottom: 15px; font-size: 18px;">Status: <span style="font-weight:500">
+                        {% if app.active %}
+                        Active
+                        {% else %}
+                        Retired
+                        {% endif %}
+                        @ {{ app.organization }}</span>
+                        </p>
+
+
+
+                        <h3 class="product-title">Science Team</h3>
+
+                        <p class="product-description">
+                            {% for scientist in app.scientists.all %}
+                                {{ scientist.name }} ({{ scientist.organization }}){% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+{#                            Vikalp Mishra (SCO), Sarah Miller (SCO), Emily Adama (SCO), Lilian Ndungu (RCMRD)#}
+                        </p>
+
+                        <h3 class="product-title">Software Engineering Team:</h3>
+
+                        <p class="product-description">
+                            {% for developer in app.developers.all %}
+                                {{ developer.name }} ({{ developer.organization }}){% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+
+                    </div>
                 </div>
             </div>
-        {% endfor %}
-    </div>
+        </div>
 {% endblock %}

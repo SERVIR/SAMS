@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from .models import Application
 
-
 apps = [
     {
         "id": 1,
@@ -17,7 +16,7 @@ apps = [
         "image": "https://apps.servirglobal.net/static/hydroviewer_nepal/images/logo.png",
         "description": "This is info about the Streamflow Prediction System",
         "color": "brown",
-        "url":"http://tethys.icimod.org/apps/streamflownepal/",
+        "url": "http://tethys.icimod.org/apps/streamflownepal/",
     },
     {
         "id": 3,
@@ -49,7 +48,7 @@ apps = [
         "image": "https://apps.servirglobal.net/static/rheasvieweroption2/images/logo.png",
         "description": "This is info about the Rheas Viewer",
         "color": "brown",
-        "url":"https://apps.servirglobal.net/apps/rheasvieweroption2/",
+        "url": "https://apps.servirglobal.net/apps/rheasvieweroption2/",
     },
     {
         "id": 7,
@@ -68,7 +67,12 @@ apps = [
         "url": "https://apps.servirglobal.net/apps/swat2/"
     },
 ]
+
+
 # Create your views here.
 def index(request):
-
     return render(request, "index.html", context={"apps": Application.objects.exclude(shown=False).all()})
+
+
+def detail(request, post_id):
+    return render(request, "detail.html", context={"app": Application.objects.get(pk=post_id)})

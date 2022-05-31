@@ -24,10 +24,8 @@
             rel="stylesheet"
             href="//cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
     />
-    <link
-            rel="stylesheet"
-            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link href="{% static 'app/css/bulma.min.css' %}" rel="stylesheet"/>
     <link href="{% static 'app/css/App.css' %}" rel="stylesheet"/>
     <link href="{% static 'app/css/card.css' %}" rel="stylesheet"/>
@@ -38,11 +36,9 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
     ></script>
-    <script
-            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+            crossorigin="anonymous"></script>
     <script src="{% static 'app/js/navloader.js' %}"></script>
     {% block script %}{% endblock %}
 
@@ -70,38 +66,34 @@
 <body>
 <header>
     <nav id="nav" class="navbar navbar-expand-lg navbar-dark">
-        <a href="{% if page == 'menu-home' %}#home {% else %} / {% endif %}" class="navbar-brand">
-            <img src="{% static 'app/img/logo_climateserv_WithGlobe_white.png' %}" alt="ClimateSERV"/>
-        </a>
-        <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarCollapse"
-                aria-controls="navbarCollapse"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-        >
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-                <li>
-                    <a aria-current="page" id="menu-home" class="nav-link"
-                       href="{% url 'home' %}">HOME</a>
-                </li>
-{#                <li>#}
-{#                    <a class="nav-link" id="menu-map" href="{% url 'ClimateSERV_UI:map' %}">MAP</a>#}
-{#                </li>#}
-{#                <li>#}
-{#                    <a class="nav-link" id="menu-about" href="{% url 'ClimateSERV_UI:about' %}">ABOUT</a>#}
-{#                </li>#}
-            </ul>
-            <div class="navbar-nav">
-                {% if request.user.is_staff %}
-                    <a class="nav-link" id="menu-help" href="{% url 'admin:index' %}">Admin</a>
-                {% endif %}
-{#                <a class="nav-link" id="menu-help" href="{% url 'ClimateSERV_UI:help' %}">HELP CENTER</a>#}
+        <div class="container-fluid">
+            <a href="{% if page == 'menu-home' %}#home {% else %} / {% endif %}" class="navbar-brand">
+                <img src="{% static 'app/img/logo_climateserv_WithGlobe_white.png' %}" alt="ClimateSERV"/>
+            </a>
+            <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li>
+                        <a aria-current="page" id="menu-home" class="nav-link"
+                           href="{% url 'home' %}">HOME</a>
+                    </li>
+                </ul>
+                <div class="navbar-nav">
+                    {% if request.user.is_staff %}
+                        <a class="nav-link" id="menu-help" href="{% url 'admin:index' %}">Admin</a>
+                    {% endif %}
+                    {#                <a class="nav-link" id="menu-help" href="{% url 'ClimateSERV_UI:help' %}">HELP CENTER</a>#}
+                </div>
             </div>
         </div>
     </nav>
