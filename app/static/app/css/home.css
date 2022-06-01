@@ -1,3 +1,15 @@
+body{
+    background-color: #3C3837;
+}
+
+.flex-wrapper{
+    display: flex;
+    min-height: calc(100vh - 60px);
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #3C3837;
+}
+
 .gallery-card {
     width: 25%;
     height: auto;
@@ -23,6 +35,103 @@
     align-items: center;
     overflow: hidden;
 }
+
+#service_area_filter{
+    text-align: center;
+}
+
+#service_area_filter ul.nav.nav-tabs {
+    display: inline-flex;
+    float: none;
+    vertical-align: top;
+}
+
+#service_area_filter ul.nav.nav-tabs li{
+    padding: 15px;
+}
+
+#active_service{
+    position: absolute;
+    left: 100px;
+    top: 10px;
+    max-width: calc(100vw - 110px);
+    border: unset;
+    line-height: 32px;
+}
+
+#active_service_text{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    width: 100%;
+    overflow: hidden;
+}
+
+#navbarTabs a.active{
+    color: #17414e;
+    font-weight: 600;
+    background-color: #8d8d8d;
+}
+
+.navbar.tabcontrol{
+    background-color: #3C3837;
+    padding-bottom: 0;
+}
+
+.tabrow {
+}
+.tabrow li {
+    border: 1px solid #AAA;
+    border-bottom: none;
+}
+.tabrow a {
+    color: #555;
+    text-decoration: none;
+    background-color: #f9f9f9;
+}
+.tabrow li.selected {
+    background: #FFF;
+    color: #333;
+    z-index: 2;
+    border-bottom-color: #FFF;
+}
+.tabrow:before {
+    position: absolute;
+    content: " ";
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    /*border-bottom: 1px solid #AAA;*/
+    z-index: 1;
+}
+.tabrow li:before,
+.tabrow li:after {
+    border: 1px solid #AAA;
+    position: absolute;
+    bottom: -1px;
+    width: 5px;
+    height: 5px;
+    content: " ";
+}
+.tabrow li:before {
+    left: -6px;
+    border-bottom-right-radius: 6px;
+    border-width: 0 1px 1px 0;
+    box-shadow: 2px 2px 0 #D1D1D1;
+}
+.tabrow li:after {
+    right: -6px;
+    border-bottom-left-radius: 6px;
+    border-width: 0 0 1px 1px;
+    box-shadow: -2px 2px 0 #D1D1D1;
+}
+.tabrow li.selected:before {
+    box-shadow: 2px 2px 0 #FFF;
+}
+.tabrow li.selected:after {
+    box-shadow: -2px 2px 0 #FFF;
+}
+
 
 .img-link{
     position: absolute;

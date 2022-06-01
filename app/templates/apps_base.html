@@ -98,25 +98,27 @@
         </div>
     </nav>
 </header>
-{% block content %}{% endblock %}
-<div class="d-flex flex-column">
-    <footer id="footer">
-        <div class="climate-copy">
-            <a href="https://apps.servirglobal.net">AppSERV</a>
-            {#            <span>© SERVIR Global</span>#}
-        </div>
-        <div class="ml-auto climate-power">
-            {#            <span>Powered by </span>#}
-            <a href="https://servirglobal.net">
-                <img
-                        src="{% static 'app/img/servir_global_full_logo_white.png' %}"
-                        alt="SERVIR Global"
-                        style="margin-left: 8px; max-height: 21px;"
-                />
-            </a>
-        </div>
+<div class="flex-wrapper">
+    {% block content %}{% endblock %}
+    <div class="d-flex flex-column">
+        <footer id="footer">
+            <div class="climate-copy">
+                <a href="https://apps.servirglobal.net">AppSERV</a>
+                {#            <span>© SERVIR Global</span>#}
+            </div>
+            <div class="ml-auto climate-power">
+                {#            <span>Powered by </span>#}
+                <a href="https://servirglobal.net">
+                    <img
+                            src="{% static 'app/img/servir_global_full_logo_white.png' %}"
+                            alt="SERVIR Global"
+                            style="margin-left: 8px; max-height: 21px;"
+                    />
+                </a>
+            </div>
 
-    </footer>
+        </footer>
+    </div>
 </div>
 {% block item-template %}{% endblock %}
 </body>

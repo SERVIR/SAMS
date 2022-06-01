@@ -3,14 +3,79 @@
 {% block title %}ClimateSERV - Map{% endblock %}
 {% block script %}
     <link href="{% static 'app/css/home.css' %}" rel="stylesheet"/>
+    <script>
+        function filter_service_area(which) {
+            const service = $(which);
+            $("#navbarTabs a").removeClass("active");
+            service.addClass('active');
+            $("#active_service_text").text(which.text);
+            const apps = $(".gallery-card.ember-view");
+            if (parseInt(service.attr('service_area_id')) === -1) {
+                apps.show();
+            } else {
+                apps.map(function (i, app) {
+                        const app_obj = $(app);
+                        if (app_obj.attr('app_filter').includes(service.attr('service_area_id'))) {
+                            app_obj.show();
+                        } else {
+                            app_obj.hide();
+                        }
+                    }
+                );
+            }
+        }
+    </script>
 {% endblock %}
 {% block content %}
-    <div style="display: flex; flex-direction: row; flex-wrap: wrap">
-
+    <div>
+    <div id="service_area_filter">
+        <h1 style="color:#FFFFFF; font-size: 2em; padding: 20px;">SERVIR Applications</h1>
+        <nav class="navbar navbar-expand-lg navbar-dark tabcontrol">
+            <div class="container-fluid">
+                <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarTabs"
+                        aria-controls="navbarTabs"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id="active_service" class="navbar-text navbar-toggler">
+                    <span id="active_service_text" style="color:#FFFFFF;">All</span>
+                </div>
+                <div class="collapse navbar-collapse tabrow" id="navbarTabs">
+                    <div class="navbar-nav">
+                    <li>
+                        <a
+                                class="nav-link active"
+                                href="#"
+                                service_area_id="-1"
+                                onclick="filter_service_area(this);return false;">
+                            All</a>
+                    </li>
+                        {% for service_area in service_areas %}
+                            <li>
+                            <a
+                                    class="nav-link"
+                                    href="#"
+                                    service_area_id="{{ service_area.pk }}"
+                                    onclick="filter_service_area(this);return false;">{{ service_area.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div style="display: flex; flex-direction: row; flex-wrap: wrap; background-color: #8d8d8d;">
         {% for app in apps %}
-
-            <div id="app_{{ app.id }}" class="gallery-card ember-view">
-                <div class="inner img-wrapper" style="background-image:url({{ app.icon.url }})">
+            <div
+                    id="app_{{ app.id }}"
+                    app_filter="{% for servicearea in app.serviceareas.all %}{{ servicearea.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
+                    class="gallery-card ember-view">
+                <div class="inner img-wrapper" style="background-image:url({{ app.icon.url }})" title="{{ app.name }}">
                     <a href="/detail/{{ app.pk }}" class="img-link">
                         <div class="image">
                             <p class="app-title">{{ app.name }}</p>
@@ -19,5 +84,6 @@
                 </div>
             </div>
         {% endfor %}
+    </div>
     </div>
 {% endblock %}

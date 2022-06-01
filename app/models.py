@@ -1,7 +1,6 @@
-from multiprocessing.dummy import active_children
-from tokenize import blank_re
 from django.db import models
 from django import utils
+
 
 # Create your models here.
 
@@ -13,21 +12,26 @@ class Organization(models.Model):
     icon = models.ImageField(upload_to='icons/', blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.name
+
 
 # Service Area model
 class ServiceArea(models.Model):
     name = models.CharField(help_text="Name of the service area", max_length=250)
     description = models.TextField()
-    service_catalog_url = models.URLField(max_length=200, blank=True, help_text="Reference to the SEVIR Service catalog")
+    service_catalog_url = models.URLField(max_length=200, blank=True,
+                                          help_text="Reference to the SEVIR Service catalog")
     icon = models.ImageField(upload_to='icons/', blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.name
 
-# Services  model 
+
+# Services  model
 class Service(models.Model):
     name = models.CharField(help_text="Service Name", max_length=250)
     description = models.TextField()
@@ -35,8 +39,10 @@ class Service(models.Model):
     service_catalog_url = models.URLField(max_length=200, help_text="Reference to the SERVIR Service catalog")
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.name
+
 
 # Developer model
 class Developer(models.Model):
@@ -46,8 +52,10 @@ class Developer(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     organization = models.ForeignKey('Organization', on_delete=models.CASCADE)
     active = models.BooleanField(default=True, help_text="Is the developer active?")
+
     def __str__(self):
         return self.name
+
 
 # Scientist model
 class Scientist(models.Model):
@@ -57,8 +65,10 @@ class Scientist(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     organization = models.ForeignKey('Organization', on_delete=models.CASCADE)
     active = models.BooleanField(default=True, help_text="Is the scientist active?")
+
     def __str__(self):
         return self.name
+
 
 # Log model for tracking changes to the applications
 class Log(models.Model):
@@ -66,8 +76,10 @@ class Log(models.Model):
     log_entry = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.application.name
+
 
 # Dataset model for tracking datasets used in the applications
 class Dataset(models.Model):
@@ -77,8 +89,10 @@ class Dataset(models.Model):
     credentials = models.TextField(help_text="Credentials for accessing the dataset", blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.name
+
 
 # Deployment environments model
 class DeploymentEnvironment(models.Model):
@@ -86,17 +100,22 @@ class DeploymentEnvironment(models.Model):
     description = models.TextField(help_text="Brief description of the deployment environment", blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.name
 
+
 # Application component model
 class ApplicationComponent(models.Model):
-    name = models.CharField(help_text="Name of the application component (indicate version if relevant)", max_length=250)
+    name = models.CharField(help_text="Name of the application component (indicate version if relevant)",
+                            max_length=250)
     description = models.TextField(help_text="Further details for the application component", blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.name
+
 
 # Application list model
 class Application(models.Model):
@@ -104,7 +123,8 @@ class Application(models.Model):
     description = models.TextField(help_text="Brief application description", blank=True)
     url = models.URLField(max_length=200, blank=True)
     icon = models.ImageField(upload_to='icons/', blank=True)
-    organization = models.ForeignKey('Organization', on_delete=models.CASCADE, help_text="Organization that developed the application", blank=True)
+    organization = models.ForeignKey('Organization', on_delete=models.CASCADE,
+                                     help_text="Organization that developed the application", blank=True)
     serviceareas = models.ManyToManyField('ServiceArea', blank=True)
     datasets = models.ManyToManyField('Dataset', blank=True)
     active = models.BooleanField(default=True, help_text="Is this application active?")
@@ -117,10 +137,15 @@ class Application(models.Model):
     application_components = models.ManyToManyField('ApplicationComponent', blank=True)
     platform_description = models.TextField(help_text="Brief description of platform used in the app", blank=True)
     deployment_environment = models.ForeignKey('DeploymentEnvironment', on_delete=models.CASCADE, blank=True)
-    deployment_env_further_details = models.TextField(help_text="Further details about the deployment environment", blank=True)
-    date_released = models.DateField(default=utils.timezone.now, help_text="Approximate date the application was released")
-    date_decommissioned = models.DateField(blank=True, null=True, help_text="Approximate date the application was decommissioned")
+    deployment_env_further_details = models.TextField(help_text="Further details about the deployment environment",
+                                                      blank=True)
+    date_released = models.DateField(default=utils.timezone.now,
+                                     help_text="Approximate date the application was released")
+    date_decommissioned = models.DateField(blank=True, null=True,
+                                           help_text="Approximate date the application was decommissioned")
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+    incomplete_info = models.BooleanField(default=True, help_text="Application needs more information added?")
+
     def __str__(self):
         return self.name
