@@ -95,24 +95,24 @@ body{
     z-index: 2;
     border-bottom-color: #FFF;
 }
-.tabrow:before {
-    position: absolute;
-    content: " ";
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    /*border-bottom: 1px solid #AAA;*/
-    z-index: 1;
-}
-.tabrow li:before,
-.tabrow li:after {
-    border: 1px solid #AAA;
-    position: absolute;
-    bottom: -1px;
-    width: 5px;
-    height: 5px;
-    content: " ";
-}
+/*.tabrow:before {*/
+/*    position: absolute;*/
+/*    content: " ";*/
+/*    width: 100%;*/
+/*    bottom: 0;*/
+/*    left: 0;*/
+/*    !*border-bottom: 1px solid #AAA;*!*/
+/*    z-index: 1;*/
+/*}*/
+/*.tabrow li:before,*/
+/*.tabrow li:after {*/
+/*    border: 1px solid #AAA;*/
+/*    position: absolute;*/
+/*    bottom: -1px;*/
+/*    width: 5px;*/
+/*    height: 5px;*/
+/*    content: " ";*/
+/*}*/
 .tabrow li:before {
     left: -6px;
     border-bottom-right-radius: 6px;
