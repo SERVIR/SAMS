@@ -13,11 +13,16 @@ body {
 .App {
     text-align: center;
 }
-.profile-container{
-    float:left; text-align: center; padding:20px;
+
+.profile-container {
+    float: left;
+    text-align: center;
+    padding: 20px;
 }
-.profile-pic{
-    width:40px; border-radius: 50%;
+
+.profile-pic {
+    width: 150px;
+    border-radius: 50%;
 }
 
 .w-100 {
@@ -75,7 +80,7 @@ body {
 }
 
 .mr-auto, .mx-auto {
-    margin-right: auto!important;
+    margin-right: auto !important;
 }
 
 .navbar-collapse {
@@ -117,19 +122,19 @@ body {
     width: unset;
 }
 
-   .carousel-item{
-        align-items: flex-end;
-    }
+.carousel-item {
+    align-items: flex-end;
+}
 
-    .mbr-table-cell{
-        margin-bottom: 50px;
-    }
+.mbr-table-cell {
+    margin-bottom: 50px;
+}
 
 .carousel-item-next, .carousel-item-prev, .carousel-item.active {
     display: block;
     transition: -webkit-transform 1.5s ease;
     transition: transform 1.5s ease;
-    transition: transform 1.5 ease,-webkit-transform 1.5s ease;
+    transition: transform 1.5 ease, -webkit-transform 1.5s ease;
 }
 
 .card-button {
@@ -304,7 +309,7 @@ body {
     width: 100%;
 }
 
-.layer-opacity:focus, .form-control:focus{
+.layer-opacity:focus, .form-control:focus {
     border-color: #758055;
     box-shadow: 0 0 0 0.2rem rgba(117, 128, 85, 0.25)
 }
@@ -1267,7 +1272,8 @@ button[disabled] {
         bottom: unset;
         top: 10px;
     }
-    .btn-data-info{
+
+    .btn-data-info {
         font-size: 1em;
     }
 }
@@ -1276,10 +1282,12 @@ button[disabled] {
     .tl-open {
         left: 470px;
     }
-    .btn-data-info{
+
+    .btn-data-info {
         font-size: 1.25em;
     }
-    .btn-data-info.hero-subtitle{
+
+    .btn-data-info.hero-subtitle {
         font-size: 1em;
     }
 }
@@ -1364,8 +1372,9 @@ button[disabled] {
     .tab-holder {
         margin-top: 30px;
     }
-    .lg-br{
-        display:none;
+
+    .lg-br {
+        display: none;
     }
 }
 
@@ -1400,11 +1409,13 @@ button[disabled] {
 
 @media only screen and (max-width: 500px) {
     .hero-subtitle {
-    padding: 7px 5px;
+        padding: 7px 5px;
     }
-    .carousel-caption p{
+
+    .carousel-caption p {
         margin-top: 8px;
     }
+
     .todo-wrapper {
         display: block;
         position: relative;
@@ -1415,16 +1426,19 @@ button[disabled] {
         float: unset;
         margin-right: 15px;
     }
+
     span.right.carousel-control.site-link {
         width: 100%;
         display: inline-block;
     }
+
     #dataCarousel button.btn.btn-lg.btn-data-info {
         max-width: unset;
         width: 100%;
         margin-left: unset !important;
         margin-bottom: 3px;
     }
+
     #dataCarousel .col-md-12 {
         margin-right: 20px !important;
         margin-left: 20px !important;

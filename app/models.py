@@ -22,7 +22,7 @@ class ServiceArea(models.Model):
     name = models.CharField(help_text="Name of the service area", max_length=250)
     description = models.TextField()
     service_catalog_url = models.URLField(max_length=200, blank=True,
-                                          help_text="Reference to the SEVIR Service catalog")
+                                          help_text="Reference to the SERVIR Service catalog")
     icon = models.ImageField(upload_to='icons/', blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
@@ -47,7 +47,9 @@ class Service(models.Model):
 # Developer model
 class Developer(models.Model):
     name = models.CharField(help_text="Name of the developer", max_length=250)
-    photo = models.ImageField(upload_to='icons/', blank=True, null=True)
+    photo = models.ImageField(upload_to='icons/',
+                              blank=True, null=True,
+                              help_text="Square image, minimum 150px X 150px")
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     organization = models.ForeignKey('Organization', on_delete=models.CASCADE)
@@ -67,7 +69,10 @@ class Developer(models.Model):
 # Scientist model
 class Scientist(models.Model):
     name = models.CharField(help_text="Name of the developer", max_length=250)
-    photo = models.ImageField(upload_to='icons/', blank=True, null=True)
+    photo = models.ImageField(upload_to='icons/',
+                              blank=True,
+                              null=True,
+                              help_text="Square image, minimum 150px X 150px")
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     organization = models.ForeignKey('Organization', on_delete=models.CASCADE)
