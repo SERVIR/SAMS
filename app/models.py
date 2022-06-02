@@ -53,6 +53,13 @@ class Developer(models.Model):
     organization = models.ForeignKey('Organization', on_delete=models.CASCADE)
     active = models.BooleanField(default=True, help_text="Is the developer active?")
 
+    @property
+    def image_url(self):
+        if self.photo:
+            return self.photo.url
+        else:
+            return "/static/app/img/no_profile.png"
+
     def __str__(self):
         return self.name
 
@@ -65,6 +72,13 @@ class Scientist(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     organization = models.ForeignKey('Organization', on_delete=models.CASCADE)
     active = models.BooleanField(default=True, help_text="Is the scientist active?")
+
+    @property
+    def image_url(self):
+        if self.photo:
+            return self.photo.url
+        else:
+            return "/static/app/img/no_profile.png"
 
     def __str__(self):
         return self.name

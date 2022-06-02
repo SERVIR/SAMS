@@ -13,6 +13,12 @@ body {
 .App {
     text-align: center;
 }
+.profile-container{
+    float:left; text-align: center; padding:20px;
+}
+.profile-pic{
+    width:40px; border-radius: 50%;
+}
 
 .w-100 {
     width: 100% !important;

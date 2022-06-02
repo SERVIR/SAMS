@@ -35,9 +35,7 @@
                                     class="open-app btn btn-default"
                             />
                         </form>
-
                     </div>
-
 
                 </div>
                 <div class="details col-md-6">
@@ -64,23 +62,36 @@
                         @ {{ app.organization }}</span>
                     </p>
 
-
                     <h3 class="product-title">Science Team:</h3>
 
-                    <p class="product-description">
+                    <div class="flex-row">
                         {% for scientist in app.scientists.all %}
-                            {{ scientist.name }} ({{ scientist.organization }}){% if not forloop.last %}, {% endif %}
+                            <div class="profile-container">
+                                <img
+                                        src="{{ scientist.image_url }}"
+                                        class="profile-pic"
+                                        title="{{ scientist.name }}"
+                                        alt="{{ scientist.name }}"/>
+                                <br/>
+                                {{ scientist.name }} ({{ scientist.organization }})
+                            </div>
                         {% endfor %}
-                        {#                            Vikalp Mishra (SCO), Sarah Miller (SCO), Emily Adama (SCO), Lilian Ndungu (RCMRD)#}
-                    </p>
+                    </div>
 
                     <h3 class="product-title">Software Engineering Team:</h3>
 
-                    <p class="product-description">
+                    <div class="flex-row">
                         {% for developer in app.developers.all %}
-                            {{ developer.name }} ({{ developer.organization }}){% if not forloop.last %}, {% endif %}
+                            <div class="profile-container">
+                                <img
+                                        src="{{ developer.image_url }}"
+                                        alt="{{ developer.name }}"
+                                        title="{{ developer.name }}"
+                                        class="profile-pic"><br/>
+                                {{ developer.name }} ({{ developer.organization }})
+                            </div>
                         {% endfor %}
-                    </p>
+                    </div>
 
                 </div>
             </div>

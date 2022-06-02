@@ -29,7 +29,7 @@
 {% block content %}
     <div>
     <div id="service_area_filter">
-        <h1 style="color:#FFFFFF; font-size: 2em; padding: 20px;">SERVIR Applications</h1>
+{#        <h1 style="color:#FFFFFF; font-size: 2em; padding: 20px;">SERVIR Applications</h1>#}
         <nav class="navbar navbar-expand-lg navbar-dark tabcontrol">
             <div class="container-fluid">
                 <button
@@ -53,7 +53,9 @@
                                 href="#"
                                 service_area_id="-1"
                                 onclick="filter_service_area(this);return false;">
-                            All Applications</a>
+                            All Applications<br/>
+                            <img src="{% static 'app/img/all_areas.fw.png' %}" alt="All Applications" style="width:20px" />
+                        </a>
                     </li>
                         {% for service_area in service_areas %}
                             <li>
@@ -61,7 +63,9 @@
                                     class="nav-link"
                                     href="#"
                                     service_area_id="{{ service_area.pk }}"
-                                    onclick="filter_service_area(this);return false;">{{ service_area.name }}</a>
+                                    onclick="filter_service_area(this);return false;">{{ service_area.name }}<br/>
+                            <img src="{{ service_area.icon.url }}" alt="{{ service_area.name }}" style="width:20px" />
+                            </a>
                             </li>
                         {% endfor %}
                     </div>

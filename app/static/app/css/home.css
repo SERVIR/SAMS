@@ -68,8 +68,6 @@ body{
 }
 
 #navbarTabs a.active{
-    color: #17414e;
-    font-weight: 600;
     background-color: #8d8d8d;
 }
 
@@ -85,9 +83,9 @@ body{
     border-bottom: none;
 }
 .tabrow a {
-    color: #555;
+    color: #FFFFFF; /*#8D8D8D;*/ /*#555;*/
     text-decoration: none;
-    background-color: #f9f9f9;
+    background-color: #5B5858; /*#f9f9f9;*/
 }
 .tabrow li.selected {
     background: #FFF;
