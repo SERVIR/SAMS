@@ -1,0 +1,10 @@
+{% extends "socialaccount/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">{% trans "Continue" %}</button>
+    </form>
+{% endblock %}

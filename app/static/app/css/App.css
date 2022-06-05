@@ -14,6 +14,14 @@ body {
     text-align: center;
 }
 
+.display-name{
+    padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+    font-size: var(--bs-nav-link-font-size);
+    font-weight: var(--bs-nav-link-font-weight);
+    color: var(--bs-nav-link-color);
+    text-decoration: none;
+}
+
 .profile-container {
     float: left;
     text-align: center;

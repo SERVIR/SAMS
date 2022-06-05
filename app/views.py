@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 from .models import Application
 from .models import ServiceArea
 
@@ -13,3 +14,8 @@ def index(request):
 
 def detail(request, post_id):
     return render(request, "detail.html", context={"app": Application.objects.get(pk=post_id)})
+
+
+def login(request):
+    response = redirect('accounts/google/login/')
+    return response
