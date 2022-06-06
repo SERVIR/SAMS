@@ -1,10 +1,44 @@
 {% extends "socialaccount/base.html" %}
 {% load i18n %}
+{% load static %}
+{% block script %}
+    <style type="text/css">
+        .customGPlusSignIn {
+            cursor: pointer;
+        }
+
+        span {
+            font-family: serif;
+            font-weight: normal;
+        }
+
+        span.icon {
+            background: url('{% static "/app/btn_google_dark_normal.svg" %}') transparent 5px 50% no-repeat;
+            display: inline-block;
+            vertical-align: middle;
+            width: 48px;
+            height: 42px;
+        }
+
+        .buttonText {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 24px;
+            font-weight: bold;
+            /* Use the Roboto font that is loaded in the <head> */
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+{% endblock %}
 
 {% block content %}
 
     <form method="post">
         {% csrf_token %}
-        <button type="submit">{% trans "Continue" %}</button>
+        <div class="customGPlusSignIn" onclick="document.forms[0].submit();">
+            <span class="icon"></span>
+            <span class="buttonText">{% trans "Google" %}</span>
+        </div>
+
     </form>
 {% endblock %}

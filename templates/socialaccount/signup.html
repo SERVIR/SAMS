@@ -1,0 +1,49 @@
+{% extends "socialaccount/base.html" %}
+{% load i18n %}
+{% block script %}
+    <style>
+        p {
+            font-size: .65em;
+        }
+
+        input {
+            width: 100%;
+            border-style: groove;
+        }
+
+        .nav-link {
+            display: inline-block;
+        }
+    </style>
+
+{% endblock %}
+
+{% block head_title %}{% trans "Signup" %}
+{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Sign Up" %}</h1>
+
+    <p>{% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to use your
+        {{ provider_name }} account to login to
+        {{ site_name }}. You are seeing this because you already have a direct account with the same email
+        address which is not allowed.
+    {% endblocktrans %}</p>
+    <p>
+        It is recommended you stop here, <a class="nav-link" id="menu-help" href="{% url 'admin:index' %}">login with
+        your direct account</a>
+        and change the email address to something other than your Google Account's email address. You may also
+        choose to continue and "sign-up" using a different email address (Not Recommended)
+    </p>
+
+    <form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
+        <button type="submit">{% trans "Sign Up" %} &raquo;</button>
+    </form>
+    <br/>
+
+{% endblock %}
