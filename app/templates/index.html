@@ -4,90 +4,144 @@
 {% block script %}
     <link href="{% static 'app/css/home.css' %}" rel="stylesheet"/>
     <script>
+    let selected_service_area = -999;
         function filter_service_area(which) {
-            const service = $(which);
-            $("#navbarTabs a").removeClass("active");
-            service.addClass('active');
-            $("#active_service_text").text(which.text);
-            const apps = $(".gallery-card.ember-view");
-            if (parseInt(service.attr('service_area_id')) === -1) {
-                apps.show();
-            } else {
-                apps.map(function (i, app) {
-                        const app_obj = $(app);
-                        if (app_obj.attr('app_filter').includes(service.attr('service_area_id'))) {
-                            app_obj.show();
-                        } else {
-                            app_obj.hide();
-                        }
-                    }
-                );
+
+            if(which){
+                const service = $(which);
+                $("#navbarTabs a").removeClass("active");
+                service.addClass('active');
+                $("#active_service_text").text(which.text);
+                selected_service_area = service.attr('service_area_id');
             }
+
+            const apps = $(".gallery-card.ember-view");
+            apps.map(function (i, app) {
+                    const app_obj = $(app);
+                    if (app_obj.attr('app_filter').includes(selected_service_area)
+                        &&
+                        app_obj.attr('region').includes($('input[name=region_radio]:checked').val())
+                    ) {
+                        app_obj.show();
+                    } else {
+                        app_obj.hide();
+                    }
+                }
+            );
         }
+    $(function () {
+        $('input[name=region_radio]').on('change', function() {
+            filter_service_area();
+        });
+    });
     </script>
 {% endblock %}
 {% block content %}
     <div>
-    <div id="service_area_filter">
-{#        <h1 style="color:#FFFFFF; font-size: 2em; padding: 20px;">SERVIR Applications</h1>#}
-        <nav class="navbar navbar-expand-lg navbar-dark tabcontrol">
-            <div class="container-fluid">
-                <button
-                        class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarTabs"
-                        aria-controls="navbarTabs"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div id="active_service" class="navbar-text navbar-toggler">
-                    <span id="active_service_text" style="color:#FFFFFF;">All Applications</span>
-                </div>
-                <div class="collapse navbar-collapse tabrow" id="navbarTabs">
-                    <div class="navbar-nav">
-                    <li>
-                        <a
-                                class="nav-link active"
-                                href="#"
-                                service_area_id="-1"
-                                onclick="filter_service_area(this);return false;">
-                            All Applications<br/>
-                            <img src="{% static 'app/img/all_areas.fw.png' %}" alt="All Applications" style="width:20px" />
-                        </a>
-                    </li>
-                        {% for service_area in service_areas %}
+        <div id="service_area_filter">
+            {#        <h1 style="color:#FFFFFF; font-size: 2em; padding: 20px;">SERVIR Applications</h1>#}
+            <nav class="navbar navbar-expand-lg navbar-dark tabcontrol">
+                <div class="container-fluid">
+                    <button
+                            class="navbar-toggler"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navbarTabs"
+                            aria-controls="navbarTabs"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div id="active_service" class="navbar-text navbar-toggler">
+                        <span id="active_service_text" style="color:#FFFFFF;">All Applications</span>
+                    </div>
+                    <div class="collapse navbar-collapse tabrow" id="navbarTabs">
+                        <div class="navbar-nav">
                             <li>
-                            <a
-                                    class="nav-link"
-                                    href="#"
-                                    service_area_id="{{ service_area.pk }}"
-                                    onclick="filter_service_area(this);return false;">{{ service_area.name }}<br/>
-                            <img src="{{ service_area.icon.url }}" alt="{{ service_area.name }}" style="width:20px" />
-                            </a>
+                                <a
+                                        class="nav-link active"
+                                        href="#"
+                                        service_area_id="-999"
+                                        onclick="filter_service_area(this);return false;">
+                                    All Applications<br/>
+                                    <img src="{% static 'app/img/all_areas.fw.png' %}" alt="All Applications"
+                                         style="width:20px"/>
+                                </a>
                             </li>
-                        {% endfor %}
+                            {% for service_area in service_areas %}
+                                <li>
+                                    <a
+                                            class="nav-link"
+                                            href="#"
+                                            service_area_id="{{ service_area.pk }}"
+                                            onclick="filter_service_area(this);return false;">{{ service_area.name }}<br/>
+                                        <img src="{{ service_area.icon.url }}" alt="{{ service_area.name }}"
+                                             style="width:20px"/>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                    <div style="float:right">
+                        <div class="searchFilter">
+                            <div class="col-sm-12">
+                                <div class="input-group">
+
+                                    <div class="input-group-btn">
+                                        <button
+                                                type="button"
+                                                class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                                                data-bs-toggle="dropdown"
+                                                aria-haspopup="true"
+                                                aria-expanded="false">
+                                            <span class="label-icon">Region</span>
+                                            <span class="caret">&nbsp;</span>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-left">
+                                            <ul class="category_filters">
+                                                <li>
+                                                    <input class="cat_type category-input" data-label="All" id="all"
+                                                           value="-999" name="region_radio" type="radio" checked="checked"><label
+                                                        for="all">All</label>
+                                                </li>
+                                                {% for region in regions %}
+                                                    <li>
+                                                        <input class="cat_type category-input"
+                                                               data-label="{{ region.name }}"
+                                                               id="region_{{ region.pk }}"
+                                                               value="{{ region.pk }}"
+                                                               name="region_radio" type="radio" ><label
+                                                            for="region_{{ region.pk }}">{{ region.name }}</label>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </nav>
-    </div>
-    <div style="display: flex; flex-direction: row; flex-wrap: wrap; background-color: #8d8d8d;">
-        {% for app in apps %}
-            <div
-                    id="app_{{ app.id }}"
-                    app_filter="{% for servicearea in app.serviceareas.all %}{{ servicearea.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
-                    class="gallery-card ember-view">
-                <div class="inner img-wrapper" style="background-image:url({{ app.icon.url }})" title="{{ app.name }}">
-                    <a href="/detail/{{ app.pk }}" class="img-link">
-                        <div class="image">
-                            <p class="app-title">{{ app.name }}</p>
-                        </div>
-                    </a>
+            </nav>
+        </div>
+        <div style="display: flex; flex-direction: row; flex-wrap: wrap; background-color: #8d8d8d;">
+            {% for app in apps %}
+                <div
+                        id="app_{{ app.id }}"
+                        app_filter="-999,{% for servicearea in app.serviceareas.all %}{{ servicearea.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
+                        region="-999,{% for region in app.region.all %}{{ region.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
+                        class="gallery-card ember-view">
+                    <div class="inner img-wrapper" style="background-image:url({{ app.icon.url }})"
+                         title="{{ app.name }}">
+                        <a href="/detail/{{ app.pk }}" class="img-link">
+                            <div class="image">
+                                <p class="app-title">{{ app.name }}</p>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

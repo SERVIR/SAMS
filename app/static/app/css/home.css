@@ -288,3 +288,26 @@ body{
         line-height: 1.47em;
     }
 }
+
+@media (max-width: 1380px) and (min-width: 992px) {
+    .container-fluid{
+        padding-right: 0;
+
+    }
+    .tabcontrol{
+        padding-right: 0;
+    }
+}
+
+.dropdown-menu[data-bs-popper] {
+    left: unset;
+    right: 0;
+}
+
+.category_filters li input {
+    margin-right: 4px;
+}
+
+.category_filters {
+    padding: 2px 10px;
+}

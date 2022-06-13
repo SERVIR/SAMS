@@ -2,13 +2,15 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from .models import Application
 from .models import ServiceArea
+from .models import Region
 
 
 # Create your views here.
 def index(request):
     return render(request, "index.html", context={
         "apps": Application.objects.exclude(shown=False).all(),
-        "service_areas": ServiceArea.objects.all()
+        "service_areas": ServiceArea.objects.all(),
+        "regions": Region.objects.all()
     })
 
 

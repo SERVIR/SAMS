@@ -1,8 +1,10 @@
 from django.contrib import admin
 from .models import Application, Organization, ServiceArea, Service, Developer, Scientist, Log, Dataset, \
-    DeploymentEnvironment, ApplicationComponent
+    DeploymentEnvironment, ApplicationComponent, Region
 
 admin.site.site_header = "SERVIR Apps Portal"
+
+admin.site.register(Region)
 
 
 # Registering models here.

@@ -124,6 +124,16 @@ class DeploymentEnvironment(models.Model):
         return self.name
 
 
+class Region(models.Model):
+    name = models.CharField(help_text="Name of the region",
+                            max_length=250)
+    organization = models.ManyToManyField('Organization', blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+
 # Application component model
 class ApplicationComponent(models.Model):
     name = models.CharField(help_text="Name of the application component (indicate version if relevant)",
@@ -164,6 +174,7 @@ class Application(models.Model):
                                            help_text="Approximate date the application was decommissioned")
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+    region = models.ManyToManyField('Region', blank=True)
     incomplete_info = models.BooleanField(default=True, help_text="Application needs more information added?")
 
     def __str__(self):
