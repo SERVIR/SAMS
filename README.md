@@ -8,3 +8,12 @@
 ```commandline
 conda env create -f environment.yml
 ```
+
+Add a file named data.json in the base directory.  This file will hold a json object containing
+the siteID for your application.  The format will be:
+
+```json
+{
+  "siteID": 3
+}
+```

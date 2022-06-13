@@ -11,9 +11,13 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+f = open(str(BASE_DIR) + '/data.json', )
+data = json.load(f)
 
 
 # Quick-start development settings - unsuitable for production
@@ -139,7 +143,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
 
-SITE_ID = 0
+SITE_ID = data["siteID"]
 LOGIN_REDIRECT_URL = '/'
 
 # Additional configuration settings
