@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-%zwp&4a8sn&+g6$2iaa4v5saut7ck1(xxa8qr^g7&s-htw7*mp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "https://sams.servirglobal.net/", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "sams.servirglobal.net", "127.0.0.1"]
 
 
 # Application definition
@@ -139,7 +139,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
 
-SITE_ID = 3
+SITE_ID = 0
 LOGIN_REDIRECT_URL = '/'
 
 # Additional configuration settings
