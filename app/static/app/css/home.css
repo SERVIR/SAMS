@@ -76,6 +76,14 @@ body{
     padding-bottom: 0;
 }
 
+.searchFilter{
+    margin:30px;
+}
+
+.dropdown-menu.show {
+    z-index: 10000;
+}
+
 .tabrow {
 }
 .tabrow li {

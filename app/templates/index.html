@@ -4,16 +4,18 @@
 {% block script %}
     <link href="{% static 'app/css/home.css' %}" rel="stylesheet"/>
     <script>
-    let selected_service_area = -999;
+        let selected_service_area = -999;
         function filter_service_area(which) {
 
-            if(which){
+            if (which) {
                 const service = $(which);
                 $("#navbarTabs a").removeClass("active");
                 service.addClass('active');
                 $("#active_service_text").text(which.text);
                 selected_service_area = service.attr('service_area_id');
             }
+
+            $("#filter_region").text($('input[name=region_radio]:checked').attr('data-label'))
 
             const apps = $(".gallery-card.ember-view");
             apps.map(function (i, app) {
@@ -38,6 +40,45 @@
 {% endblock %}
 {% block content %}
     <div>
+        <div>
+            <div class="searchFilter">
+                <div class="col-sm-12">
+                    <div class="input-group">
+
+                        <div class="input-group-btn">
+                            <button
+                                    type="button"
+                                    class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                                    data-bs-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                <span class="label-icon">Showing Applications for </span><span id="filter_region">All</span>
+                                <span class="caret">&nbsp;</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-left">
+                                <ul class="category_filters">
+                                    <li>
+                                        <input class="cat_type category-input" data-label="All" id="all"
+                                               value="-999" name="region_radio" type="radio" checked="checked"><label
+                                            for="all">All</label>
+                                    </li>
+                                    {% for region in regions %}
+                                        <li>
+                                            <input class="cat_type category-input"
+                                                   data-label="{{ region.name }}"
+                                                   id="region_{{ region.pk }}"
+                                                   value="{{ region.pk }}"
+                                                   name="region_radio" type="radio" ><label
+                                                for="region_{{ region.pk }}">{{ region.name }}</label>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="service_area_filter">
             {#        <h1 style="color:#FFFFFF; font-size: 2em; padding: 20px;">SERVIR Applications</h1>#}
             <nav class="navbar navbar-expand-lg navbar-dark tabcontrol">
@@ -82,45 +123,6 @@
                             {% endfor %}
                         </div>
 
-                    </div>
-                    <div style="float:right">
-                        <div class="searchFilter">
-                            <div class="col-sm-12">
-                                <div class="input-group">
-
-                                    <div class="input-group-btn">
-                                        <button
-                                                type="button"
-                                                class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
-                                                data-bs-toggle="dropdown"
-                                                aria-haspopup="true"
-                                                aria-expanded="false">
-                                            <span class="label-icon">Region</span>
-                                            <span class="caret">&nbsp;</span>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-left">
-                                            <ul class="category_filters">
-                                                <li>
-                                                    <input class="cat_type category-input" data-label="All" id="all"
-                                                           value="-999" name="region_radio" type="radio" checked="checked"><label
-                                                        for="all">All</label>
-                                                </li>
-                                                {% for region in regions %}
-                                                    <li>
-                                                        <input class="cat_type category-input"
-                                                               data-label="{{ region.name }}"
-                                                               id="region_{{ region.pk }}"
-                                                               value="{{ region.pk }}"
-                                                               name="region_radio" type="radio" ><label
-                                                            for="region_{{ region.pk }}">{{ region.name }}</label>
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </nav>
