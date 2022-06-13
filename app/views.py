@@ -8,7 +8,7 @@ from .models import Region
 # Create your views here.
 def index(request):
     return render(request, "index.html", context={
-        "apps": Application.objects.exclude(shown=False).all(),
+        "apps": Application.objects.exclude(shown=False).all().order_by("display_priority"),
         "service_areas": ServiceArea.objects.all(),
         "regions": Region.objects.all()
     })

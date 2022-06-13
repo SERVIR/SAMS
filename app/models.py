@@ -175,6 +175,7 @@ class Application(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     region = models.ManyToManyField('Region', blank=True)
+    display_priority=models.IntegerField(help_text="Display priority (lower numbers shown at the top of the list)",default=10,  blank=True)
     incomplete_info = models.BooleanField(default=True, help_text="Application needs more information added?")
 
     def __str__(self):

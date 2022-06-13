@@ -17,7 +17,7 @@ class ApplicationComponentAdmin(admin.ModelAdmin):
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'organization', 'active', 'shown', 'incomplete_info')
+    list_display = ('name', 'organization', 'active', 'shown', 'display_priority', 'incomplete_info')
     list_filter = ('active', 'shown', 'organization', 'deployment_environment', 'primary_developer')
     search_fields = ('name', 'organization__name')
     filter_horizontal = ('datasets', 'scientists', 'serviceareas', 'developers', 'application_components')
