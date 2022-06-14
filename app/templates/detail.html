@@ -1,6 +1,6 @@
 {% extends "apps_base.html" %}
 {% load static %}
-{% block title %}AppSERV - Detail{% endblock %}
+{% block title %}SERVIR Application Management System - SAMS - Detail{% endblock %}
 {% block script %}
     <link href="{% static 'app/css/detail.css' %}" rel="stylesheet"/>
 {% endblock %}
@@ -28,16 +28,24 @@
                                     title="{{ app.name }}"
                                     alt="{{ app.name }}"/>
                         </div>
-                        <form
-                                action="{{ app.url }}"
-                                class="app-button-wrapper"
-                                target="_blank">
-                            <input
-                                    type="submit"
-                                    value="Open App"
-                                    class="open-app btn btn-default"
-                            />
-                        </form>
+{#                        <form#}
+{#                                action="{{ app.url }}"#}
+{#                                class="app-button-wrapper"#}
+{#                                target="_blank">#}
+{#                            <input#}
+{#                                    type="submit"#}
+{#                                    value="Open App"#}
+{#                                    class="open-app btn btn-default"#}
+{#                            />#}
+{#                        </form>#}
+                        <p style="text-align: center;" class="app-button-wrapper">
+                        <a href="{{ app.url }}"class="open-app btn btn-default"
+                           target="_blank">Open App</a>
+                            {% if app.code_repo_url|length > 0  %}
+                                <a href="{{ app.code_repo_url }}"class="open-app btn btn-default"
+                                   target="_blank">View Code</a>
+                            {% endif %}
+                        </p>
                     </div>
 
                 </div>
