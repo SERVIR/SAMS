@@ -1,5 +1,5 @@
 body{
-    background-color: #3C3837;
+    background-color: #a5a5a5;
 }
 
 .flex-wrapper{
@@ -7,7 +7,7 @@ body{
     min-height: calc(100vh - 60px);
     flex-direction: column;
     justify-content: space-between;
-    background-color: #3C3837;
+    /*background-color: #3C3837;*/
 }
 
 .gallery-card {

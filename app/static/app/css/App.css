@@ -25,11 +25,13 @@ body {
 .profile-container {
     float: left;
     text-align: center;
-    padding: 20px;
+    padding: 10px;
+    max-width: 120px;
+    font-size: 75%;
 }
 
 .profile-pic {
-    width: 150px;
+    width: 100px;
     border-radius: 50%;
 }
 
@@ -77,6 +79,11 @@ body {
 
 .App-link {
     color: #61dafb;
+}
+
+#nav{
+    background: url(/static/app/img/headerbg.jpg) no-repeat;
+    background-size: cover;
 }
 
 .navbar,

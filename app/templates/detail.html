@@ -65,7 +65,7 @@
                         @ {{ app.organization }}</span>
                     </p>
 
-                    <h3 class="product-title">Science Team:</h3>
+                    <h3 class="product-title">Development Team:</h3>
 
                     <div class="flex-row">
                         {% for scientist in app.scientists.all %}
@@ -79,11 +79,7 @@
                                 {{ scientist.name }} ({{ scientist.organization }})
                             </div>
                         {% endfor %}
-                    </div>
 
-                    <h3 class="product-title">Software Engineering Team:</h3>
-
-                    <div class="flex-row">
                         {% for developer in app.developers.all %}
                             <div class="profile-container">
                                 <img
