@@ -29,7 +29,9 @@ SECRET_KEY = 'django-insecure-%zwp&4a8sn&+g6$2iaa4v5saut7ck1(xxa8qr^g7&s-htw7*mp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "sams.servirglobal.net", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "samdev.servirglobal.net", "sams.servirglobal.net", "127.0.0.1"]
+
+CSRF_TRUSTED_ORIGINS = ['https://samdev.servirglobal.net', 'https://samdev.servirglobal.net']
 
 
 # Application definition
@@ -147,6 +149,7 @@ SITE_ID = data["siteID"]
 LOGIN_REDIRECT_URL = '/'
 
 # Additional configuration settings
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_LOGOUT_ON_GET= True
 ACCOUNT_UNIQUE_EMAIL = True
