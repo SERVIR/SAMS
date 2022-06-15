@@ -59,12 +59,12 @@ Of course running the application in this manner is only for development.  We re
 this application on a server and serving it through nginx using gunicorn (conda install gunicorn) for production.  To do this you will need to
 have both installed on your server.  There are enough resources explaining in depth how to install them,
 so we will avoid duplicating this information.  We recommend adding a service to start the application
-by creating a .service file located at /etc/systemd/system.  We named ours bewa.service
+by creating a .service file located at /etc/systemd/system.  We named ours sams.service
 The service file will contain the following, please substitute the correct paths as mentioned below.
 
 # Server installation
 ## Create Application Service
-As mentioned above create the following file at /etc/systemd/system and name it bewa.service
+As mentioned above create the following file at /etc/systemd/system and name it sams.service
 ```editorconfig
 [Unit]
 Description=servirApplications daemon
@@ -178,7 +178,7 @@ alias srestart='sstop; sstart'
 ```
 Now activate the alias file by running
 ```commandline
-source /etc/profile.d/bewa_alias.sh
+source /etc/profile.d/sams_alias.sh
 ```
 
 Now you should be able to run sstart to run the production application.
@@ -191,10 +191,10 @@ Now you should be able to run sstart to run the production application.
 
 ## License and Distribution
 
-BEWA Delivery is distributed by SERVIR under the terms of the MIT License. See
+SAMS is distributed by SERVIR under the terms of the MIT License. See
 [LICENSE](https://github.com/SERVIR/SAMS/blob/master/LICENSE) in this directory for more information.
 
 ## Privacy & Terms of Use
 
-BEWA Delivery abides to all of SERVIR's privacy and terms of use as described
+SAMS Delivery abides to all of SERVIR's privacy and terms of use as described
 at [https://servirglobal.net/Privacy-Terms-of-Use](https://servirglobal.net/Privacy-Terms-of-Use).
