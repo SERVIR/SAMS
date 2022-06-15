@@ -24,14 +24,14 @@ data = json.load(f)
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%zwp&4a8sn&+g6$2iaa4v5saut7ck1(xxa8qr^g7&s-htw7*mp'
+SECRET_KEY = data["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "samdev.servirglobal.net", "sams.servirglobal.net", "127.0.0.1"]
+ALLOWED_HOSTS = data["ALLOWED_HOSTS"]
 
-CSRF_TRUSTED_ORIGINS = ['https://samdev.servirglobal.net', 'https://sams.servirglobal.net']
+CSRF_TRUSTED_ORIGINS = data["CSRF_TRUSTED_ORIGINS"]
 
 
 # Application definition
