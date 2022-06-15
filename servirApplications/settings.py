@@ -31,7 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "samdev.servirglobal.net", "sams.servirglobal.net", "127.0.0.1"]
 
-CSRF_TRUSTED_ORIGINS = ['https://samdev.servirglobal.net', 'https://samdev.servirglobal.net']
+CSRF_TRUSTED_ORIGINS = ['https://samdev.servirglobal.net', 'https://sams.servirglobal.net']
 
 
 # Application definition
