@@ -17,3 +17,16 @@ the siteID for your application.  The format will be:
   "siteID": 3
 }
 ```
+
+Add the site domain to the system in the terminal by entering the shell
+```shell
+python manage.py shell
+```
+Run the following in the open shell substituting domain for the correct domain
+```python
+from django.contrib.sites.models import Site
+site = Site()
+site.domain = 'samdev.servirglobal.net'
+site.name = 'samdev.servirglobal.net'
+site.save()
+```
