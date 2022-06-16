@@ -21,3 +21,7 @@ def detail(request, post_id):
 def login(request):
     response = redirect('accounts/google/login/')
     return response
+
+
+def about(request):
+    return render(request, "about.html", context={})

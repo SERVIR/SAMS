@@ -22,6 +22,11 @@ body {
     text-decoration: none;
 }
 
+.display-name.welcome {
+    padding-right: var(--bs-navbar-nav-link-padding-x);
+    padding-left: var(--bs-navbar-nav-link-padding-x);
+}
+
 .profile-container {
     float: left;
     text-align: center;
@@ -1331,6 +1336,9 @@ button[disabled] {
         -webkit-order: -1;
         -ms-flex-order: -1;
         order: -1;
+    }
+    .separator{
+        display:none;
     }
 }
 

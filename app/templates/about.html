@@ -1,0 +1,102 @@
+{% extends "apps_base.html" %}
+{% load static %}
+{% block title %}SERVIR Application Management System - SAMS - Detail{% endblock %}
+{% block script %}
+    <link href="{% static 'app/css/detail.css' %}" rel="stylesheet"/>
+    <link href="{% static 'app/css/about.css' %}" rel="stylesheet"/>
+
+{% endblock %}
+{% block content %}
+    <div class="card">
+        <div class="container-fliud about-fluid">
+            {% if request.user.is_staff %}
+                <div class="wrapper row">
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="title" style="text-align: center">Editing instructions and guidelines</p>
+                            <p class="m10">To begin Adding, updating, or removing data from SAMS you will enter the Admin pages
+                                by clicking the Admin link at the top right of your screen.</p>
+                            <p class="m10">Once there you will see a section header labeled APP. Under that are all of the
+                                data tables used to dynamically build the web page. These tables are where you will
+                                maintain all of the entries. From these tables most of your work will take place
+                                within the Applications table. From there you can link to each of the other tables if
+                                the desired entry exists or even add it if it doesn't exist.</p>
+                            <p class="m10">Let's start with a simple add. Click the ADD APPLICATION button at the top right of the
+                                screen. This opens a blank application form where you will fill out all of the
+                                information
+                                about the application. When you get to Organization, if the organization for your
+                                application does not exist in the dropdown simply click the + button next to the
+                                dropdown, fill out the information for the new Organization, and click save.
+                                This is true for all fields except Serviceareas and Deployment environment: (if you
+                                believe you need to add to one of these please contact Francisco or Billy)</p>
+                            <p class="m10">
+                                SAMS will do the best that it can to display the image you choose to upload for the
+                                application, however every image is different, so if you try one and don't enjoy how it
+                                displays, simple edit the application and upload a new one. If you need help resizing
+                                an image for the best display feel free to reach out to one of us.
+                            </p>
+                            <p class="m10">
+                                When you have added all of the application information click save and your new
+                                application will be added to the live site. Immediately check and confirm that it
+                                is as you intended it to be, it's always good to have a second person read through
+                                to help avoid any typos or mis-formatting.
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="wrapper row">
+                <div class="row">
+                    <div class="col-12">
+                        <p>
+                            SAMS is brought to you by <a href="https://servirglobal.net" title="SERVIR Global">
+                            SERVIR</a>, a joint initiative of NASA, USAID, and leading geospatial organizations in Asia,
+                            Africa,
+                            and Latin America, SERVIR partners with countries and organizations to address critical
+                            challenges
+                            in climate change, food and water security, water-related disasters, land use, and air
+                            quality.
+                        </p>
+                        <p style="text-align: center; margin:40px;">For more information on the SERVIR program, visit
+                            <a href="https://servirglobal.net" title="SERVIR Global">
+                                https://servirglobal.net</a><br/><br/>
+                            <a
+                                    href="//usaid.gov/"
+                                    target="_blank"
+                                    title="USAID_seal_fullname_surrounding_USAID_shield_with_handclasp_USAID_blue_red_on_right_with_FromTheAmericanPeople_tagline">
+                                <img src="{% static 'app/img/usaid.png' %}"
+                                     alt="USAID_seal_fullname_surrounding_USAID_shield_with_handclasp_USAID_blue_red_on_right_with_FromTheAmericanPeople_tagline"></a>
+
+                            <a
+                                    href="//nasa.gov/"
+                                    target="_blank"
+                                    title="NASA_blue_circle_with_stars_red_vector_upward_right_white_NASA_with_orbitcircle">
+                                <img src="{% static 'app/img/nasa.png' %}"
+                                     alt="NASA_blue_circle_with_stars_red_vector_upward_right_white_NASA_with_orbitcircle"></a>
+                            <a
+                                    href="//servirglobal.net/"
+                                    target="_blank"
+                                    title="SERVIR Global">
+                                <img src="{% static 'app/img/Servir_Logo_Flat_Color_Stacked_Small.png' %}"
+                                     alt="SERVIR Global"></a>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p>
+                            The SERVIR Project, NASA, and USAID make no express or implied warranty as to the accuracy
+                            of
+                            the
+                            map or as to the merchantability or fitness for a particular purpose of the data. Neither
+                            the
+                            US Government nor its contractors shall be liable for special, consequential or incidental
+                            damages attributed to this data.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
