@@ -142,6 +142,33 @@ server {
 
 ```
 
+SAMS uses Google authentication which will need to be configured in the 
+[Google Developer APIs Console]( https://console.developers.google.com/apis ). When you open the console you will
+need to create a new project.  
+
+- Click "Select a project" (or arrow by prior project name if you already have projects) at the top left of the screen.  
+- In the new dialog click New Project at the top right 
+- Enter Project Name and click Create
+- In the left panel click "OAuth consent screen" link and fill out the form with the information for your application.
+- In the left panel click "Credentials" link
+- At the top left click + Create Credentials and select "OAuth 2.0 Client ID"
+- In the dropdown select "Web Application" and give a name.
+- Add Authorized JavaScript origins (you may enable multiple)
+  - examples:
+    - http://localhost:8010
+    - http://127.0.0.1:8010
+    - https://sams.servirglobal.net
+- Add Authorized redirect URIs (you may enable multiple)
+  - examples:
+    - http://localhost:8010/accounts/google/login/callback/
+    - http://127.0.0.1:8010/accounts/google/login/callback/
+    - https://sams.servirglobal.net/accounts/google/login/callback/
+- Copy and save the Client ID and Client secret to your local machine (you will need these later)
+- Click save
+
+Authentication is now enabled through google, but we need to connect it to your application.
+
+
 Add the site domain to the system in the terminal by entering the shell.  This is needed 
 due to the social authentication which is enabled.
 ```shell
@@ -155,6 +182,12 @@ site.domain = '{REPLACE WITH YOUR DOMAIN}'
 site.name = '{REPLACE WITH YOUR DOMAIN}'
 site.save()
 ```
+
+Open the admin page of your site by navigating to your url/admin and login with the superuser 
+account you created earlier. In the left panel click the link that says "Social Accounts".  Click the Add 
+button.  Select Google for the provider, give a name, paste the Client ID that you saved, and the 
+Client secret (secret key) into the boxes.  Leave Key empty, move the domain you added to Chosen sites and click save.
+This completes the Authentication setup.
 
 # Create Alias commands to make starting the application simple
 Create a file at /etc/profile.d named sams_alias.sh and add the following:
