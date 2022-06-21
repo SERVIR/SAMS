@@ -67,7 +67,13 @@ img {
     }
 }
 
+.detail-edit{
+    color:#B5B1B0; padding: 0 5px;
+}
 
+.detail-edit:hover{
+    color: #888888; padding: 0 5px;
+}
 
 .preview-pic {
     -webkit-box-flex: 1;

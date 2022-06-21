@@ -2,6 +2,8 @@
 {% load static %}
 {% block title %}SERVIR Application Management System - SAMS - Detail{% endblock %}
 {% block script %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link href="{% static 'app/css/detail.css' %}" rel="stylesheet"/>
 {% endblock %}
 {% block content %}
@@ -28,16 +30,6 @@
                                     title="{{ app.name }}"
                                     alt="{{ app.name }}"/>
                         </div>
-{#                        <form#}
-{#                                action="{{ app.url }}"#}
-{#                                class="app-button-wrapper"#}
-{#                                target="_blank">#}
-{#                            <input#}
-{#                                    type="submit"#}
-{#                                    value="Open App"#}
-{#                                    class="open-app btn btn-default"#}
-{#                            />#}
-{#                        </form>#}
                         <p style="text-align: center;" class="app-button-wrapper">
                         <a href="{{ app.url }}"class="open-app btn btn-default"
                            target="_blank">Open App</a>
@@ -59,7 +51,7 @@
 
                         </div>
                     </div>
-                    <h3 class="product-title">{{ app.name }}</h3>
+                    <h3 class="product-title">{{ app.name }} {% if request.user.is_staff %}<a href="/admin/app/application/{{ app.pk }}/change/"><i class="fa-solid fa-pen-to-square detail-edit"></i></a>{% endif %}</h3>
 
                     <p class="product-description">
                         {{ app.description|linebreaks }}
