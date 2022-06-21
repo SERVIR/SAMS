@@ -200,13 +200,13 @@ alias nss='sudo service nginx stop'
 
 
 # SAMS Alias
-alias sam='cd /servir_apps/SAMS'
-alias sams='conda activate sams'
+alias sams='cd /servir_apps/SAMS'
+alias actsams='conda activate sams'
 alias uosams='sudo chown -R ${USER} /servir_apps/SAMS'
 alias sosams='sudo chown -R www-data /servir_apps/SAMS'
-alias sstart='sudo service sams restart; sudo service nginx restart; so'
-alias sstop='sudo service sams stop'
-alias srestart='sstop; sstart'
+alias samsstart='sudo service sams restart; sudo service nginx restart; so'
+alias samsstop='sudo service sams stop'
+alias samsrestart='sstop; sstart'
 
 ```
 Now activate the alias file by running
