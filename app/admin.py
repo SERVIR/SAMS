@@ -13,7 +13,14 @@ class ApplicationComponentAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
     search_fields = ('name', 'description')
     ordering = ('name',)
+    filter_horizontal = ('applications',)
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Application admin page
+# Added inline to show log entries
+# ----------------------------------------------------------------------------------------------------------------------
+class LogInline(admin.TabularInline):
+    model = Log
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
@@ -22,6 +29,7 @@ class ApplicationAdmin(admin.ModelAdmin):
     search_fields = ('name', 'organization__name')
     filter_horizontal = ('datasets', 'scientists', 'serviceareas', 'developers', 'application_components')
     ordering = ('name',)
+    inlines = [LogInline,]
 
 
 @admin.register(Organization)
@@ -52,6 +60,7 @@ class DeveloperAdmin(admin.ModelAdmin):
     list_filter = ('active', 'organization')
     search_fields = ('name',)
     ordering = ('name',)
+    filter_horizontal = ('applications',)
 
 
 @admin.register(Scientist)
@@ -60,6 +69,8 @@ class DeveloperAdmin(admin.ModelAdmin):
     list_filter = ('active', 'organization')
     search_fields = ('name',)
     ordering = ('name',)
+    filter_horizontal = ('applications',)
+
 
 
 @admin.register(Log)
@@ -76,10 +87,19 @@ class DatasetAdmin(admin.ModelAdmin):
     list_display = ('name', 'description', 'date_added', 'date_modified')
     search_fields = ('name', 'description')
     ordering = ('name',)
+    filter_horizontal=('applications',)
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Development environment admin page
+# Added inline to show log entries
+# ----------------------------------------------------------------------------------------------------------------------
+class AppInline(admin.TabularInline):
+    model = Application
+    fields = ('name', 'url', 'organization', 'active')
 
 @admin.register(DeploymentEnvironment)
 class DeploymentEnvironmentAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
     search_fields = ('name', 'description')
     ordering = ('name',)
+    inlines = [AppInline,]
