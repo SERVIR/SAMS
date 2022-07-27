@@ -1,6 +1,7 @@
 from django.db import models
 from django import utils
-
+from django.utils import timezone
+from datetime import date
 
 # Create your models here.
 
@@ -44,73 +45,17 @@ class Service(models.Model):
         return self.name
 
 
-# Developer model
-class Developer(models.Model):
-    name = models.CharField(help_text="Name of the developer", max_length=250)
-    photo = models.ImageField(upload_to='icons/',
-                              blank=True, null=True,
-                              help_text="Square image, minimum 150px X 150px")
-    date_added = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-    organization = models.ForeignKey('Organization', on_delete=models.CASCADE)
-    active = models.BooleanField(default=True, help_text="Is the developer active?")
-
-    @property
-    def image_url(self):
-        if self.photo:
-            return self.photo.url
-        else:
-            return "/static/app/img/no_profile.png"
-
-    def __str__(self):
-        return self.name
-
-
-# Scientist model
-class Scientist(models.Model):
-    name = models.CharField(help_text="Name of the developer", max_length=250)
-    photo = models.ImageField(upload_to='icons/',
-                              blank=True,
-                              null=True,
-                              help_text="Square image, minimum 150px X 150px")
-    date_added = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-    organization = models.ForeignKey('Organization', on_delete=models.CASCADE)
-    active = models.BooleanField(default=True, help_text="Is the scientist active?")
-
-    @property
-    def image_url(self):
-        if self.photo:
-            return self.photo.url
-        else:
-            return "/static/app/img/no_profile.png"
-
-    def __str__(self):
-        return self.name
-
 
 # Log model for tracking changes to the applications
 class Log(models.Model):
     application = models.ForeignKey('Application', on_delete=models.CASCADE)
     log_entry = models.TextField()
+    date = models.DateField(help_text="Date issue or milestone happened", blank=True, default=date.today)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.application.name
-
-
-# Dataset model for tracking datasets used in the applications
-class Dataset(models.Model):
-    name = models.CharField(help_text="Name of the dataset", max_length=250)
-    description = models.TextField(help_text="Brief description of the dataset", blank=True)
-    url = models.URLField(max_length=200, blank=True, help_text="Dataset location")
-    credentials = models.TextField(help_text="Credentials for accessing the dataset", blank=True)
-    date_added = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
 
 
 # Deployment environments model
@@ -132,18 +77,6 @@ class Region(models.Model):
     def __str__(self):
         return self.name
 
-
-
-# Application component model
-class ApplicationComponent(models.Model):
-    name = models.CharField(help_text="Name of the application component (indicate version if relevant)",
-                            max_length=250)
-    description = models.TextField(help_text="Further details for the application component", blank=True)
-    date_added = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
 
 
 # Application list model
@@ -180,3 +113,75 @@ class Application(models.Model):
 
     def __str__(self):
         return self.name
+
+# Dataset model for tracking datasets used in the applications
+class Dataset(models.Model):
+    name = models.CharField(help_text="Name of the dataset", max_length=250)
+    description = models.TextField(help_text="Brief description of the dataset", blank=True)
+    url = models.URLField(max_length=200, blank=True, help_text="Dataset location")
+    credentials = models.TextField(help_text="Credentials for accessing the dataset", blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    applications = models.ManyToManyField('Application', through=Application.datasets.through , blank=True)
+
+    def __str__(self):
+        return self.name
+
+# Application component model
+class ApplicationComponent(models.Model):
+    name = models.CharField(help_text="Name of the application component (indicate version if relevant)",
+                            max_length=250)
+    description = models.TextField(help_text="Further details for the application component", blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    applications = models.ManyToManyField('Application', through=Application.application_components.through, blank=True)
+
+    def __str__(self):
+        return self.name
+
+# Developer model
+class Developer(models.Model):
+    name = models.CharField(help_text="Name of the developer", max_length=250)
+    photo = models.ImageField(upload_to='icons/',
+                              blank=True, null=True,
+                              help_text="Square image, minimum 150px X 150px")
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    organization = models.ForeignKey('Organization', on_delete=models.CASCADE)
+    active = models.BooleanField(default=True, help_text="Is the developer active?")
+    applications = models.ManyToManyField('Application', through=Application.developers.through, blank=True)
+
+    @property
+    def image_url(self):
+        if self.photo:
+            return self.photo.url
+        else:
+            return "/static/app/img/no_profile.png"
+
+    def __str__(self):
+        return self.name
+
+
+# Scientist model
+class Scientist(models.Model):
+    name = models.CharField(help_text="Name of the developer", max_length=250)
+    photo = models.ImageField(upload_to='icons/',
+                              blank=True,
+                              null=True,
+                              help_text="Square image, minimum 150px X 150px")
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    organization = models.ForeignKey('Organization', on_delete=models.CASCADE)
+    active = models.BooleanField(default=True, help_text="Is the scientist active?")
+    applications = models.ManyToManyField('Application', through=Application.scientists.through, blank=True)
+
+    @property
+    def image_url(self):
+        if self.photo:
+            return self.photo.url
+        else:
+            return "/static/app/img/no_profile.png"
+
+    def __str__(self):
+        return self.name
+
