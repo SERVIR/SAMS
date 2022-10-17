@@ -1,19 +1,40 @@
 from django.contrib import admin
-from .models import Application, Organization, ServiceArea, Service, Developer, Scientist, Log, Dataset, \
-    DeploymentEnvironment, ApplicationComponent, Region
+from import_export.admin import ImportExportModelAdmin
+from import_export.admin import ImportExportActionModelAdmin
+
+from .models import *
+from import_export import resources
 
 admin.site.site_header = "SERVIR Apps Portal"
 
-admin.site.register(Region)
+
+class RegionAdminResource(resources.ModelResource):
+    class Meta:
+        model = Region
 
 
-# Registering models here.
-@admin.register(ApplicationComponent)
-class ApplicationComponentAdmin(admin.ModelAdmin):
+class RegionAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
+    resource_class = RegionAdminResource
+
+
+admin.site.register(Region, RegionAdmin)
+
+
+class ApplicationComponentResource(resources.ModelResource):
+    class Meta:
+        model = ApplicationComponent
+
+
+class ApplicationComponentAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     list_display = ('name', 'description')
     search_fields = ('name', 'description')
     ordering = ('name',)
     filter_horizontal = ('applications',)
+    resource_class = ApplicationComponentResource
+
+
+admin.site.register(ApplicationComponent, ApplicationComponentAdmin)
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Application admin page
@@ -22,72 +43,137 @@ class ApplicationComponentAdmin(admin.ModelAdmin):
 class LogInline(admin.TabularInline):
     model = Log
 
-@admin.register(Application)
-class ApplicationAdmin(admin.ModelAdmin):
+
+class ApplicationAdminResource(resources.ModelResource):
+    class Meta:
+        model = Application
+
+
+class ApplicationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     list_display = ('name', 'organization', 'active', 'shown', 'display_priority', 'incomplete_info')
     list_filter = ('active', 'shown', 'organization', 'deployment_environment', 'primary_developer')
     search_fields = ('name', 'organization__name')
     filter_horizontal = ('datasets', 'scientists', 'serviceareas', 'developers', 'application_components')
     ordering = ('name',)
-    inlines = [LogInline,]
+    inlines = [LogInline, ]
+    resource_class = ApplicationAdminResource
 
 
-@admin.register(Organization)
-class OrganizationAdmin(admin.ModelAdmin):
+admin.site.register(Application, ApplicationAdmin)
+
+
+class OrganizationResource(resources.ModelResource):
+    class Meta:
+        model = Organization
+
+
+class OrganizationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     list_display = ('name', 'description', 'url', 'date_added', 'date_modified')
     search_fields = ('name', 'description')
     ordering = ('name',)
+    resource_class = OrganizationResource
 
 
-@admin.register(ServiceArea)
-class ServiceAreaAdmin(admin.ModelAdmin):
+admin.site.register(Organization, OrganizationAdmin)
+
+
+class ServiceAreaResource(resources.ModelResource):
+    class Meta:
+        model = ServiceArea
+
+
+class ServiceAreaAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     list_display = ('name', 'description', 'service_catalog_url')
     search_fields = ('name', 'description')
     ordering = ('name',)
+    resource_class = ServiceAreaResource
 
 
-@admin.register(Service)
-class ServiceAdmin(admin.ModelAdmin):
+admin.site.register(ServiceArea, ServiceAreaAdmin)
+
+
+class ServiceResource(resources.ModelResource):
+    class Meta:
+        model = Service
+
+
+class ServiceAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     list_display = ('name', 'description', 'service_area', 'service_catalog_url')
     list_filter = ('service_area',)
     search_fields = ('name', 'description')
     ordering = ('name',)
+    resource_class = ServiceResource
 
 
-@admin.register(Developer)
-class DeveloperAdmin(admin.ModelAdmin):
+admin.site.register(Service, ServiceAdmin)
+
+
+class DeveloperResource(resources.ModelResource):
+    class Meta:
+        model = Developer
+
+
+class DeveloperAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     list_display = ('name', 'organization', 'active')
     list_filter = ('active', 'organization')
     search_fields = ('name',)
     ordering = ('name',)
     filter_horizontal = ('applications',)
+    resource_class = DeveloperResource
 
 
-@admin.register(Scientist)
-class DeveloperAdmin(admin.ModelAdmin):
+admin.site.register(Developer, DeveloperAdmin)
+
+
+class ScientistResource(resources.ModelResource):
+    class Meta:
+        model = Scientist
+
+
+class ScientistAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     list_display = ('name', 'organization', 'active')
     list_filter = ('active', 'organization')
     search_fields = ('name',)
     ordering = ('name',)
     filter_horizontal = ('applications',)
+    resource_class = ScientistResource
 
 
+admin.site.register(Scientist, ScientistAdmin)
 
-@admin.register(Log)
-class LogAdmin(admin.ModelAdmin):
+
+class LogResource(resources.ModelResource):
+    class Meta:
+        model = Log
+
+
+class LogAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     list_display = ('application', 'log_entry', 'date_added', 'date_modified')
     list_filter = ('application',)
     search_fields = ('application__name', 'log_entry')
     ordering = ('application',)
     date_hierarchy = 'date_added'
+    resource_class = LogResource
 
 
-@admin.register(Dataset)
-class DatasetAdmin(admin.ModelAdmin):
+admin.site.register(Log, LogAdmin)
+
+
+class DatasetResource(resources.ModelResource):
+    class Meta:
+        model = Dataset
+
+
+class DatasetAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     list_display = ('name', 'description', 'date_added', 'date_modified')
     search_fields = ('name', 'description')
     ordering = ('name',)
-    filter_horizontal=('applications',)
+    filter_horizontal = ('applications',)
+    resource_class = DatasetResource
+
+
+admin.site.register(Dataset, DatasetAdmin)
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Development environment admin page
@@ -97,9 +183,18 @@ class AppInline(admin.TabularInline):
     model = Application
     fields = ('name', 'url', 'organization', 'active')
 
-@admin.register(DeploymentEnvironment)
+
+class DeploymentEnvironmentResource(resources.ModelResource):
+    class Meta:
+        model = DeploymentEnvironment
+
+
 class DeploymentEnvironmentAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
     search_fields = ('name', 'description')
     ordering = ('name',)
-    inlines = [AppInline,]
+    inlines = [AppInline, ]
+    resource_class = DeploymentEnvironmentResource
+
+
+admin.site.register(DeploymentEnvironment, DeploymentEnvironmentAdmin)

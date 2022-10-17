@@ -3,6 +3,7 @@ from django import utils
 from django.utils import timezone
 from datetime import date
 
+
 # Create your models here.
 
 # Organization model
@@ -45,7 +46,6 @@ class Service(models.Model):
         return self.name
 
 
-
 # Log model for tracking changes to the applications
 class Log(models.Model):
     application = models.ForeignKey('Application', on_delete=models.CASCADE)
@@ -78,7 +78,6 @@ class Region(models.Model):
         return self.name
 
 
-
 # Application list model
 class Application(models.Model):
     name = models.CharField(help_text="Application name", max_length=250)
@@ -108,11 +107,13 @@ class Application(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     region = models.ManyToManyField('Region', blank=True)
-    display_priority=models.IntegerField(help_text="Display priority (lower numbers shown at the top of the list)",default=10,  blank=True)
+    display_priority = models.IntegerField(help_text="Display priority (lower numbers shown at the top of the list)",
+                                           default=10, blank=True)
     incomplete_info = models.BooleanField(default=True, help_text="Application needs more information added?")
 
     def __str__(self):
         return self.name
+
 
 # Dataset model for tracking datasets used in the applications
 class Dataset(models.Model):
@@ -122,10 +123,11 @@ class Dataset(models.Model):
     credentials = models.TextField(help_text="Credentials for accessing the dataset", blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    applications = models.ManyToManyField('Application', through=Application.datasets.through , blank=True)
+    applications = models.ManyToManyField('Application', through=Application.datasets.through, blank=True)
 
     def __str__(self):
         return self.name
+
 
 # Application component model
 class ApplicationComponent(models.Model):
@@ -138,6 +140,7 @@ class ApplicationComponent(models.Model):
 
     def __str__(self):
         return self.name
+
 
 # Developer model
 class Developer(models.Model):
@@ -184,4 +187,3 @@ class Scientist(models.Model):
 
     def __str__(self):
         return self.name
-

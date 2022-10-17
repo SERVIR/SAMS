@@ -7,3 +7,6 @@ dependencies:
   - django
   - pillow
   - django-allauth
+  - pip
+  - pip:
+      - django-import-export

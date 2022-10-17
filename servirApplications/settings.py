@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google', # for Google OAuth 2.0
+    'allauth.socialaccount.providers.google',
+    'import_export',
     'app',
 ]
 
@@ -149,7 +150,7 @@ SITE_ID = data["siteID"]
 LOGIN_REDIRECT_URL = '/'
 
 # Additional configuration settings
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
 SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_LOGOUT_ON_GET= True
 ACCOUNT_UNIQUE_EMAIL = True
