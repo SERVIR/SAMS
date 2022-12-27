@@ -61,6 +61,8 @@ class ApplicationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 
 admin.site.register(Application, ApplicationAdmin)
 
+admin.site.register(Link)
+
 
 class OrganizationResource(resources.ModelResource):
     class Meta:

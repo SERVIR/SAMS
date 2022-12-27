@@ -37,6 +37,16 @@ img {
     text-align:center;
 }
 
+.additional-link-div{
+    border: 1px inset;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.additional-link:hover{
+    color:#ffffff;
+}
+
 @media screen and (max-width: 996px) {
     .preview {
         margin-bottom: 20px;

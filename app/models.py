@@ -111,6 +111,7 @@ class Application(models.Model):
                                            default=10, blank=True)
     incomplete_info = models.BooleanField(default=True, help_text="Application needs more information added?")
 
+
     def __str__(self):
         return self.name
 
@@ -187,3 +188,13 @@ class Scientist(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Link(models.Model):
+    url = models.URLField(max_length=200, blank=True, help_text="Link location")
+    description = models.TextField(help_text="Details for the link", blank=True)
+    additional_description = models.TextField(help_text="Further details for the link", blank=True)
+    application = models.ForeignKey('Application', on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.url
