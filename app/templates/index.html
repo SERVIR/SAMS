@@ -36,6 +36,10 @@
             filter_service_area();
         });
     });
+        function open_app(url){
+            console.log(url);
+            document.location=url;
+        }
     </script>
 {% endblock %}
 {% block content %}
@@ -138,9 +142,15 @@
                          title="{{ app.name }}">
                         <a href="/detail/{{ app.pk }}" class="img-link">
                             <div class="image">
-                                <p class="app-title">{{ app.name }}</p>
+                                <p class="app-title">{{ app.name }}
+                                </p>
                             </div>
                         </a>
+                        {% if app.url|length > 0  %}
+                            <a href="{{ app.url }}" class="open_app_url">
+                                <i class="fa-solid fa-meteor"></i>
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

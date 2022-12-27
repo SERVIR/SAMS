@@ -154,6 +154,17 @@ body{
     overflow: hidden;
     text-overflow: ellipsis;
     padding: 0 10px;
+    max-width: calc(100% - 40px);
+}
+
+.open_app_url{
+    position: absolute;
+    right: 0px;
+    bottom:0;
+    z-index: 9999;
+    width: 40px;
+    background-color: #000000b8;
+    text-align-last: center;
 }
 
 .gallery-card .inner img {
@@ -165,7 +176,7 @@ body{
 
 .image{
     display: flex;
-    justify-content: center;
+    /*justify-content: center;*/
     align-items: end;
     overflow: hidden;
     position: absolute;
