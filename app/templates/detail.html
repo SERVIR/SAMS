@@ -2,21 +2,23 @@
 {% load static %}
 {% block title %}SERVIR Application Management System - SAMS - Detail{% endblock %}
 {% block script %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
     <link href="{% static 'app/css/detail.css' %}" rel="stylesheet"/>
 {% endblock %}
 {% block content %}
     <div class="card">
 
-            <input
-                    type="button"
-                    value=""
-                    class="btn-close btn-close-white pull-right"
-                    aria-label="Close"
-                    style="position: absolute;right: 10px;top: 10px;"
-                    onclick="history.back();"
-            />
+        <input
+                type="button"
+                value=""
+                class="btn-close btn-close-white pull-right"
+                aria-label="Close"
+                style="position: absolute;right: 10px;top: 10px;"
+                onclick="history.back();"
+        />
 
         <div class="container-fliud">
             <div class="wrapper row">
@@ -32,30 +34,31 @@
                                     alt="{{ app.name }}"/>
                         </div>
                         <p style="text-align: center;" class="app-button-wrapper">
-                        <a href="{{ app.url }}"class="open-app btn btn-default"
-                           target="_blank">Open App</a>
-                            {% if app.code_repo_url|length > 0  %}
-                                <a href="{{ app.code_repo_url }}"class="open-app btn btn-default"
+                            <a href="{{ app.url }}" class="open-app btn btn-default"
+                               target="_blank">Open App</a>
+                            {% if app.code_repo_url|length > 0 %}
+                                <a href="{{ app.code_repo_url }}" class="open-app btn btn-default"
                                    target="_blank">View Code</a>
                             {% endif %}
                         </p>
-                    <p>
+                        <p>
 
-                    {% if app.link_set.count > 0 %}
-                        <div style="margin-top: 20px;">
-                        <h2 class="product-title">Additional links:</h2>
-                        <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;">
-                        {% for links in app.link_set.all %}
-                            <li class="additional-link-div">
+                            {% if app.link_set.count > 0 %}
+                                <div style="margin-top: 20px;">
+                                    <h2 class="product-title">Additional links:</h2>
+                                    <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;">
+                                        {% for links in app.link_set.all %}
+                                            <li class="additional-link-div">
 
-                            <a href="{{ links.url }}" class="additional-link">{{ links.description }}</a>
-                            </li>
+                                                <a href="{{ links.url }}"
+                                                   class="additional-link">{{ links.description }}</a>
+                                            </li>
 
-                        {% endfor %}
-                        </ul>
-                        </div>
-                    {% endif %}
-                    </p>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </p>
                     </div>
 
                 </div>
@@ -69,7 +72,9 @@
 
                         </div>
                     </div>
-                    <h3 class="product-title">{{ app.name }} {% if request.user.is_staff %}<a href="/admin/app/application/{{ app.pk }}/change/"><i class="fa-solid fa-pen-to-square detail-edit"></i></a>{% endif %}</h3>
+                    <h3 class="product-title">{{ app.name }} {% if request.user.is_staff %}
+                        <a href="/admin/app/application/{{ app.pk }}/change/"><i
+                                class="fa-solid fa-pen-to-square detail-edit"></i></a>{% endif %}</h3>
 
                     <p class="product-description">
                         {{ app.description|linebreaks }}
