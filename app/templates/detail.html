@@ -46,15 +46,8 @@
                         <h2 class="product-title">Additional links:</h2>
                         {% for links in app.link_set.all %}
                             <div class="additional-link-div">
-                            <p>
-                                {{ links.description }}
-                            </p>
-                                {% if  links.additional_description|length > 0  %}
-                                <p>
-                                    {{ links.additional_description }}
-                                </p>
-                                {% endif %}
-                            <a href="{{ links.url }}" class="additional-link">{{ links.url }}</a>
+                            
+                            <a href="{{ links.url }}" class="additional-link">{{ links.description }}</a>
                             </div>
                         {% endfor %}
                         </div>

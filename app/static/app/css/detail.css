@@ -43,8 +43,12 @@ img {
     border-radius: 5px;
 }
 
-.additional-link:hover{
+.additional-link{
     color:#ffffff;
+}
+
+.additional-link:hover{
+    color:#B5B1B0;
 }
 
 @media screen and (max-width: 996px) {
