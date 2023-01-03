@@ -7,7 +7,9 @@ from import_export import resources
 
 admin.site.site_header = "SERVIR Apps Portal"
 
-
+# ----------------------------------------------------------------------------------------------------------------------
+# Region admin page
+# ----------------------------------------------------------------------------------------------------------------------
 class RegionAdminResource(resources.ModelResource):
     class Meta:
         model = Region
@@ -19,6 +21,9 @@ class RegionAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 
 admin.site.register(Region, RegionAdmin)
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Application Component admin page
+# ----------------------------------------------------------------------------------------------------------------------
 
 class ApplicationComponentResource(resources.ModelResource):
     class Meta:
@@ -35,14 +40,15 @@ class ApplicationComponentAdmin(ImportExportActionModelAdmin, ImportExportModelA
 
 admin.site.register(ApplicationComponent, ApplicationComponentAdmin)
 
-
 # ----------------------------------------------------------------------------------------------------------------------
 # Application admin page
-# Added inline to show log entries
+# Added inlines to show log entries and links
 # ----------------------------------------------------------------------------------------------------------------------
 class LogInline(admin.TabularInline):
     model = Log
 
+class LinkInline(admin.TabularInline):
+    model = Link
 
 class ApplicationAdminResource(resources.ModelResource):
     class Meta:
@@ -55,15 +61,51 @@ class ApplicationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     search_fields = ('name', 'organization__name')
     filter_horizontal = ('datasets', 'scientists', 'serviceareas', 'developers', 'application_components')
     ordering = ('name',)
-    inlines = [LogInline, ]
+    inlines = [LinkInline, LogInline, ]
+    fieldsets = (
+        ('Identification', {
+            'fields': ('name', 'description', 'url', 'icon', 'organization', 'region', 'serviceareas',),
+        }),
+        ('Infrastructure', {
+            'fields': ('deployment_environment', 'deployment_env_further_details', 'application_components', 'datasets', )
+        }),
+        ('Teams', {
+            'fields': ('primary_developer', 'developers', 'scientists', )
+        }),
+        ('Repository & Documentation', {
+            'fields': ('code_repo_url', 'design_documentation_url', )
+        }),
+        ('Status', {
+            'fields': ('date_released', 'active', 'date_decommissioned', 'shown', 'display_priority', 'incomplete_info',  )
+        }),
+
+    )
     resource_class = ApplicationAdminResource
 
 
 admin.site.register(Application, ApplicationAdmin)
 
-admin.site.register(Link)
+# ----------------------------------------------------------------------------------------------------------------------
+# Link model admin page
+# Added ModelResource to allow import/export
+# ----------------------------------------------------------------------------------------------------------------------
+class LinkAdminResource(resources.ModelResource):
+    class Meta:
+        model = Link
 
+class LinkAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
+    list_display = ('application', 'url', 'description')
+    list_filter = ('application',)
+    search_fields = ('application__name','description', 'url', 'additional_description' )
+    ordering = ('application',)
+    resource_class = LinkAdminResource
 
+admin.site.register(Link, LinkAdmin)
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Organization Area model admin page
+# Added ModelResource to allow import/export
+# ----------------------------------------------------------------------------------------------------------------------
 class OrganizationResource(resources.ModelResource):
     class Meta:
         model = Organization
@@ -75,10 +117,12 @@ class OrganizationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     ordering = ('name',)
     resource_class = OrganizationResource
 
-
 admin.site.register(Organization, OrganizationAdmin)
 
-
+# ----------------------------------------------------------------------------------------------------------------------
+# Service Area model admin page
+# Added ModelResource to allow import/export
+# ----------------------------------------------------------------------------------------------------------------------
 class ServiceAreaResource(resources.ModelResource):
     class Meta:
         model = ServiceArea
@@ -88,12 +132,16 @@ class ServiceAreaAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     list_display = ('name', 'description', 'service_catalog_url')
     search_fields = ('name', 'description')
     ordering = ('name',)
+    filter_horizontal = ('applications',)
     resource_class = ServiceAreaResource
 
 
 admin.site.register(ServiceArea, ServiceAreaAdmin)
 
-
+# ----------------------------------------------------------------------------------------------------------------------
+# Service model admin page
+# Added ModelResource to allow import/export
+# ----------------------------------------------------------------------------------------------------------------------
 class ServiceResource(resources.ModelResource):
     class Meta:
         model = Service
@@ -109,7 +157,10 @@ class ServiceAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 
 admin.site.register(Service, ServiceAdmin)
 
-
+# ----------------------------------------------------------------------------------------------------------------------
+# Scientist model admin page
+# Added ModelResource to allow import/export
+# ----------------------------------------------------------------------------------------------------------------------
 class DeveloperResource(resources.ModelResource):
     class Meta:
         model = Developer
@@ -126,7 +177,11 @@ class DeveloperAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 
 admin.site.register(Developer, DeveloperAdmin)
 
-
+# ----------------------------------------------------------------------------------------------------------------------
+# Scientist model admin page
+# Added AppInLine to show related applications
+# Added ModelResource to allow import/export
+# ----------------------------------------------------------------------------------------------------------------------
 class ScientistResource(resources.ModelResource):
     class Meta:
         model = Scientist
@@ -138,19 +193,23 @@ class ScientistAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     search_fields = ('name',)
     ordering = ('name',)
     filter_horizontal = ('applications',)
+    # inlines = [AppInline, ]
     resource_class = ScientistResource
 
 
 admin.site.register(Scientist, ScientistAdmin)
 
-
+# ----------------------------------------------------------------------------------------------------------------------
+# Log model admin page
+# Added ModelResource to allow import/export
+# ----------------------------------------------------------------------------------------------------------------------
 class LogResource(resources.ModelResource):
     class Meta:
         model = Log
 
 
 class LogAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
-    list_display = ('application', 'log_entry', 'date_added', 'date_modified')
+    list_display = ('application', 'date_modified', 'log_entry')
     list_filter = ('application',)
     search_fields = ('application__name', 'log_entry')
     ordering = ('application',)
@@ -160,7 +219,10 @@ class LogAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 
 admin.site.register(Log, LogAdmin)
 
-
+# ----------------------------------------------------------------------------------------------------------------------
+# Dataset model admin page
+# Added ModelResource to allow import/export
+# ----------------------------------------------------------------------------------------------------------------------
 class DatasetResource(resources.ModelResource):
     class Meta:
         model = Dataset
@@ -176,10 +238,10 @@ class DatasetAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 
 admin.site.register(Dataset, DatasetAdmin)
 
-
 # ----------------------------------------------------------------------------------------------------------------------
 # Development environment admin page
-# Added inline to show log entries
+# Added AppInLine to show related applications
+# Added ModelResource to allow import/export
 # ----------------------------------------------------------------------------------------------------------------------
 class AppInline(admin.TabularInline):
     model = Application

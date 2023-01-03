@@ -3,82 +3,9 @@ from django import utils
 from django.utils import timezone
 from datetime import date
 
-
-# Create your models here.
-
-# Organization model
-class Organization(models.Model):
-    name = models.CharField(help_text="Name of the organization", max_length=250)
-    description = models.TextField()
-    url = models.URLField(max_length=200)
-    icon = models.ImageField(upload_to='icons/', blank=True, null=True)
-    date_added = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
-
-
-# Service Area model
-class ServiceArea(models.Model):
-    name = models.CharField(help_text="Name of the service area", max_length=250)
-    description = models.TextField()
-    service_catalog_url = models.URLField(max_length=200, blank=True,
-                                          help_text="Reference to the SERVIR Service catalog")
-    icon = models.ImageField(upload_to='icons/', blank=True, null=True)
-    date_added = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
-
-
-# Services  model
-class Service(models.Model):
-    name = models.CharField(help_text="Service Name", max_length=250)
-    description = models.TextField()
-    service_area = models.ForeignKey(ServiceArea, on_delete=models.CASCADE)
-    service_catalog_url = models.URLField(max_length=200, help_text="Reference to the SERVIR Service catalog")
-    date_added = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
-
-
-# Log model for tracking changes to the applications
-class Log(models.Model):
-    application = models.ForeignKey('Application', on_delete=models.CASCADE)
-    log_entry = models.TextField()
-    date = models.DateField(help_text="Date issue or milestone happened", blank=True, default=date.today)
-    date_added = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.application.name
-
-
-# Deployment environments model
-class DeploymentEnvironment(models.Model):
-    name = models.CharField(help_text="Name of the deployment environment", max_length=250)
-    description = models.TextField(help_text="Brief description of the deployment environment", blank=True)
-    date_added = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
-
-
-class Region(models.Model):
-    name = models.CharField(help_text="Name of the region",
-                            max_length=250)
-    organization = models.ManyToManyField('Organization', blank=True)
-
-    def __str__(self):
-        return self.name
-
-
-# Application list model
+# ---------------------------------------------------------------------------------------------
+# Application model - This is the main model for the application
+# ---------------------------------------------------------------------------------------------
 class Application(models.Model):
     name = models.CharField(help_text="Application name", max_length=250)
     description = models.TextField(help_text="Brief application description", blank=True)
@@ -115,8 +42,90 @@ class Application(models.Model):
     def __str__(self):
         return self.name
 
+# ---------------------------------------------------------------------------------------------
+# Organization model - To identify the organizations associated with the applications
+# ---------------------------------------------------------------------------------------------
+class Organization(models.Model):
+    name = models.CharField(help_text="Name of the organization", max_length=250)
+    description = models.TextField()
+    url = models.URLField(max_length=200)
+    icon = models.ImageField(upload_to='icons/', blank=True, null=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
 
-# Dataset model for tracking datasets used in the applications
+    def __str__(self):
+        return self.name
+
+# ---------------------------------------------------------------------------------------------
+# Service Area model - To identify the service areas associated with the applications
+# ---------------------------------------------------------------------------------------------
+class ServiceArea(models.Model):
+    name = models.CharField(help_text="Name of the service area", max_length=250)
+    description = models.TextField()
+    service_catalog_url = models.URLField(max_length=200, blank=True,
+                                          help_text="Reference to the SERVIR Service catalog")
+    icon = models.ImageField(upload_to='icons/', blank=True, null=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    applications = models.ManyToManyField('Application', through=Application.serviceareas.through, blank=True)
+
+    def __str__(self):
+        return self.name
+
+# ---------------------------------------------------------------------------------------------
+# Services model - For future connection to the service catalog
+# ---------------------------------------------------------------------------------------------
+class Service(models.Model):
+    name = models.CharField(help_text="Service Name", max_length=250)
+    description = models.TextField()
+    service_area = models.ForeignKey(ServiceArea, on_delete=models.CASCADE)
+    service_catalog_url = models.URLField(max_length=200, help_text="Reference to the SERVIR Service catalog")
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+
+# ---------------------------------------------------------------------------------------------
+# Log model - For tracking changes & issues regarding specific applications
+# ---------------------------------------------------------------------------------------------
+class Log(models.Model):
+    application = models.ForeignKey('Application', on_delete=models.CASCADE)
+    log_entry = models.TextField()
+    date = models.DateField(help_text="Date issue or milestone happened", blank=True, default=date.today)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.application.name
+
+# ---------------------------------------------------------------------------------------------
+# Deployment environments - To track where the application is deployed
+# ---------------------------------------------------------------------------------------------
+class DeploymentEnvironment(models.Model):
+    name = models.CharField(help_text="Name of the deployment environment", max_length=250)
+    description = models.TextField(help_text="Brief description of the deployment environment", blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+# ---------------------------------------------------------------------------------------------
+# Region model - To track SERVIR regions where the application is used
+# ---------------------------------------------------------------------------------------------
+class Region(models.Model):
+    name = models.CharField(help_text="Name of the region",
+                            max_length=250)
+    organization = models.ManyToManyField('Organization', blank=True)
+
+    def __str__(self):
+        return self.name
+
+# ---------------------------------------------------------------------------------------------
+# Dataset model - To track datasets used in the applications
+# ---------------------------------------------------------------------------------------------
 class Dataset(models.Model):
     name = models.CharField(help_text="Name of the dataset", max_length=250)
     description = models.TextField(help_text="Brief description of the dataset", blank=True)
@@ -129,8 +138,9 @@ class Dataset(models.Model):
     def __str__(self):
         return self.name
 
-
-# Application component model
+# ---------------------------------------------------------------------------------------------
+# Application component model - To track application components used in the applications
+# ---------------------------------------------------------------------------------------------
 class ApplicationComponent(models.Model):
     name = models.CharField(help_text="Name of the application component (indicate version if relevant)",
                             max_length=250)
@@ -143,7 +153,9 @@ class ApplicationComponent(models.Model):
         return self.name
 
 
-# Developer model
+# ---------------------------------------------------------------------------------------------
+# Developer model - To track developers of the applications
+# ---------------------------------------------------------------------------------------------
 class Developer(models.Model):
     name = models.CharField(help_text="Name of the developer", max_length=250)
     photo = models.ImageField(upload_to='icons/',
@@ -165,8 +177,9 @@ class Developer(models.Model):
     def __str__(self):
         return self.name
 
-
-# Scientist model
+# ---------------------------------------------------------------------------------------------
+# Scientist model - To track scientists involved in defining the applications
+# ---------------------------------------------------------------------------------------------
 class Scientist(models.Model):
     name = models.CharField(help_text="Name of the developer", max_length=250)
     photo = models.ImageField(upload_to='icons/',
@@ -189,10 +202,12 @@ class Scientist(models.Model):
     def __str__(self):
         return self.name
 
-
+# ---------------------------------------------------------------------------------------------
+# Link model - To track links to additional resources for the applications
+# ---------------------------------------------------------------------------------------------
 class Link(models.Model):
     url = models.URLField(max_length=200, blank=True, help_text="Link location")
-    description = models.TextField(help_text="Details for the link", blank=True)
+    description = models.CharField(help_text="Link Description", max_length=250, blank=True)
     additional_description = models.TextField(help_text="Further details for the link", blank=True)
     application = models.ForeignKey('Application', on_delete=models.CASCADE, null=True)
 
