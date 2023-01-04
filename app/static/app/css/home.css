@@ -159,6 +159,7 @@ body{
 
 .open_app_url{
     position: absolute;
+    color:#ffffff;
     right: 0px;
     bottom:0;
     z-index: 9999;
