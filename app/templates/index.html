@@ -5,6 +5,7 @@
     <link href="{% static 'app/css/home.css' %}" rel="stylesheet"/>
     <script>
         let selected_service_area = -999;
+
         function filter_service_area(which) {
 
             if (which) {
@@ -31,14 +32,33 @@
                 }
             );
         }
-    $(function () {
-        $('input[name=region_radio]').on('change', function() {
-            filter_service_area();
+
+        function text_filter(search) {
+            const search_value = search.value.toLowerCase();
+            const apps = $(".gallery-card.ember-view");
+            apps.map(function (i, app) {
+                    const app_obj = $(app);
+                    if (app_obj.find(".hidden-description").val().toLowerCase().includes(search_value)
+                        ||
+                        app_obj.find(".app-title").val().toLowerCase().includes(search_value)
+                    ) {
+                        app_obj.show();
+                    } else {
+                        app_obj.hide();
+                    }
+                }
+            );
+        }
+
+        $(function () {
+            $('input[name=region_radio]').on('change', function () {
+                filter_service_area();
+            });
         });
-    });
-        function open_app(url){
+
+        function open_app(url) {
             console.log(url);
-            document.location=url;
+            document.location = url;
         }
     </script>
 {% endblock %}
@@ -47,16 +67,17 @@
         <div>
             <div class="searchFilter">
                 <div class="col-sm-12">
-                    <div class="input-group">
+                    <div class="">
 
-                        <div class="input-group-btn">
+                        <div class="input-group-btn" style="width: fit-content; float: left;">
                             <button
                                     type="button"
                                     class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
                                     data-bs-toggle="dropdown"
                                     aria-haspopup="true"
                                     aria-expanded="false">
-                                <span class="label-icon">Showing Applications for </span><span id="filter_region">All</span>
+                                <span class="label-icon">Showing Applications for </span><span
+                                    id="filter_region">All</span>
                                 <span class="caret">&nbsp;</span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-left">
@@ -72,13 +93,22 @@
                                                    data-label="{{ region.name }}"
                                                    id="region_{{ region.pk }}"
                                                    value="{{ region.pk }}"
-                                                   name="region_radio" type="radio" ><label
+                                                   name="region_radio" type="radio"><label
                                                 for="region_{{ region.pk }}">{{ region.name }}</label>
                                         </li>
                                     {% endfor %}
                                 </ul>
                             </div>
                         </div>
+
+                        <div style="float: left; margin-left:10px;">
+                            <input
+                                    type="search"
+                                    placeholder="search"
+                                    class="form-control"
+                                    onkeyup="text_filter(this)"
+                            ></div>
+                        <div><br></div>
                     </div>
                 </div>
             </div>
@@ -135,8 +165,10 @@
             {% for app in apps %}
                 <div
                         id="app_{{ app.id }}"
-                        app_filter="-999,{% for servicearea in app.serviceareas.all %}{{ servicearea.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
-                        region="-999,{% for region in app.region.all %}{{ region.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
+                        app_filter="-999,
+                                {% for servicearea in app.serviceareas.all %}{{ servicearea.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
+                        region="-999,
+                                {% for region in app.region.all %}{{ region.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
                         class="gallery-card ember-view">
                     <div class="inner img-wrapper" style="background-image:url({{ app.icon.url }})"
                          title="{{ app.name }}">
@@ -144,9 +176,10 @@
                             <div class="image">
                                 <p class="app-title">{{ app.name }}
                                 </p>
+                                <input type="hidden" class="hidden-description" value="{{ app.description }}"/>
                             </div>
                         </a>
-                        {% if app.url|length > 0  %}
+                        {% if app.url|length > 0 %}
                             <a href="{{ app.url }}" class="open_app_url" target="_blank">
                                 <i class="fa-solid fa-link"></i>
                             </a>
