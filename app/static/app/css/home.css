@@ -283,6 +283,26 @@ body{
 }
 
 @media (max-width: 600px) {
+    #filter-drop{
+        width:100%!important;
+    }
+    #drop-button{
+        width:100%;
+    }
+    .dropdown-menu.dropdown-menu-left.show{
+        width: calc(100% - 60px);
+    }
+    #service_area_filter{
+        clear:both;
+    }
+    #search_div{
+        width:100%;
+        margin-left: unset!important;
+        margin-top: 5px;
+    }
+    #search_input{
+        width:100%;
+    }
     .gallery-container {
         padding: 3em 0em;
     }
