@@ -3,6 +3,7 @@
 <head>
     {% load static %}
     {% load socialaccount %}
+    {% load i18n %}
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1CN92MJ3K"></script>
     <script>
@@ -110,7 +111,14 @@
                         <p class="display-name welcome">Welcome, {{ user.username }}</p><p class="display-name separator"> |</p>
                     <p><a class="nav-link" href="/accounts/logout/">Log Out</a></p>
                     {% else %}
-                        <a class="nav-link" href="{% provider_login_url 'google' %}">Login with Google</a>
+                        <form method="post" action="accounts/google/login/">
+                            {% csrf_token %}
+                            <div class="customGPlusSignIn" onclick="document.forms[0].submit();">
+                                <span class="nav-link" style="cursor: pointer;">Login with Google</span>
+                            </div>
+
+                        </form>
+{#                        <a class="nav-link" href="{% provider_login_url 'google' %}">Login with Google</a>#}
                     {% endif %}
                     {% if request.user.is_staff %}
                         <p class="display-name separator">|</p><a class="nav-link" id="menu-help" href="{% url 'admin:index' %}">Admin</a>
