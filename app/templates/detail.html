@@ -64,6 +64,8 @@
 
                 </div>
                 <div class="details col-md-6">
+                    <div class="row">
+                        <div class="col-md-9">
                     <div class="service-icons">
                         <div class="icons">
                             {% for servicearea in app.serviceareas.all %}
@@ -74,11 +76,13 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-9">
+
                             <h3 class="product-title">{{ app.name }} {% if request.user.is_staff %}
                                 <a href="/admin/app/application/{{ app.pk }}/change/"><i
                                         class="fa-solid fa-pen-to-square detail-edit"></i></a>{% endif %}</h3>
+                        {% if app.incomplete_info %}
+                            <h3 class="product-title" style="font-size: 100%;">[ Incomplete info available ]</h3>
+                        {% endif %}
                         </div>
                         <div class="col-md-3 qr-code">
                             {{ svg|safe }}
