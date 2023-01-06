@@ -7,6 +7,7 @@ dependencies:
   - django
   - pillow
   - django-allauth
+  - qrcode
   - pip
   - pip:
       - django-import-export

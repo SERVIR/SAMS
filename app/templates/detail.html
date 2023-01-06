@@ -46,6 +46,7 @@
                             {% if app.link_set.count > 0 %}
                                 <div style="margin-top: 20px;">
                                     <h2 class="product-title">Additional links:</h2>
+
                                     <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;">
                                         {% for links in app.link_set.all %}
                                             <li class="additional-link-div">
@@ -72,9 +73,17 @@
 
                         </div>
                     </div>
-                    <h3 class="product-title">{{ app.name }} {% if request.user.is_staff %}
-                        <a href="/admin/app/application/{{ app.pk }}/change/"><i
-                                class="fa-solid fa-pen-to-square detail-edit"></i></a>{% endif %}</h3>
+
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h3 class="product-title">{{ app.name }} {% if request.user.is_staff %}
+                                <a href="/admin/app/application/{{ app.pk }}/change/"><i
+                                        class="fa-solid fa-pen-to-square detail-edit"></i></a>{% endif %}</h3>
+                        </div>
+                        <div class="col-md-3 qr-code">
+                            {{ svg|safe }}
+                        </div>
+
 
                     <p class="product-description">
                         {{ app.description|linebreaks }}

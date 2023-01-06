@@ -37,6 +37,9 @@ img {
     text-align:center;
 }
 
+.qr-code svg{
+    background-color: #FFFFFF;
+}
 .additional-link-div{
     padding: 5px;
     border-radius: 5px;
