@@ -66,68 +66,69 @@
                 <div class="details col-md-6">
                     <div class="row">
                         <div class="col-md-9">
-                    <div class="service-icons">
-                        <div class="icons">
-                            {% for servicearea in app.serviceareas.all %}
-                                <img src="{{ servicearea.icon.url }}" alt="capacity_building"
-                                     style="max-width:40px; display:inline-block"/>
-                            {% endfor %}
+                            <div class="service-icons">
+                                <div class="icons">
+                                    {% for servicearea in app.serviceareas.all %}
+                                        <img src="{{ servicearea.icon.url }}" alt="capacity_building"
+                                             style="max-width:40px; display:inline-block"/>
+                                    {% endfor %}
 
-                        </div>
-                    </div>
+                                </div>
+                            </div>
 
 
                             <h3 class="product-title">{{ app.name }} {% if request.user.is_staff %}
                                 <a href="/admin/app/application/{{ app.pk }}/change/"><i
                                         class="fa-solid fa-pen-to-square detail-edit"></i></a>{% endif %}</h3>
-                        {% if app.incomplete_info %}
-                            <h3 class="product-title" style="font-size: 100%;">[ Incomplete info available ]</h3>
-                        {% endif %}
+                            {% if app.incomplete_info %}
+                                <h3 class="product-title" style="font-size: 100%;">[ Incomplete info available ]</h3>
+                            {% endif %}
                         </div>
                         <div class="col-md-3 qr-code">
                             {{ svg|safe }}
                         </div>
 
 
-                    <p class="product-description">
-                        {{ app.description|linebreaks }}
-                    </p>
-                    <p style="margin-bottom: 15px; font-size: 18px;">Status: <span style="font-weight:500">
+                        <p class="product-description">
+                            {{ app.description|linebreaks }}
+                        </p>
+                        <p style="margin-bottom: 15px; font-size: 18px;">Status: <span style="font-weight:500">
                         {% if app.active %}
                             Active
                         {% else %}
                             Retired
                         {% endif %}
-                        @ {{ app.organization }}</span>
-                    </p>
+                            @ {{ app.organization }}</span>
+                        </p>
 
-                    <h3 class="product-title">Development Team:</h3>
+                        <h3 class="product-title">Development Team:</h3>
 
-                    <div class="flex-row">
-                        {% for scientist in app.scientists.all %}
-                            <div class="profile-container">
-                                <img
-                                        src="{{ scientist.image_url }}"
-                                        class="profile-pic"
-                                        title="{{ scientist.name }}"
-                                        alt="{{ scientist.name }}"/>
-                                <br/>
-                                {{ scientist.name }} ({{ scientist.organization }})
-                            </div>
-                        {% endfor %}
+                        <div class="flex-row">
+                            {% for scientist in app.scientists.all %}
+                                <div class="profile-container">
+                                    <img
+                                            src="{{ scientist.image_url }}"
+                                            class="profile-pic"
+                                            title="{{ scientist.name }}"
+                                            alt="{{ scientist.name }}"/>
+                                    <br/>
+                                    {{ scientist.name }} ({{ scientist.organization }})
+                                </div>
+                            {% endfor %}
 
-                        {% for developer in app.developers.all %}
-                            <div class="profile-container">
-                                <img
-                                        src="{{ developer.image_url }}"
-                                        alt="{{ developer.name }}"
-                                        title="{{ developer.name }}"
-                                        class="profile-pic"><br/>
-                                {{ developer.name }} ({{ developer.organization }})
-                            </div>
-                        {% endfor %}
+                            {% for developer in app.developers.all %}
+                                <div class="profile-container">
+                                    <img
+                                            src="{{ developer.image_url }}"
+                                            alt="{{ developer.name }}"
+                                            title="{{ developer.name }}"
+                                            class="profile-pic"><br/>
+                                    {{ developer.name }} ({{ developer.organization }})
+                                </div>
+                            {% endfor %}
+                        </div>
+
                     </div>
-
                 </div>
             </div>
         </div>
