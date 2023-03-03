@@ -8,7 +8,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1CN92MJ3K"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'G-J1CN92MJ3K');
@@ -21,7 +25,9 @@
     <title>{% block title %}SERVIR Application Management System - SAMS{% endblock %}</title>
     <link href='https://fonts.googleapis.com/css?family=Work Sans' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+          integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel='icon' href="{% static 'app/img/favicon.ico' %}" type='image/x-icon'/>
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'app/img/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'app/img/favicon-32x32.png' %}">
@@ -50,7 +56,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
             crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js"
+            integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{% static 'app/js/navloader.js' %}"></script>
     {% block script %}{% endblock %}
 
@@ -108,22 +116,23 @@
                 <div class="navbar-nav">
 
                     {% if user.is_authenticated %}
-                        <p class="display-name welcome">Welcome, {{ user.username }}</p><p class="display-name separator"> |</p>
-                    <p><a class="nav-link" href="/accounts/logout/">Log Out</a></p>
+                        <p class="display-name welcome">Welcome, {{ user.username }}</p>
+                        <p class="display-name separator"> |</p>
+                        <p><a class="nav-link" href="{% url 'account_logout' %}?next={{ request.path }}">Log Out</a></p>
                     {% else %}
-                        <form method="post" action="accounts/google/login/">
+                        <form method="post" action="{% provider_login_url 'google' %}?next={{ request.path }}">
                             {% csrf_token %}
                             <div class="customGPlusSignIn" onclick="document.forms[0].submit();">
                                 <span class="nav-link" style="cursor: pointer;">Login with Google</span>
                             </div>
 
                         </form>
-{#                        <a class="nav-link" href="{% provider_login_url 'google' %}">Login with Google</a>#}
                     {% endif %}
                     {% if request.user.is_staff %}
-                        <p class="display-name separator">|</p><a class="nav-link" id="menu-help" href="{% url 'admin:index' %}">Admin</a>
+                        <p class="display-name separator">|</p>
+                        <a class="nav-link" id="menu-help" href="{% url 'admin:index' %}">Admin</a>
                     {% endif %}
-                     </div>
+                </div>
             </div>
         </div>
     </nav>
