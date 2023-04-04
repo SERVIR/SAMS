@@ -27,7 +27,10 @@
                     <div class="preview-pic tab-content">
                         <div
                                 class="tab-pane active"
-                                id="pic-1">
+                                id="pic-1" style="position:relative;">
+                            <div class="qr-code" style="position: absolute;  bottom: 0; right: 0;">
+                                {{ svg|safe }}
+                            </div>
                             <img
                                     src="{{ app.icon.url }}"
                                     title="{{ app.name }}"
@@ -84,10 +87,6 @@
                                 <h3 class="product-title" style="font-size: 100%;">[ Incomplete info available ]</h3>
                             {% endif %}
                         </div>
-                        <div class="col-md-3 qr-code">
-                            {{ svg|safe }}
-                        </div>
-
 
                         <p class="product-description">
                             {{ app.description|linebreaks }}
