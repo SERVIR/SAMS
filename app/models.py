@@ -38,6 +38,9 @@ class Application(models.Model):
                                            default=10, blank=True)
     incomplete_info = models.BooleanField(default=True, help_text="Application needs more information added?")
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('detail', kwargs={'post_id' : self.pk})
 
     def __str__(self):
         return self.name
