@@ -18,7 +18,7 @@ class Application(models.Model):
     active = models.BooleanField(default=True, help_text="Is this application active?")
     shown = models.BooleanField(default=False, help_text="Is this application visible?")
     developers = models.ManyToManyField('Developer', blank=True, related_name='developers')
-    primary_developer = models.ForeignKey('Developer', on_delete=models.CASCADE, blank=True)
+    # primary_developer = models.ForeignKey('Developer', on_delete=models.CASCADE, blank=True)
     scientists = models.ManyToManyField('Scientist', blank=True)
     code_repo_url = models.URLField(max_length=250, blank=True, help_text="Code repository location")
     design_documentation_url = models.URLField(max_length=250, blank=True, help_text="Design documentation location")

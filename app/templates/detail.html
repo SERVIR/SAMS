@@ -71,7 +71,7 @@
                             {% endif %}
                         </p>
                         <p>
-
+                            <!-- Display Additional Links-->
                             {% if app.link_set.count > 0 %}
                                 <div style="margin-top: 20px;">
                                     <h2 class="product-title">Additional links:</h2>
@@ -89,6 +89,26 @@
                                 </div>
                             {% endif %}
                         </p>
+                        {% if request.user.is_staff %}
+                        <p>
+                            <!-- Display Log Entries -->
+                            {% if app.log_set.count > 0 %}
+                                <div style="margin-top: 20px;">
+                                    <h2 class="product-title">Log Entries:</h2>
+
+                                    <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;">
+                                        {% for log_entry in app.log_set.all %}
+                                            <li class="additional-link-div">
+                                                <span class="badge badge-primary">{{ log_entry.date }}</span>
+                                                {{ log_entry.log_entry }}
+                                            </li>
+
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </p>
+                        {% endif %}
                     </div>
 
                 </div>

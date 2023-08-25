@@ -57,7 +57,7 @@ class ApplicationAdminResource(resources.ModelResource):
 
 class ApplicationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     list_display = ('name', 'organization', 'active', 'shown', 'display_priority', 'incomplete_info')
-    list_filter = ('active', 'shown', 'organization', 'deployment_environment', 'primary_developer')
+    list_filter = ('active', 'shown', 'organization', 'deployment_environment')
     search_fields = ('name', 'organization__name')
     filter_horizontal = ('datasets', 'scientists', 'serviceareas', 'developers', 'application_components')
     ordering = ('name',)
@@ -70,7 +70,7 @@ class ApplicationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
             'fields': ('deployment_environment', 'deployment_env_further_details', 'application_components', 'datasets', )
         }),
         ('Teams', {
-            'fields': ('primary_developer', 'developers', 'scientists', )
+            'fields': ('developers', 'scientists', )
         }),
         ('Repository & Documentation', {
             'fields': ('code_repo_url', 'design_documentation_url', )
