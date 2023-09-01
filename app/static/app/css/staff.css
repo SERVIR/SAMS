@@ -1,0 +1,17 @@
+.container {
+	display: flex;
+}
+
+.profile {
+    align-items: center;
+}
+.app-list {
+	flex-grow: 2;
+    padding-left: 5%;
+}
+
+.profile-pic {
+    width: 400px;
+    border-radius: 50%;
+    
+}

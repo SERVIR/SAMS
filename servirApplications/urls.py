@@ -23,6 +23,8 @@ urlpatterns = [
     path('', views.index, name='home'),
     path('about/', views.about, name='about'),
     path('detail/<int:post_id>', views.detail, name='detail'),
+    path('developer/<int:post_id>', views.developer, name='developer'),
+    path('scientist/<int:post_id>', views.scientist, name='scientist'),
     path('login', views.login),
     path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),

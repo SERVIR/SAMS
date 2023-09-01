@@ -151,6 +151,7 @@
                         <div class="flex-row">
                             {% for scientist in app.scientists.all %}
                                 <div class="profile-container">
+                                    <a href="/scientist/{{ scientist.pk }}">
                                     <img
                                             src="{{ scientist.image_url }}"
                                             class="profile-pic"
@@ -158,17 +159,20 @@
                                             alt="{{ scientist.name }}"/>
                                     <br/>
                                     {{ scientist.name }} ({{ scientist.organization }})
+                                    </a>
                                 </div>
                             {% endfor %}
 
                             {% for developer in app.developers.all %}
                                 <div class="profile-container">
+                                    <a href="/developer/{{ developer.pk }}">
                                     <img
                                             src="{{ developer.image_url }}"
                                             alt="{{ developer.name }}"
                                             title="{{ developer.name }}"
                                             class="profile-pic"><br/>
                                     {{ developer.name }} ({{ developer.organization }})
+                                    </a>
                                 </div>
                             {% endfor %}
                         </div>

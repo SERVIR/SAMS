@@ -1,0 +1,81 @@
+{% extends "apps_base.html" %}
+{% load static %}
+{% block title %}SERVIR Application Management System - SAMS - Detail{% endblock %}
+{% block script %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <link href="{% static 'app/css/App.css' %}" rel="stylesheet"/>
+    <link href="{% static 'app/css/detail.css' %}" rel="stylesheet"/>
+    <link href="{% static 'app/css/staff.css' %}" rel="stylesheet"/>
+
+    <script>
+
+    </script>
+{% endblock %}
+{% block content %}
+    <div class="card">
+
+        <input
+                type="button"
+                value=""
+                class="btn-close btn-close-white pull-right"
+                aria-label="Close"
+                style="position: absolute;right: 10px;top: 10px;"
+                onclick="history.back();"
+        />
+        <div class="container-fliud">
+            <div class="container">
+                <div class="profile">
+                    <img class="profile-pic"
+                    src="{{ staff.image_url }}"
+                    alt="{{ staff.name }}"
+                    title="{{ staff.name }}">
+                    <br><br>
+                    <span class="tag is-light is-large">{{ staff.name }}, {{ staff.organization }}</span>
+                </div>
+                <div class="app-list">
+                    <!-- Display Applications -->
+                    <div>
+                        <h2 class="product-title">Has contributed to the following apps</h2>
+
+                        <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;">
+                            {% for app in staff.applications.all %}
+                                <li class="additional-link-div">
+                                    <a href="/detail/{{ app.pk }}"
+                                        class="additional-link">{{ app.name }}</a>
+                                    {% if app.url|length > 0 %}
+                                    <a href="{{ app.url }}" class="open_app_url" target="_blank">
+                                        <i class="fa-solid fa-link"></i>
+                                    </a>
+                                    {% endif %}
+                                    <br>
+                                    {{ app.description|truncatechars:200 }}
+                                </li>
+
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            <hr>
+            <div>
+                <p>The SERVIR program is a joint initiative of NASA, USAID, and leading geospatial organizations 
+                    in Asia, Africa, and Latin America, SERVIR partners with countries and organizations to address
+                    critical challenges in the following service areas:</p>
+                    <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;">
+                        <li>Agriculture and Food Security</li> 
+                        <li>Ecosystems and Carbon Managment</li>
+                        <li>Water Security</li>
+                        <li>Weather and Climate Resilience</li>
+                        <li>Air Quality and Health</li>
+                    </ul>
+                <p>Visit <a href="https://servirglobal.net">SERVIRGlobal.net</a> for more information about the SERVIR Program</p>    
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

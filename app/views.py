@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from .models import Application
 from .models import ServiceArea
 from .models import Region
+from .models import Developer, Scientist
 import qrcode
 import qrcode.image.svg
 from io import BytesIO
@@ -31,6 +32,21 @@ def detail(request, post_id):
     }
     return render(request, "detail.html", context=context)
 
+def scientist(request, post_id):
+    scientist = Scientist.objects.get(pk=post_id)
+
+    context = {
+        "staff": scientist,
+    }
+    return render(request, "developer.html", context=context)
+
+def developer(request, post_id):
+    developer = Developer.objects.get(pk=post_id)
+
+    context = {
+        "staff": developer,
+    }
+    return render(request, "developer.html", context=context)
 
 def login(request):
     response = redirect('accounts/google/login/')
