@@ -26,8 +26,8 @@
                 onclick="history.back();"
         />
         <div class="container-fliud">
-            <div class="container">
-                <div class="profile">
+            <div class="wrapper row">
+                <div class="profile col-md-4">
                     <img class="profile-pic"
                     src="{{ staff.image_url }}"
                     alt="{{ staff.name }}"
@@ -35,7 +35,7 @@
                     <br><br>
                     <span class="tag is-light is-large">{{ staff.name }}, {{ staff.organization }}</span>
                 </div>
-                <div class="app-list">
+                <div class="app-list col-md-8">
                     <!-- Display Applications -->
                     <div>
                         <h2 class="product-title">Has contributed to the following apps</h2>
@@ -44,12 +44,12 @@
                             {% for app in staff.applications.all %}
                                 <li class="additional-link-div">
                                     <a href="/detail/{{ app.pk }}"
-                                        class="additional-link">{{ app.name }}</a>
+                                        class="additional-link">{{ app.name }}
                                     {% if app.url|length > 0 %}
-                                    <a href="{{ app.url }}" class="open_app_url" target="_blank">
                                         <i class="fa-solid fa-link"></i>
-                                    </a>
+
                                     {% endif %}
+                                    </a>
                                     <br>
                                     {{ app.description|truncatechars:200 }}
                                 </li>
@@ -72,7 +72,7 @@
                         <li>Weather and Climate Resilience</li>
                         <li>Air Quality and Health</li>
                     </ul>
-                <p>Visit <a href="https://servirglobal.net">SERVIRGlobal.net</a> for more information about the SERVIR Program</p>    
+                <p>Visit <a href="https://servirglobal.net" class="additional-link">SERVIRGlobal.net</a> for more information about the SERVIR Program</p>
             </div>
         </div>
     </div>

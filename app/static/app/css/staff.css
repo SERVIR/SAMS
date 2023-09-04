@@ -3,7 +3,7 @@
 }
 
 .profile {
-    align-items: center;
+    text-align: center;
 }
 .app-list {
 	flex-grow: 2;

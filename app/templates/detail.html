@@ -70,7 +70,6 @@
                                    target="_blank">View Code</a>
                             {% endif %}
                         </p>
-                        <p>
                             <!-- Display Additional Links-->
                             {% if app.link_set.count > 0 %}
                                 <div style="margin-top: 20px;">
@@ -88,9 +87,9 @@
                                     </ul>
                                 </div>
                             {% endif %}
-                        </p>
+
                         {% if request.user.is_staff %}
-                        <p>
+
                             <!-- Display Log Entries -->
                             {% if app.log_set.count > 0 %}
                                 <div style="margin-top: 20px;">
@@ -107,7 +106,7 @@
                                     </ul>
                                 </div>
                             {% endif %}
-                        </p>
+
                         {% endif %}
                     </div>
 
@@ -150,8 +149,9 @@
 
                         <div class="flex-row">
                             {% for scientist in app.scientists.all %}
-                                <div class="profile-container">
-                                    <a href="/scientist/{{ scientist.pk }}">
+                                <a href="/scientist/{{ scientist.pk }}">
+                                <div class="profile-container additional-link">
+
                                     <img
                                             src="{{ scientist.image_url }}"
                                             class="profile-pic"
@@ -159,21 +159,24 @@
                                             alt="{{ scientist.name }}"/>
                                     <br/>
                                     {{ scientist.name }} ({{ scientist.organization }})
-                                    </a>
+
                                 </div>
+                                </a>
                             {% endfor %}
 
                             {% for developer in app.developers.all %}
-                                <div class="profile-container">
-                                    <a href="/developer/{{ developer.pk }}">
+                                <a href="/developer/{{ developer.pk }}">
+                                <div class="profile-container additional-link">
+
                                     <img
                                             src="{{ developer.image_url }}"
                                             alt="{{ developer.name }}"
                                             title="{{ developer.name }}"
                                             class="profile-pic"><br/>
                                     {{ developer.name }} ({{ developer.organization }})
-                                    </a>
+
                                 </div>
+                                </a>
                             {% endfor %}
                         </div>
 
