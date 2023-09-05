@@ -50,7 +50,7 @@ img {
 }
 
 .additional-link:hover{
-    color:#B5B1B0;
+    color:#bdd12f !important;
 }
 
 @media screen and (max-width: 996px) {
