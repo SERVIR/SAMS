@@ -351,3 +351,12 @@ body{
 .category_filters {
     padding: 2px 10px;
 }
+@media (min-width:1600px) {
+    .gallery-card {
+        width: 15%;
+    }
+
+    .gallery-card .inner {
+        height: 12vw;
+    }
+}
