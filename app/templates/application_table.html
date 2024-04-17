@@ -86,6 +86,19 @@
             background-color: #b5b1b04a;
         }
 
+        .checkmark-symbol::before {
+        content: '\2713';
+        color: green;
+            font-size: 20px;
+            font-weight: 700;
+    }
+
+        .x-symbol {
+            color: red; /* Change the color to red */
+            font-size: 20px;
+            font-weight: 700;
+        }
+
 
     </style>
 {% endblock script %}
@@ -100,7 +113,7 @@
                 <th>Region</th>
                 <th>Development Environment</th>
                 <th>Code Repo URL</th>
-                <th>Incomplete Info</th>
+                <th>Info Complete</th>
                 <th>Active Status</th>
                 <th>Logs Available</th>
                 <th>Is AST</th>
@@ -119,9 +132,9 @@
                     <td>{% if application.code_repo_url %}
                         <a href="{{ application.code_repo_url }}" target="_blank">Open</a>{% else %}
                         N/A{% endif %}</td>
-                    <td>{{ application.incomplete_info }}</td>
-                    <td>{{ application.active }}</td>
-                   <td>{{ application.log_set.exists }}</td>
+                    <td>{% if application.incomplete_info %}<span class="x-symbol">X</span>{% else %}<span class="checkmark-symbol"></span>{% endif %}</td>
+                    <td>{% if application.active %}<span class="checkmark-symbol"></span>{% else %}<span class="x-symbol"><span style="color: red;">X</span></span>{% endif %}</td>
+<td>{% if application.log_set.exists %}<span class="checkmark-symbol"></span>{% else %}<span class="x-symbol"><span style="color: red;">X</span></span>{% endif %}</td>
                     <td>{{ application.is_ast }}</td>
                     <td>{{ application.ast_pi }}</td>
                 </tr>
