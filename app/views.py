@@ -11,10 +11,6 @@ from .models import Developer, Scientist
 import qrcode
 import qrcode.image.svg
 from io import BytesIO
-from django_tables2 import RequestConfig
-
-from django_tables2 import SingleTableView
-from django_filters.views import FilterView
 from .models import Application
 
 
