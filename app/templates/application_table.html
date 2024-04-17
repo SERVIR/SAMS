@@ -123,6 +123,27 @@
         .dataTables_filter {
             text-align: right;
         }
+/* Default sorting icon (no sorting applied) */
+.sorting::after {
+    content: "\25B2\25BC"; /* Unicode characters for caret-up and caret-down */
+    margin-left: 5px; /* Adjust as needed */
+    opacity: 0.5; /* Reduced opacity */
+    font-size: 0.8em; /* Smaller font size */
+}
+        /* Sorting icon for ascending order */
+.sorting_asc::after {
+    content: "\25B2"; /* Unicode character for caret-up */
+    margin-left: 5px; /* Adjust as needed */
+}
+
+/* Sorting icon for descending order */
+.sorting_desc::after {
+    content: "\25BC"; /* Unicode character for caret-down */
+    margin-left: 5px; /* Adjust as needed */
+}
+
+
+
 
         @media (max-width: 991px) {
             .table.compact {
