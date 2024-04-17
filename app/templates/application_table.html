@@ -6,25 +6,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Applications Table</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.4/css/dataTables.bootstrap5.min.css">
 
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.responsive.min.js"></script>
 
 
     <script>
 
         $(document).ready(function () {
             $('#applicationsTable').DataTable({
+                responsive: true, // Enable responsiveness
                 "paging": true,           // Enable paging
                 "searching": true,        // Enable search box
                 "ordering": true,         // Enable sorting
                 "info": true,              // Enable info display
-                "lengthMenu": [10, 25, 50, 100]
+                "lengthMenu": [10, 25, 50, 100], // Define available page lengths
+                "pageLength": 100         // Set default page length to 100
             });
         });
 
@@ -87,16 +89,64 @@
         }
 
         .checkmark-symbol::before {
-        content: '\2713';
-        color: green;
+            content: '\2713';
+            color: green;
             font-size: 20px;
             font-weight: 700;
-    }
+        }
 
         .x-symbol {
             color: red; /* Change the color to red */
             font-size: 20px;
             font-weight: 700;
+        }
+
+        .table {
+            background-color: #fff;
+            color: #363636;
+            margin-bottom: 1.5rem;
+            width: 100%;
+        }
+
+        /* Adjust pagination container */
+        .dataTables_wrapper .dataTables_paginate {
+            float: right;
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        /* Adjust pagination buttons */
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            margin-left: 5px;
+        }
+
+        .dataTables_filter {
+            text-align: right;
+        }
+
+        @media (max-width: 991px) {
+            .table.compact {
+                font-size: 13px;
+            }
+        }
+
+        /* Hide some columns on smaller screens */
+        @media (max-width: 768px) {
+            #applicationsTable th:nth-child(4),
+            #applicationsTable td:nth-child(4),
+            #applicationsTable th:nth-child(5),
+            #applicationsTable td:nth-child(5) {
+                display: none;
+            }
+        }
+
+        /* Adjust font size and padding for smaller screens */
+        @media (max-width: 576px) {
+            #applicationsTable th,
+            #applicationsTable td {
+                font-size: 12px;
+                padding: 5px;
+            }
         }
 
 
@@ -105,7 +155,7 @@
 
 {% block content %}
     <div class="container-fliud" style="    padding: 3em;">
-        <table id="applicationsTable" class="table">
+        <table id="applicationsTable" class="table compact">
             <thead class="dataTables_scrollHead">
             <tr>
                 <th>Name</th>
@@ -123,20 +173,29 @@
             <tbody>
             {% for application in applications %}
                 <tr>
-                    <td><a href="{% url 'detail' application.pk %}">{{ application.name }}</a></td>
-                    <td>{{ application.organization }}</td>
+                    <td><a href="{% url 'detail' application.pk %}"
+                           title="{{ application.name }}">{{ application.name  | truncatechars:30 }}</a></td>
+                    <td>{{ application.organization   | truncatechars:30 }}</td>
                     <td> {% for region in application.region.all %}
-                        {{ region.name }}{% if not forloop.last %}, {% endif %}
+                        {{ region.name | truncatechars:20 }}{% if not forloop.last %}, {% endif %}
                     {% endfor %}</td>
                     <td>{{ application.deployment_environment }}</td>
                     <td>{% if application.code_repo_url %}
                         <a href="{{ application.code_repo_url }}" target="_blank">Open</a>{% else %}
                         N/A{% endif %}</td>
-                    <td>{% if application.incomplete_info %}<span class="x-symbol">X</span>{% else %}<span class="checkmark-symbol"></span>{% endif %}</td>
-                    <td>{% if application.active %}<span class="checkmark-symbol"></span>{% else %}<span class="x-symbol"><span style="color: red;">X</span></span>{% endif %}</td>
-<td>{% if application.log_set.exists %}<span class="checkmark-symbol"></span>{% else %}<span class="x-symbol"><span style="color: red;">X</span></span>{% endif %}</td>
+                    <td>{% if application.incomplete_info %}<span class="x-symbol">X</span>{% else %}
+                        <span class="checkmark-symbol"></span>{% endif %}</td>
+                    <td>{% if application.active %}<span class="checkmark-symbol"></span>{% else %}
+                        <span class="x-symbol"><span style="color: red;">X</span></span>{% endif %}</td>
+                    <td>{% if application.log_set.exists %}<span class="checkmark-symbol"></span>{% else %}
+                        <span class="x-symbol"><span style="color: red;">X</span></span>{% endif %}</td>
                     <td>{{ application.is_ast }}</td>
-                    <td>{{ application.ast_pi }}</td>
+                    <td>{% if application.ast_pi %}
+                        <a href="{% url 'scientist' post_id=application.ast_pi.id %}"
+                           target="_blank">{{ application.ast_pi }}</a>{% else %}
+                        N/A{% endif %}
+                    </td>
+
                 </tr>
             {% endfor %}
             </tbody>

@@ -7,6 +7,7 @@ from import_export import resources
 
 admin.site.site_header = "SERVIR Apps Portal"
 
+
 # ----------------------------------------------------------------------------------------------------------------------
 # Region admin page
 # ----------------------------------------------------------------------------------------------------------------------
@@ -20,6 +21,7 @@ class RegionAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 
 
 admin.site.register(Region, RegionAdmin)
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Application Component admin page
@@ -40,6 +42,7 @@ class ApplicationComponentAdmin(ImportExportActionModelAdmin, ImportExportModelA
 
 admin.site.register(ApplicationComponent, ApplicationComponentAdmin)
 
+
 # ----------------------------------------------------------------------------------------------------------------------
 # Application admin page
 # Added inlines to show log entries and links
@@ -47,8 +50,10 @@ admin.site.register(ApplicationComponent, ApplicationComponentAdmin)
 class LogInline(admin.TabularInline):
     model = Log
 
+
 class LinkInline(admin.TabularInline):
     model = Link
+
 
 class ApplicationAdminResource(resources.ModelResource):
     class Meta:
@@ -67,16 +72,21 @@ class ApplicationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
             'fields': ('name', 'description', 'url', 'icon', 'organization', 'region', 'serviceareas',),
         }),
         ('Infrastructure', {
-            'fields': ('deployment_environment', 'deployment_env_further_details', 'application_components', 'datasets', )
+            'fields': (
+            'deployment_environment', 'deployment_env_further_details', 'application_components', 'datasets',)
+        }),
+        ('AST Involvement', {
+            'fields': ('ast_pi', 'ast_round',)
         }),
         ('Teams', {
-            'fields': ('developers', 'scientists', )
+            'fields': ('developers', 'scientists',)
         }),
         ('Repository & Documentation', {
-            'fields': ('code_repo_url', 'design_documentation_url', )
+            'fields': ('code_repo_url', 'design_documentation_url',)
         }),
         ('Status', {
-            'fields': ('date_released', 'active', 'date_decommissioned', 'shown', 'display_priority', 'incomplete_info',  )
+            'fields': (
+            'date_released', 'active', 'date_decommissioned', 'shown', 'display_priority', 'incomplete_info',)
         }),
 
     )
@@ -84,6 +94,7 @@ class ApplicationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 
 
 admin.site.register(Application, ApplicationAdmin)
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Link model admin page
@@ -93,14 +104,17 @@ class LinkAdminResource(resources.ModelResource):
     class Meta:
         model = Link
 
+
 class LinkAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     list_display = ('application', 'url', 'description')
     list_filter = ('application',)
-    search_fields = ('application__name','description', 'url', 'additional_description' )
+    search_fields = ('application__name', 'description', 'url', 'additional_description')
     ordering = ('application',)
     resource_class = LinkAdminResource
 
+
 admin.site.register(Link, LinkAdmin)
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Organization Area model admin page
@@ -117,7 +131,9 @@ class OrganizationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     ordering = ('name',)
     resource_class = OrganizationResource
 
+
 admin.site.register(Organization, OrganizationAdmin)
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Service Area model admin page
@@ -138,6 +154,7 @@ class ServiceAreaAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 
 admin.site.register(ServiceArea, ServiceAreaAdmin)
 
+
 # ----------------------------------------------------------------------------------------------------------------------
 # Service model admin page
 # Added ModelResource to allow import/export
@@ -156,6 +173,7 @@ class ServiceAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 
 
 admin.site.register(Service, ServiceAdmin)
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Scientist model admin page
@@ -176,6 +194,7 @@ class DeveloperAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 
 
 admin.site.register(Developer, DeveloperAdmin)
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Scientist model admin page
@@ -199,6 +218,7 @@ class ScientistAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 
 admin.site.register(Scientist, ScientistAdmin)
 
+
 # ----------------------------------------------------------------------------------------------------------------------
 # Log model admin page
 # Added ModelResource to allow import/export
@@ -219,6 +239,7 @@ class LogAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 
 admin.site.register(Log, LogAdmin)
 
+
 # ----------------------------------------------------------------------------------------------------------------------
 # Dataset model admin page
 # Added ModelResource to allow import/export
@@ -237,6 +258,7 @@ class DatasetAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 
 
 admin.site.register(Dataset, DatasetAdmin)
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Development environment admin page

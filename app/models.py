@@ -3,6 +3,7 @@ from django import utils
 from django.utils import timezone
 from datetime import date
 
+
 # ---------------------------------------------------------------------------------------------
 # Application model - This is the main model for the application
 # ---------------------------------------------------------------------------------------------
@@ -37,13 +38,19 @@ class Application(models.Model):
     display_priority = models.IntegerField(help_text="Display priority (lower numbers shown at the top of the list)",
                                            default=10, blank=True)
     incomplete_info = models.BooleanField(default=True, help_text="Application needs more information added?")
+    ast_pi = models.ForeignKey('Scientist', on_delete=models.CASCADE, related_name="PI_Scientist",
+                                     help_text="Scientist who is/was the PI when the application was developed",
+                               blank=True, default=None, null=True)
+    ast_round = models.IntegerField(help_text="AST round they were involved with when the app was created",
+                                           default=None, blank=True, null=True)
 
     def get_absolute_url(self):
         from django.urls import reverse
-        return reverse('detail', kwargs={'post_id' : self.pk})
+        return reverse('detail', kwargs={'post_id': self.pk})
 
     def __str__(self):
         return self.name
+
 
 # ---------------------------------------------------------------------------------------------
 # Organization model - To identify the organizations associated with the applications
@@ -58,6 +65,7 @@ class Organization(models.Model):
 
     def __str__(self):
         return self.name
+
 
 # ---------------------------------------------------------------------------------------------
 # Service Area model - To identify the service areas associated with the applications
@@ -74,6 +82,7 @@ class ServiceArea(models.Model):
 
     def __str__(self):
         return self.name
+
 
 # ---------------------------------------------------------------------------------------------
 # Services model - For future connection to the service catalog
@@ -103,6 +112,7 @@ class Log(models.Model):
     def __str__(self):
         return self.application.name
 
+
 # ---------------------------------------------------------------------------------------------
 # Deployment environments - To track where the application is deployed
 # ---------------------------------------------------------------------------------------------
@@ -115,6 +125,7 @@ class DeploymentEnvironment(models.Model):
     def __str__(self):
         return self.name
 
+
 # ---------------------------------------------------------------------------------------------
 # Region model - To track SERVIR regions where the application is used
 # ---------------------------------------------------------------------------------------------
@@ -125,6 +136,7 @@ class Region(models.Model):
 
     def __str__(self):
         return self.name
+
 
 # ---------------------------------------------------------------------------------------------
 # Dataset model - To track datasets used in the applications
@@ -140,6 +152,7 @@ class Dataset(models.Model):
 
     def __str__(self):
         return self.name
+
 
 # ---------------------------------------------------------------------------------------------
 # Application component model - To track application components used in the applications
@@ -180,6 +193,7 @@ class Developer(models.Model):
     def __str__(self):
         return self.name
 
+
 # ---------------------------------------------------------------------------------------------
 # Scientist model - To track scientists involved in defining the applications
 # ---------------------------------------------------------------------------------------------
@@ -204,6 +218,7 @@ class Scientist(models.Model):
 
     def __str__(self):
         return self.name
+
 
 # ---------------------------------------------------------------------------------------------
 # Link model - To track links to additional resources for the applications
