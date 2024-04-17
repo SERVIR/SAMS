@@ -179,9 +179,9 @@
         <table id="applicationsTable" class="table compact small">
             <thead class="dataTables_scrollHead">
             <tr>
-                <th>Name</th>
+                <th>Application Name</th>
                 <th>Organization</th>
-                <th>Region</th>
+                <th>Regions</th>
                 <th>Development Environment</th>
                 <th>Code Repo</th>
                 <th>Complete</th>
@@ -198,7 +198,7 @@
                            title="{{ application.name }}">{{ application.name  | truncatechars:40 }}</a></td>
                     <td>{{ application.organization   | truncatechars:40 }}</td>
                     <td> {% for region in application.region.all %}
-                        {{ region.name | truncatechars:25 }}{% if not forloop.last %}, {% endif %}
+                        {{ region.accronym }}{% if not forloop.last %}, {% endif %}
                     {% endfor %}</td>
                     <td>{{ application.deployment_environment }}</td>
                     <td>{% if application.code_repo_url %}
@@ -212,7 +212,7 @@
                         <span class="x-symbol"><span style="color: red;">X</span></span>{% endif %}</td>
                     <td>{% if application.ast_pi %}
                         <a href="{% url 'scientist' post_id=application.ast_pi.id %}"
-                           target="_blank">{{ application.ast_pi__name }}</a>{% endif %}
+                           target="_blank">{{ application.ast_pi }}</a>{% endif %}
                     </td>
                     <td>{{ application.ast_round }}</td>
                 </tr>
