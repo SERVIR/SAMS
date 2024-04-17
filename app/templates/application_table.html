@@ -117,7 +117,7 @@
                     {% endfor %}</td>
                     <td>{{ application.deployment_environment }}</td>
                     <td>{% if application.code_repo_url %}
-                        <a href="{{ application.code_repo_url }}">{{ application.code_repo_url }}</a>{% else %}
+                        <a href="{{ application.code_repo_url }}" target="_blank">Open</a>{% else %}
                         N/A{% endif %}</td>
                     <td>{{ application.incomplete_info }}</td>
                     <td>{{ application.active }}</td>

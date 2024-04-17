@@ -1,8 +1,7 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.template import RequestContext
-from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 from .models import Application
 from .models import ServiceArea
@@ -65,6 +64,12 @@ def about(request):
     return render(request, "about.html", context={})
 
 
+def is_scoscience(user):
+    return user.groups.filter(name='scoscience').exists()
+
+
+@login_required
+@user_passes_test(is_scoscience)
 def app_table(request):
     applications = Application.objects.all()
     return render(request, 'application_table.html', {'applications': applications})

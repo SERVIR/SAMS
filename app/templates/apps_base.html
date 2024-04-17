@@ -128,6 +128,13 @@
 
                         </form>
                     {% endif %}
+                    {% for group in user_groups %}
+                        {% if group.name == 'scoscience' %}
+                            <p class="display-name separator"> |</p>
+                            <p><a class="nav-link" href="{% url 'app-table' %}">App Table</a></p>
+                            <!-- Add other links specific to this group if needed -->
+                        {% endif %}
+                    {% endfor %}
                     {% if request.user.is_staff %}
                         <p class="display-name separator">|</p>
                         <a class="nav-link" id="menu-help" href="{% url 'admin:index' %}">Admin</a>
