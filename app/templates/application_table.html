@@ -1,0 +1,132 @@
+{% extends 'apps_base.html' %}
+{% load static %}
+{% block script %}
+
+    <!-- Include any additional scripts or stylesheets here -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applications Table</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+
+
+    <script>
+
+        $(document).ready(function () {
+            $('#applicationsTable').DataTable({
+                "paging": true,           // Enable paging
+                "searching": true,        // Enable search box
+                "ordering": true,         // Enable sorting
+                "info": true,              // Enable info display
+                "lengthMenu": [10, 25, 50, 100]
+            });
+        });
+
+
+    </script>
+
+
+    <style>
+        /* Customize DataTables theme */
+        /* Background colors */
+        body {
+            background-color: #3C3837;
+            color: #fff;
+        }
+
+        /* Table header */
+        .dataTables_wrapper .dataTables_scrollHead {
+            background-color: #B5B1B0;
+            color: #fff;
+        }
+
+        .table thead th {
+            color: unset;
+        }
+
+        .table tr:hover {
+            background-color: unset;
+        }
+
+        .table thead th:hover {
+            background-color: #fff;
+            color: #B5B1B0;
+        }
+
+        /* Table body */
+        .dataTables_wrapper .dataTables_scrollBody {
+            background-color: #B5B1B0;
+            color: #fff;
+        }
+
+        /* Table footer */
+        .dataTables_wrapper .dataTables_scrollFoot {
+            background-color: #3C3837;
+            color: #fff;
+        }
+
+        /* Pagination */
+        .dataTables_paginate .paginate_button {
+            background-color: #204a70;
+            color: #fff;
+        }
+
+        /* Alternating row background colors */
+        .dataTables_wrapper tbody tr:nth-child(odd) {
+            background-color: #fff;
+        }
+
+        .dataTables_wrapper tbody tr:nth-child(even) {
+            background-color: #b5b1b04a;
+        }
+
+
+    </style>
+{% endblock script %}
+
+{% block content %}
+    <div class="container-fliud" style="    padding: 3em;">
+        <table id="applicationsTable" class="table">
+            <thead class="dataTables_scrollHead">
+            <tr>
+                <th>Name</th>
+                <th>Organization</th>
+                <th>Region</th>
+                <th>Development Environment</th>
+                <th>Code Repo URL</th>
+                <th>Incomplete Info</th>
+                <th>Active Status</th>
+                <th>Logs Available</th>
+                <th>Is AST</th>
+                <th>AST PI</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for application in applications %}
+                <tr>
+                    <td><a href="{% url 'detail' application.pk %}">{{ application.name }}</a></td>
+                    <td>{{ application.organization }}</td>
+                    <td> {% for region in application.region.all %}
+                        {{ region.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}</td>
+                    <td>{{ application.deployment_environment }}</td>
+                    <td>{% if application.code_repo_url %}
+                        <a href="{{ application.code_repo_url }}">{{ application.code_repo_url }}</a>{% else %}
+                        N/A{% endif %}</td>
+                    <td>{{ application.incomplete_info }}</td>
+                    <td>{{ application.active }}</td>
+                   <td>{{ application.log_set.exists }}</td>
+                    <td>{{ application.is_ast }}</td>
+                    <td>{{ application.ast_pi }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

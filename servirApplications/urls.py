@@ -25,6 +25,7 @@ urlpatterns = [
     path('detail/<int:post_id>', views.detail, name='detail'),
     path('developer/<int:post_id>', views.developer, name='developer'),
     path('scientist/<int:post_id>', views.scientist, name='scientist'),
+    path('app-table/', views.app_table, name='app-table'),
     path('login', views.login),
     path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
