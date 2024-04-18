@@ -144,7 +144,13 @@
                         {% endif %}
                             @ {{ app.organization }}</span>
                         </p>
-
+                        {% if app.ast_round > 0 %}
+                        <p style="margin-bottom: 15px; font-size: 18px;">AST Information: <span style="font-weight:500">
+                            PI Name: {{ app.ast_pi }}<br>
+                            AST Round: {{ app.ast_round }}<br>
+                        </p>
+                        {% endif %}
+    
                         <h3 class="product-title">Development Team:</h3>
 
                         <div class="flex-row">
