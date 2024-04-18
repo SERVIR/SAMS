@@ -132,7 +132,7 @@ class DeploymentEnvironment(models.Model):
 class Region(models.Model):
     name = models.CharField(help_text="Name of the region",
                             max_length=250)
-    accronym = models.CharField(help_text="Region accronym",max_length=4)
+    accronym = models.CharField(help_text="Region accronym",max_length=4, blank=True)
     organization = models.ManyToManyField('Organization', blank=True)
 
     def __str__(self):
