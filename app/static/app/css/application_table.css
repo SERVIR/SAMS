@@ -1,0 +1,144 @@
+/* Customize DataTables theme */
+/* Background colors */
+body {
+    background-color: #3C3837;
+    color: #fff;
+}
+
+/* Table header */
+.dataTables_wrapper .dataTables_scrollHead {
+    background-color: #B5B1B0;
+    color: #fff;
+}
+
+.table thead th {
+    color: unset;
+}
+
+.table tr:hover {
+    background-color: unset;
+}
+
+.table thead th:hover {
+    background-color: #fff;
+    color: #B5B1B0;
+}
+
+.table thead th.sorting_disabled:hover {
+    background-color: var(--bs-table-bg);
+    color: unset;
+}
+
+/* Table body */
+.dataTables_wrapper .dataTables_scrollBody {
+    background-color: #B5B1B0;
+    color: #fff;
+}
+
+/* Table footer */
+.dataTables_wrapper .dataTables_scrollFoot {
+    background-color: #3C3837;
+    color: #fff;
+}
+
+/* Pagination */
+.dataTables_paginate .paginate_button {
+    background-color: #204a70;
+    color: #fff;
+}
+
+/* Alternating row background colors */
+.dataTables_wrapper tbody tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.dataTables_wrapper tbody tr:nth-child(even) {
+    background-color: #b5b1b04a;
+}
+
+.checkmark-symbol::before {
+    content: '\2713';
+    color: green;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.x-symbol {
+    color: red; /* Change the color to red */
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.table {
+    background-color: #fff;
+    color: #363636;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+/* Adjust pagination container */
+.dataTables_wrapper .dataTables_paginate {
+    float: right;
+    text-align: right;
+    margin-top: 10px;
+}
+
+/* Adjust pagination buttons */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    margin-left: 5px;
+}
+
+.dataTables_filter {
+    text-align: right;
+}
+
+/* Default sorting icon (no sorting applied) */
+.sorting::after {
+    content: "\25B2\25BC"; /* Unicode characters for caret-up and caret-down */
+    margin-left: 5px; /* Adjust as needed */
+    opacity: 0.5; /* Reduced opacity */
+    font-size: 0.8em; /* Smaller font size */
+}
+
+/* Sorting icon for ascending order */
+.sorting_asc::after {
+    content: "\25B2"; /* Unicode character for caret-up */
+    margin-left: 5px; /* Adjust as needed */
+}
+
+/* Sorting icon for descending order */
+.sorting_desc::after {
+    content: "\25BC"; /* Unicode character for caret-down */
+    margin-left: 5px; /* Adjust as needed */
+}
+
+.sorting_disabled::after {
+    content: "";
+    margin-left: unset; /* Adjust as needed */
+}
+
+
+@media (max-width: 991px) {
+    .table.compact {
+        font-size: 13px;
+    }
+}
+
+/* Hide some columns on smaller screens */
+@media (max-width: 768px) {
+    #applicationsTable th:nth-child(4),
+    #applicationsTable td:nth-child(4),
+    #applicationsTable th:nth-child(5),
+    #applicationsTable td:nth-child(5) {
+        display: none;
+    }
+}
+
+/* Adjust font size and padding for smaller screens */
+@media (max-width: 576px) {
+    #applicationsTable th,
+    #applicationsTable td {
+        font-size: 12px;
+        padding: 5px;
+    }
+}

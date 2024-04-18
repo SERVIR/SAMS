@@ -1,10 +1,11 @@
 ﻿function setActive(which) {
     if(which) {
-        if ($("#" + which).length) {
-            $("#" + which).addClass("active");
+        const which_obj = $("#" + which);
+        if (which_obj.length) {
+            which_obj.addClass("active");
         } else {
             setTimeout(function () {
-                setActive(which)
+                setActive(which);
             }, 200);
         }
     }

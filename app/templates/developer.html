@@ -9,16 +9,8 @@
     <link href="{% static 'app/css/App.css' %}" rel="stylesheet"/>
     <link href="{% static 'app/css/detail.css' %}" rel="stylesheet"/>
     <link href="{% static 'app/css/staff.css' %}" rel="stylesheet"/>
+    <script src="{% static 'app/js/developer.js' %}"></script>
 
-    <script>
-        function handleExit() {
-            if (history.length > 1) {
-                history.back(); // Go back if there's history
-            } else {
-                window.close(); // Close the tab if there's no history
-            }
-        }
-    </script>
 {% endblock %}
 {% block content %}
     <div class="card">
@@ -31,13 +23,13 @@
                 style="position: absolute;right: 10px;top: 10px;"
                 onclick="handleExit();"
         />
-        <div class="container-fliud">
+        <div class="container-fluid">
             <div class="wrapper row">
                 <div class="profile col-md-4">
                     <img class="profile-pic"
-                    src="{{ staff.image_url }}"
-                    alt="{{ staff.name }}"
-                    title="{{ staff.name }}">
+                         src="{{ staff.image_url }}"
+                         alt="{{ staff.name }}"
+                         title="{{ staff.name }}">
                     <br><br>
                     <span class="tag is-light is-large">{{ staff.name }}, {{ staff.organization }}</span>
                 </div>
@@ -50,11 +42,11 @@
                             {% for app in staff.applications.all %}
                                 <li class="additional-link-div">
                                     <a href="/detail/{{ app.pk }}"
-                                        class="additional-link">{{ app.name }}
-                                    {% if app.url|length > 0 %}
-                                        <i class="fa-solid fa-link"></i>
+                                       class="additional-link">{{ app.name }}
+                                        {% if app.url|length > 0 %}
+                                            <i class="fa-solid fa-link"></i>
 
-                                    {% endif %}
+                                        {% endif %}
                                     </a>
                                     <br>
                                     {{ app.description|truncatechars:200 }}
@@ -68,17 +60,18 @@
             </div>
             <hr>
             <div>
-                <p>The SERVIR program is a joint initiative of NASA, USAID, and leading geospatial organizations 
+                <p>The SERVIR program is a joint initiative of NASA, USAID, and leading geospatial organizations
                     in Asia, Africa, and Latin America, SERVIR partners with countries and organizations to address
                     critical challenges in the following service areas:</p>
-                    <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;">
-                        <li>Agriculture and Food Security</li> 
-                        <li>Ecosystems and Carbon Managment</li>
-                        <li>Water Security</li>
-                        <li>Weather and Climate Resilience</li>
-                        <li>Air Quality and Health</li>
-                    </ul>
-                <p>Visit <a href="https://servirglobal.net" class="additional-link">SERVIRGlobal.net</a> for more information about the SERVIR Program</p>
+                <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;">
+                    <li>Agriculture and Food Security</li>
+                    <li>Ecosystems and Carbon Management</li>
+                    <li>Water Security</li>
+                    <li>Weather and Climate Resilience</li>
+                    <li>Air Quality and Health</li>
+                </ul>
+                <p>Visit <a href="https://servirglobal.net" class="additional-link">SERVIRGlobal.net</a> for more
+                    information about the SERVIR Program</p>
             </div>
         </div>
     </div>

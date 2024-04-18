@@ -61,16 +61,12 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{% static 'app/js/navloader.js' %}"></script>
     {% block script %}{% endblock %}
-
-    <script>
-
-        $(document).ready(function () {
-            setActive("{{ page }}");
-        });
-    </script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27020636-4"></script>
     <script>
+        $(document).ready(function () {
+            setActive("{{ page }}");
+        });
         window.dataLayer = window.dataLayer || [];
 
         function gtag() {
