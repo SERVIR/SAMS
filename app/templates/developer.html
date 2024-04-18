@@ -11,7 +11,13 @@
     <link href="{% static 'app/css/staff.css' %}" rel="stylesheet"/>
 
     <script>
-
+        function handleExit() {
+            if (history.length > 1) {
+                history.back(); // Go back if there's history
+            } else {
+                window.close(); // Close the tab if there's no history
+            }
+        }
     </script>
 {% endblock %}
 {% block content %}
@@ -23,7 +29,7 @@
                 class="btn-close btn-close-white pull-right"
                 aria-label="Close"
                 style="position: absolute;right: 10px;top: 10px;"
-                onclick="history.back();"
+                onclick="handleExit();"
         />
         <div class="container-fliud">
             <div class="wrapper row">
