@@ -1,5 +1,6 @@
 {% extends "apps_base.html" %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}SERVIR Application Management System - SAMS - Detail{% endblock %}
 {% block script %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
@@ -9,6 +10,42 @@
     <link href="{% static 'app/css/detail.css' %}" rel="stylesheet"/>
 
     <script src="{% static 'app/js/detail.js' %}"></script>
+    <script>
+    $(document).ready(function(){
+        // Submit form via Ajax
+        $('#logForm').submit(function(event) {
+            // Prevent default form submission
+            event.preventDefault();
+
+            // Serialize form data including the application ID
+            var formData = $(this).serialize() + '&application_id={{ app.id }}';
+
+            // Submit form data via Ajax
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'log-submit' %}',  // Replace 'log_submit_url' with the actual URL to submit the form
+                 headers: {
+                    'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()  // Include the CSRF token in the request headers
+                },
+                data: formData,
+                success: function(data) {
+                    // Append new log entry to the list
+                     var newLogEntry = '<li class="additional-link-div"><span class="badge badge-primary">' + data.date + '</span>' + data.log_entry + '</li>';
+                    $('#logList').prepend(newLogEntry);
+
+                    // Clear the textarea
+                    $('#logEntry').val('');
+                    // Clear the textarea
+                    $('#logEntry').val('');
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}
 {% block content %}
     <div class="card">
@@ -66,13 +103,25 @@
 
                         {% if request.user.is_staff %}
 
-                            <!-- Display Log Entries -->
-                            {% if app.log_set.count > 0 %}
+
+
+                                                        <!-- Display Log Entries -->
+
                                 <div style="margin-top: 20px;">
                                     <h2 class="product-title">Log Entries:</h2>
 
-                                    <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;">
-                                        {% for log_entry in app.log_set.all %}
+                                    <form id="logForm">
+                                        <div class="comment-box">
+                                            {% csrf_token %}
+                                            <textarea id="logEntry" name="log_entry" rows="4" cols="50"
+                                                      placeholder="Register new entry"></textarea>
+                                            <button id="log_btn" class="open-app btn btn-default" type="submit">
+                                            </button>
+                                        </div>
+                                    </form>
+
+                                    <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;" id="logList">
+                                        {% for log_entry in app.log_set.all|sort_by_date:"date_modified" %}
                                             <li class="additional-link-div">
                                                 <span class="badge badge-primary">{{ log_entry.date }}</span>
                                                 {{ log_entry.log_entry }}
@@ -81,7 +130,7 @@
                                         {% endfor %}
                                     </ul>
                                 </div>
-                            {% endif %}
+
 
                         {% endif %}
                     </div>
@@ -124,6 +173,38 @@
                             <p style="margin-bottom: 15px; font-size: 18px;line-height: 1.3;">AST Information: <span class="tag is-light" style="font-weight:500">{{ app.ast_pi }}, AST-{{ app.ast_round }}</span>
                         </p>
                         {% endif %}
+
+                    <h3 class="product-title">Development Environments:</h3>
+                    <p>
+                        {% for dev_env in app.deployment_environment.all|sort_case_insensitive:"name" %}
+
+                                {% if dev_env.name|lower == 'tethys' %}
+                                    <span class="tag is-light danger" style="font-weight:500">{{ dev_env.name }}</span>
+                                {% else %}
+                                    <span class="tag is-light" style="font-weight:500">{{ dev_env.name }}</span>
+                                {% endif %}
+                            {% empty %}
+                            <span class="tag is-light" style="font-weight:500">unspecified</span>
+
+                        {% endfor %}
+                    </p>
+
+                    <h3 class="product-title">Technology Stack:</h3>
+                    <p>
+                        {% for app_comp in app.application_components.all|sort_case_insensitive:"name" %}
+
+                                {% if app_comp.name|lower == 'tethys' %}
+                                    <span class="tag is-light danger" style="font-weight:500">{{ app_comp.name }}</span>
+                                {% else %}
+                                    <span class="tag is-light" style="font-weight:500">{{ app_comp.name }}</span>
+                                {% endif %}
+                            {% empty %}
+                            <span class="tag is-light" style="font-weight:500">unspecified</span>
+
+                        {% endfor %}
+                    </p>
+
+
     
                         <h3 class="product-title">Development Team:</h3>
 

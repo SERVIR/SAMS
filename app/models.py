@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django import utils
 from django.utils import timezone
 from datetime import date
@@ -25,7 +26,7 @@ class Application(models.Model):
     design_documentation_url = models.URLField(max_length=250, blank=True, help_text="Design documentation location")
     application_components = models.ManyToManyField('ApplicationComponent', blank=True)
     platform_description = models.TextField(help_text="Brief description of platform used in the app", blank=True)
-    deployment_environment = models.ForeignKey('DeploymentEnvironment', on_delete=models.CASCADE, blank=True)
+    deployment_environment = models.ManyToManyField('DeploymentEnvironment', blank=True)
     deployment_env_further_details = models.TextField(help_text="Further details about the deployment environment",
                                                       blank=True)
     date_released = models.DateField(default=utils.timezone.now,
@@ -108,6 +109,7 @@ class Log(models.Model):
     date = models.DateField(help_text="Date issue or milestone happened", blank=True, default=date.today)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='logs', default=7)  # Add this line
 
     def __str__(self):
         return self.application.name
@@ -121,6 +123,8 @@ class DeploymentEnvironment(models.Model):
     description = models.TextField(help_text="Brief description of the deployment environment", blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+    applications = models.ManyToManyField('Application', through=Application.deployment_environment.through, blank=True)
+
 
     def __str__(self):
         return self.name

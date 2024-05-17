@@ -1,9 +1,11 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.template.defaultfilters import date as django_date_format
 
-from .models import Application
+from .models import Application, Log
 from .models import ServiceArea
 from .models import Region
 from .models import Developer, Scientist
@@ -73,3 +75,24 @@ def is_scoscience(user):
 def app_table(request):
     applications = Application.objects.all()
     return render(request, 'application_table.html', {'applications': applications})
+
+
+def log_submit(request):
+    if request.method == 'POST':
+        log_entry_text = request.POST.get('log_entry')
+        application_id = request.POST.get('application_id')
+
+        application = get_object_or_404(Application, id=application_id)
+
+        # Create a new log entry
+        new_log = Log.objects.create(
+            application=application,
+            # Replace 'your_application_instance' with the actual application instance
+            log_entry=log_entry_text,
+            user=request.user  # Assign the current user
+        )
+
+        # Return the new log entry as JSON response
+        return JsonResponse({'date': django_date_format(new_log.date_modified, "M. j, Y"), 'log_entry': new_log.log_entry})
+    else:
+        return JsonResponse({'error': 'Invalid request method'})

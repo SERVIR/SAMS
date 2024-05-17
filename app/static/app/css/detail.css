@@ -33,6 +33,51 @@ img {
     background-color: #3C3837;
 }
 
+.comment-box {
+    background-color: #f0f2f5; /* Background color of the comment box */
+    border-radius: 16px; /* Rounded corners */
+    padding: 12px; /* Padding inside the comment box */
+    display: flex; /* Use flexbox to align items */
+    margin-top: 20px;
+    position: relative;
+}
+
+#logEntry {
+    border: none; /* Remove textarea border */
+    background-color: transparent; /* Transparent background */
+    flex: 1; /* Take up remaining space */
+    resize: none; /* Disable textarea resizing */
+}
+
+#log_btn {
+    margin-top: unset!important;
+    position: absolute; /* Position the button absolutely */
+    bottom: 5px; /* Distance from the bottom */
+    right: 5px; /* Distance from the right */
+    width: 30px; /* Button width */
+    height: 30px; /* Button height */
+    background-color: transparent;
+    border: none; /* Remove button border */
+    border-radius: 50%; /* Make button round */
+    padding: 0; /* Remove padding */
+    background-image: url('/static/app/img/arrow_icon.png'); /* Background image for arrow */
+    background-size:cover; /* Adjust background image size */
+    background-repeat: no-repeat; /* Do not repeat background image */
+    background-position: center; /* Center background image */
+    cursor: pointer; /* Add cursor pointer */
+}
+
+#log_btn:hover {
+     background-image: url('/static/app/img/arrow_icon_hover.png');
+}
+
+
+.tag.danger{
+    background-color:#efa4ab;
+    color:#842029;
+    border-color: #f5c2c7;
+}
+
 .app-button-wrapper{
     text-align:center;
 }

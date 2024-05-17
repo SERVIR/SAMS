@@ -61,10 +61,10 @@ class ApplicationAdminResource(resources.ModelResource):
 
 
 class ApplicationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
-    list_display = ('name', 'organization', 'deployment_environment', 'active', 'shown', 'display_priority', 'incomplete_info')
-    list_filter = ('active', 'shown', 'deployment_environment', 'ast_round', 'organization')
+    list_display = ('name', 'organization', 'active', 'shown', 'display_priority', 'incomplete_info')
+    list_filter = ('active', 'shown', 'ast_round', 'organization')
     search_fields = ('name', 'description', 'organization__name')
-    filter_horizontal = ('datasets', 'scientists', 'serviceareas', 'developers', 'application_components')
+    filter_horizontal = ('datasets', 'scientists', 'serviceareas', 'developers', 'deployment_environment',  'application_components')
     ordering = ('name',)
     inlines = [LinkInline, LogInline, ]
     fieldsets = (
@@ -229,9 +229,9 @@ class LogResource(resources.ModelResource):
 
 
 class LogAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
-    list_display = ('application', 'date_modified', 'log_entry')
+    list_display = ('application', 'date_modified', 'log_entry', 'user')
     list_filter = ('application',)
-    search_fields = ('application__name', 'log_entry')
+    search_fields = ('application__name', 'log_entry', 'user__username')
     ordering = ('application',)
     date_hierarchy = 'date_added'
     resource_class = LogResource
@@ -279,7 +279,7 @@ class DeploymentEnvironmentAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
     search_fields = ('name', 'description')
     ordering = ('name',)
-    inlines = [AppInline, ]
+    filter_horizontal = ('applications',)
     resource_class = DeploymentEnvironmentResource
 
 
