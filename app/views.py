@@ -15,6 +15,9 @@ from io import BytesIO
 from .models import Application
 
 
+
+app_version = 1.02
+
 # Create your views here.
 def index(request):
     return render(request, "index.html", context={
@@ -34,7 +37,8 @@ def detail(request, post_id):
 
     context = {
         "app": app,
-        "svg": svg
+        "svg": svg,
+        "version": app_version
     }
     return render(request, "detail.html", context=context)
 
