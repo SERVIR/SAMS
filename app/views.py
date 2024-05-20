@@ -85,9 +85,9 @@ def fill_information(request):
             approvers = approver_group.user_set.all()
 
             # Construct the email content
-            subject = 'New User Role Submission'
+            subject = 'SAMS New User Role Submission'
             message = f"""
-                       A new user has submitted their role information:
+                       A new user for SAMS has submitted their role information:
                        User ID: <a href='https://sams.servirglobal.net/admin/auth/user/{user.id}/change/'>{user.id}</a>
                        Name: {user.get_full_name() or user.username}
                        Role: {role}
