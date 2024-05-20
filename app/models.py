@@ -4,6 +4,10 @@ from django import utils
 from django.utils import timezone
 from datetime import date
 
+# models.py
+from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.db import models
+
 
 # ---------------------------------------------------------------------------------------------
 # Application model - This is the main model for the application
@@ -40,10 +44,10 @@ class Application(models.Model):
                                            default=10, blank=True)
     incomplete_info = models.BooleanField(default=True, help_text="Application needs more information added?")
     ast_pi = models.ForeignKey('Scientist', on_delete=models.CASCADE, related_name="PI_Scientist",
-                                     help_text="Scientist who is/was the PI when the application was developed",
+                               help_text="Scientist who is/was the PI when the application was developed",
                                blank=True, default=None, null=True)
     ast_round = models.IntegerField(help_text="AST round they were involved with when the app was created",
-                                           default=None, blank=True, null=True)
+                                    default=None, blank=True, null=True)
 
     def get_absolute_url(self):
         from django.urls import reverse
@@ -125,7 +129,6 @@ class DeploymentEnvironment(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     applications = models.ManyToManyField('Application', through=Application.deployment_environment.through, blank=True)
 
-
     def __str__(self):
         return self.name
 
@@ -136,7 +139,7 @@ class DeploymentEnvironment(models.Model):
 class Region(models.Model):
     name = models.CharField(help_text="Name of the region",
                             max_length=250)
-    accronym = models.CharField(help_text="Region accronym",max_length=4, blank=True)
+    accronym = models.CharField(help_text="Region accronym", max_length=4, blank=True)
     organization = models.ManyToManyField('Organization', blank=True)
 
     def __str__(self):

@@ -1,5 +1,6 @@
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -13,13 +14,19 @@ import qrcode
 import qrcode.image.svg
 from io import BytesIO
 from .models import Application
+from .custom_forms import UserRoleForm
+from django.contrib.auth.models import Group
+from django.core.mail import send_mail
 
+app_version = 1.03
 
-
-app_version = 1.02
 
 # Create your views here.
 def index(request):
+    is_new_user = request.session.get('is_new_user', False)
+    if is_new_user:
+        del request.session['is_new_user']
+        return HttpResponseRedirect('fill_information')
     return render(request, "index.html", context={
         "apps": Application.objects.exclude(shown=False).all().order_by("display_priority"),
         "service_areas": ServiceArea.objects.all(),
@@ -66,6 +73,40 @@ def login(request):
     return response
 
 
+def fill_information(request):
+    if request.method == 'POST':
+        form = UserRoleForm(request.POST)
+        if form.is_valid():
+            role = form.cleaned_data['role']
+            other_explanation = form.cleaned_data.get('other_explanation', '')
+            user = request.user
+            # Fetch all users in the Approvers group
+            approver_group = Group.objects.get(name='Approver')
+            approvers = approver_group.user_set.all()
+
+            # Construct the email content
+            subject = 'New User Role Submission'
+            message = f"""
+                       A new user has submitted their role information:
+                       User ID: <a href='https://sams.servirglobal.net/admin/auth/user/{user.id}/change/'>{user.id}</a>
+                       Name: {user.get_full_name() or user.username}
+                       Role: {role}
+                       """
+            if role == 'Other collaborator' and other_explanation:
+                message += f"Other Explanation: {other_explanation}"
+
+            # Send the email to all approvers
+            approvers_emails = [approver.email for approver in approvers if approver.email]
+            send_mail(subject, message, 'your_email@example.com', approvers_emails)
+
+            # Redirect to home or another page after successful submission
+            return redirect('home')
+    else:
+        form = UserRoleForm()
+
+    return render(request, 'fill_information.html', {'form': form})
+
+
 def about(request):
     return render(request, "about.html", context={})
 
@@ -97,6 +138,7 @@ def log_submit(request):
         )
 
         # Return the new log entry as JSON response
-        return JsonResponse({'date': django_date_format(new_log.date_modified, "M. j, Y"), 'log_entry': new_log.log_entry})
+        return JsonResponse(
+            {'date': django_date_format(new_log.date_modified, "M. j, Y"), 'log_entry': new_log.log_entry})
     else:
         return JsonResponse({'error': 'Invalid request method'})

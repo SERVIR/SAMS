@@ -64,7 +64,8 @@ class ApplicationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     list_display = ('name', 'organization', 'active', 'shown', 'display_priority', 'incomplete_info')
     list_filter = ('active', 'shown', 'ast_round', 'organization')
     search_fields = ('name', 'description', 'organization__name')
-    filter_horizontal = ('datasets', 'scientists', 'serviceareas', 'developers', 'deployment_environment',  'application_components')
+    filter_horizontal = (
+        'datasets', 'scientists', 'serviceareas', 'developers', 'deployment_environment', 'application_components')
     ordering = ('name',)
     inlines = [LinkInline, LogInline, ]
     fieldsets = (
@@ -73,7 +74,7 @@ class ApplicationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
         }),
         ('Infrastructure', {
             'fields': (
-            'deployment_environment', 'deployment_env_further_details', 'application_components', 'datasets',)
+                'deployment_environment', 'deployment_env_further_details', 'application_components', 'datasets',)
         }),
         ('AST Involvement', {
             'fields': ('ast_pi', 'ast_round',)
@@ -86,7 +87,7 @@ class ApplicationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
         }),
         ('Status', {
             'fields': (
-            'date_released', 'active', 'date_decommissioned', 'shown', 'display_priority', 'incomplete_info',)
+                'date_released', 'active', 'date_decommissioned', 'shown', 'display_priority', 'incomplete_info',)
         }),
 
     )

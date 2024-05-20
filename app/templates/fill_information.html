@@ -1,0 +1,88 @@
+{% extends "apps_base.html" %}
+{% load static %}
+{% block title %}SERVIR Application Management System - SAMS - Detail{% endblock %}
+{% block script %}
+   <style>
+        .hidden { display: none; }
+
+        #title_class {
+            padding-top: 1.5rem;
+            width: 75%;
+            margin: auto;
+            font-size: 2.5rem;
+            font-family: Arial, serif;
+            text-shadow: black 0.1em 0.1em 0.2em;
+            color: white;
+        }
+        .vertical_center {
+    margin: 0;
+    position: absolute;
+    width: 100%;
+    top: 18px;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+    </style>
+    <script>
+        function toggleOtherExplanation() {
+            var otherExplanation = document.getElementById('otherExplanation');
+            var roleSelect = document.getElementById('id_role');
+            console.log("changed");
+            if (roleSelect.value === 'Other collaborator') {
+                otherExplanation.classList.remove('hidden');
+            } else {
+                otherExplanation.classList.add('hidden');
+            }
+        }
+
+        $(document).ready(function () {
+
+            var roleSelect = $('#id_role');
+            roleSelect.on('change', toggleOtherExplanation);
+            toggleOtherExplanation();  // Initialize on page load
+
+        });
+
+    </script>
+
+{% endblock %}
+{% block content %}
+    <div style="position: relative; height: 600px;background-image: url(/static/app/img/sign-up-hero.png);background-size: cover;background-position: center;">
+            <!-- Hero image in the home page -->
+            <div>
+
+                <div class="card-img-overlay ">
+                    <div class="text-center text-white vertical_center">
+                        <!-- Title on the hero image-->
+                        <p id="title_class">
+                            Welcome to SAMS </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <br>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Thank You for Registering</h2>
+                <p class="card-text">Please provide additional information to complete your registration.</p>
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        {{ form.role }}
+                    </div>
+                    <div id="otherExplanation" class="form-group hidden">
+                        <label for="id_other_explanation">Explanation</label>
+                        {{ form.other_explanation }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                <hr>
+                <p class="card-text">This information will be used to assign you to the appropriate role within the
+                    application, ensuring you receive the necessary permissions for your specific needs.</p>
+            </div>
+        </div>
+    <br>
+    </div>
+{% endblock %}
