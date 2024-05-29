@@ -6,6 +6,28 @@
      <script src="{% static 'app/js/index.js' %}"></script>
 {% endblock %}
 {% block content %}
+    {% if request.user.is_authenticated and request.user.is_staff and new_users %}
+        <div class="alert alert-info accordion" role="alert" id="new_user_alert">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#newUsersCollapse" aria-expanded="true" aria-controls="newUsersCollapse">
+                        New Users in the Last 7 Days
+                    </button>
+                </h2>
+                <div id="newUsersCollapse" class="accordion-collapse collapse show" data-bs-parent="#new_user_alert">
+                    <ul>
+                        {% for user in new_users %}
+                            <li>
+                                {{ user.username }} - <a href="{% url 'admin:auth_user_change' user.id %}">Edit</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
     <div style="background-color: #3c3837;">
         <div>
             <div class="searchFilter">

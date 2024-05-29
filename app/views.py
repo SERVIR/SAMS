@@ -27,11 +27,17 @@ def index(request):
     if is_new_user:
         del request.session['is_new_user']
         return HttpResponseRedirect('fill_information')
-    return render(request, "index.html", context={
+    context={
         "apps": Application.objects.exclude(shown=False).all().order_by("display_priority"),
         "service_areas": ServiceArea.objects.all(),
         "regions": Region.objects.all()
-    })
+    }
+
+    # Include new users if the request has new_users attribute (set by middleware)
+    if hasattr(request, 'new_users'):
+        context['new_users'] = request.new_users
+
+    return render(request, "index.html", context=context)
 
 
 def detail(request, post_id):
