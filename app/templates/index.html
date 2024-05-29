@@ -6,7 +6,7 @@
      <script src="{% static 'app/js/index.js' %}"></script>
 {% endblock %}
 {% block content %}
-    {% if request.user.is_authenticated and request.user.is_staff and new_users %}
+    {% if request.user.is_authenticated and is_approver and new_users %}
         <div class="alert alert-info accordion" role="alert" id="new_user_alert">
             <div class="accordion-item">
                 <h2 class="accordion-header">
