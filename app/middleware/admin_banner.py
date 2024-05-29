@@ -11,7 +11,7 @@ class AdminBannerMiddleware(MiddlewareMixin):
             seven_days_ago = timezone.now() - timedelta(days=7)
 
             # Define the groups to exclude
-            excluded_groups = ["App Editor", "Approver", "scoscience"]
+            excluded_groups = ["Approver", "scoscience", "Viewer"]
 
             # Retrieve the groups
             excluded_group_objects = Group.objects.filter(name__in=excluded_groups)
