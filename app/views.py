@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.template.defaultfilters import date as django_date_format
 
-from .models import Application, Log, Feedback
+from .models import Application, Log, Feedback, GeneralFeedback
 from .models import ServiceArea
 from .models import Region
 from .models import Developer, Scientist
@@ -152,5 +152,21 @@ def feedback_submit(request):
         # Return the new log entry as JSON response
         return JsonResponse(
             {'date': django_date_format(new_feedback.date_modified, "M. j, Y"), 'feedback_entry': new_feedback.feedback_entry})
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
+
+
+def general_feedback_submit(request):
+    if request.method == 'POST':
+        feedback_entry_text = request.POST.get('feedback')
+
+        # Create a new feedback entry
+        new_feedback = GeneralFeedback.objects.create(
+            feedback_entry=feedback_entry_text, user=request.user  # Assign the current user
+        )
+
+        # Return the new log entry as JSON response
+        return JsonResponse(
+            {'date': django_date_format(new_feedback.date_modified, "M. j, Y"), 'message': "Thank you for your feedback."})
     else:
         return JsonResponse({'error': 'Invalid request method'})

@@ -60,6 +60,29 @@
             integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{% static 'app/js/navloader.js' %}"></script>
+<script>
+        $(document).ready(function() {
+            $('#generalFeedbackForm').on('submit', function(event) {
+                event.preventDefault();
+                var formData = {
+                    feedback: $('#feedback').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "general-feedback-submit" %}',
+                    data: formData,
+                    success: function(response) {
+                        $('#feedbackModal').modal('hide');
+                        alert(response.message);
+                    },
+                    error: function(response) {
+                        alert('An error occurred: ' + response.responseJSON.message);
+                    }
+                });
+            });
+        });
+    </script>
     {% block script %}{% endblock %}
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27020636-4"></script>
@@ -77,6 +100,29 @@
 
         gtag('config', 'UA-27020636-4');
     </script>
+<style>
+    .modal{
+        z-index: 9999;
+    }
+    .modal .btn{
+    background: #5A9BD5;
+    padding: 0.75em 2.5em;
+    margin-top: 15px;
+    border: none;
+    text-transform: UPPERCASE;
+    font-weight: bold;
+    color: #fff;
+    -webkit-transition: background .3s ease;
+    transition: background .3s ease;
+}
+    .modal-title, .modal-body{
+        color: #5A9BD5;
+    }
+    .modal .close{
+            background: #5A9BD5;
+    }
+
+</style>
 
 </head>
 <body>
@@ -124,6 +170,14 @@
 
                         </form>
                     {% endif %}
+                {% if request.user.is_staff %}
+
+                     <p class="display-name separator"> |</p>
+                            <p><a class="nav-link" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+                            General Feedback
+                        </a>
+                    </p>
+                {% endif %}
                     {% for group in user_groups %}
                         {% if group.name == 'scoscience' %}
                             <p class="display-name separator"> |</p>
@@ -141,6 +195,29 @@
     </nav>
 </header>
 <div class="flex-wrapper">
+<!-- Modal -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="feedbackModalLabel">General Feedback</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="generalFeedbackForm">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="feedback">Your Feedback</label>
+                        <textarea class="form-control" id="feedback" name="feedback" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
     {% block content %}{% endblock %}
     <div class="d-flex flex-column">
         <footer id="footer">

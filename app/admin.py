@@ -314,3 +314,5 @@ class DeploymentEnvironmentAdmin(admin.ModelAdmin):
 
 
 admin.site.register(DeploymentEnvironment, DeploymentEnvironmentAdmin)
+
+admin.site.register(GeneralFeedback)

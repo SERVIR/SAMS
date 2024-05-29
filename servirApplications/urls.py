@@ -28,6 +28,7 @@ urlpatterns = [
     path('app-table/', views.app_table, name='app-table'),
     path('log-submit/', views.log_submit, name='log-submit'),
     path('feedback-submit/', views.feedback_submit, name='feedback-submit'),
+    path('general-feedback-submit/', views.general_feedback_submit, name='general-feedback-submit'),
     path('fill_information/', views.fill_information, name='fill_information'),
     path('login', views.login),
     path('accounts/', include('allauth.urls')),

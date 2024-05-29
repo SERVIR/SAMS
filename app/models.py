@@ -135,6 +135,21 @@ class Feedback(models.Model):
 
 
 # ---------------------------------------------------------------------------------------------
+# Feedback model - For feedback regarding specific applications
+# ---------------------------------------------------------------------------------------------
+class GeneralFeedback(models.Model):
+    feedback_entry = models.TextField()
+    date = models.DateField(help_text="Date feedback reported", blank=True, default=date.today)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='generalfeedback')
+    resolved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user.get_username()} {self.date.strftime('%m/%d/%Y')}"
+
+
+# ---------------------------------------------------------------------------------------------
 # Deployment environments - To track where the application is deployed
 # ---------------------------------------------------------------------------------------------
 class DeploymentEnvironment(models.Model):
