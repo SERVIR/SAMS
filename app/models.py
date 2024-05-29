@@ -123,30 +123,17 @@ class Log(models.Model):
 # Feedback model - For feedback regarding specific applications
 # ---------------------------------------------------------------------------------------------
 class Feedback(models.Model):
-    application = models.ForeignKey('Application', on_delete=models.CASCADE)
+    application = models.ForeignKey('Application', on_delete=models.CASCADE, default=None, null=True)
     feedback_entry = models.TextField()
     date = models.DateField(help_text="Date feedback reported", blank=True, default=date.today)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='feedback', default=7)  # Add this line
-
-    def __str__(self):
-        return self.application.name
-
-
-# ---------------------------------------------------------------------------------------------
-# Feedback model - For feedback regarding specific applications
-# ---------------------------------------------------------------------------------------------
-class GeneralFeedback(models.Model):
-    feedback_entry = models.TextField()
-    date = models.DateField(help_text="Date feedback reported", blank=True, default=date.today)
-    date_added = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='generalfeedback')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='feedback', default=7)
     resolved = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.user.get_username()} {self.date.strftime('%m/%d/%Y')}"
+        return str(self.pk)
+
 
 
 # ---------------------------------------------------------------------------------------------

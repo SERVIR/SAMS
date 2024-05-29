@@ -259,8 +259,8 @@ class FeedbackResource(resources.ModelResource):
 
 
 class FeedbackAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
-    list_display = ('application', 'date_modified', 'feedback_entry', 'user')
-    list_filter = ('application',)
+    list_display = ('application', 'date_modified', 'feedback_entry', 'user', 'resolved')
+    list_filter = ('application', 'resolved')
     search_fields = ('application__name', 'feedback_entry', 'user__username')
     ordering = ('application',)
     date_hierarchy = 'date_added'
@@ -315,4 +315,3 @@ class DeploymentEnvironmentAdmin(admin.ModelAdmin):
 
 admin.site.register(DeploymentEnvironment, DeploymentEnvironmentAdmin)
 
-admin.site.register(GeneralFeedback)

@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.template.defaultfilters import date as django_date_format
 
-from .models import Application, Log, Feedback, GeneralFeedback
+from .models import Application, Log, Feedback
 from .models import ServiceArea
 from .models import Region
 from .models import Developer, Scientist
@@ -161,7 +161,7 @@ def general_feedback_submit(request):
         feedback_entry_text = request.POST.get('feedback')
 
         # Create a new feedback entry
-        new_feedback = GeneralFeedback.objects.create(
+        new_feedback = Feedback.objects.create(
             feedback_entry=feedback_entry_text, user=request.user  # Assign the current user
         )
 
