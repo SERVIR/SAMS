@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.template.defaultfilters import date as django_date_format
 
-from .models import Application, Log
+from .models import Application, Log, Feedback
 from .models import ServiceArea
 from .models import Region
 from .models import Developer, Scientist
@@ -27,11 +27,8 @@ def index(request):
     if is_new_user:
         del request.session['is_new_user']
         return HttpResponseRedirect('fill_information')
-    context={
-        "apps": Application.objects.exclude(shown=False).all().order_by("display_priority"),
-        "service_areas": ServiceArea.objects.all(),
-        "regions": Region.objects.all()
-    }
+    context = {"apps": Application.objects.exclude(shown=False).all().order_by("display_priority"),
+        "service_areas": ServiceArea.objects.all(), "regions": Region.objects.all()}
 
     # Include new users if the request has new_users attribute (set by middleware)
     if hasattr(request, 'new_users'):
@@ -48,29 +45,21 @@ def detail(request, post_id):
     img.save(stream)
     svg = stream.getvalue().decode()
 
-    context = {
-        "app": app,
-        "svg": svg,
-        "version": app_version
-    }
+    context = {"app": app, "svg": svg, "version": app_version}
     return render(request, "detail.html", context=context)
 
 
 def scientist(request, post_id):
     scientist = Scientist.objects.get(pk=post_id)
 
-    context = {
-        "staff": scientist,
-    }
+    context = {"staff": scientist, }
     return render(request, "developer.html", context=context)
 
 
 def developer(request, post_id):
     developer = Developer.objects.get(pk=post_id)
 
-    context = {
-        "staff": developer,
-    }
+    context = {"staff": developer, }
     return render(request, "developer.html", context=context)
 
 
@@ -137,15 +126,31 @@ def log_submit(request):
         application = get_object_or_404(Application, id=application_id)
 
         # Create a new log entry
-        new_log = Log.objects.create(
-            application=application,
-            # Replace 'your_application_instance' with the actual application instance
-            log_entry=log_entry_text,
-            user=request.user  # Assign the current user
+        new_log = Log.objects.create(application=application,
+            log_entry=log_entry_text, user=request.user  # Assign the current user
         )
 
         # Return the new log entry as JSON response
         return JsonResponse(
             {'date': django_date_format(new_log.date_modified, "M. j, Y"), 'log_entry': new_log.log_entry})
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
+
+
+def feedback_submit(request):
+    if request.method == 'POST':
+        feedback_entry_text = request.POST.get('feedback_entry')
+        application_id = request.POST.get('application_id')
+
+        application = get_object_or_404(Application, id=application_id)
+
+        # Create a new feedback entry
+        new_feedback = Feedback.objects.create(application=application,
+            feedback_entry=feedback_entry_text, user=request.user  # Assign the current user
+        )
+
+        # Return the new log entry as JSON response
+        return JsonResponse(
+            {'date': django_date_format(new_feedback.date_modified, "M. j, Y"), 'feedback_entry': new_feedback.feedback_entry})
     else:
         return JsonResponse({'error': 'Invalid request method'})

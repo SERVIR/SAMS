@@ -51,6 +51,14 @@ class LogInline(admin.TabularInline):
     model = Log
 
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Application admin page
+# Added inlines to show feedback entries and links
+# ----------------------------------------------------------------------------------------------------------------------
+class FeedbackInline(admin.TabularInline):
+    model = Feedback
+
+
 class LinkInline(admin.TabularInline):
     model = Link
 
@@ -67,7 +75,7 @@ class ApplicationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
     filter_horizontal = (
         'datasets', 'scientists', 'serviceareas', 'developers', 'deployment_environment', 'application_components')
     ordering = ('name',)
-    inlines = [LinkInline, LogInline, ]
+    inlines = [LinkInline, LogInline, FeedbackInline]
     fieldsets = (
         ('Identification', {
             'fields': ('name', 'description', 'url', 'icon', 'organization', 'region', 'serviceareas',),
@@ -239,6 +247,27 @@ class LogAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 
 
 admin.site.register(Log, LogAdmin)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Log model admin page
+# Added ModelResource to allow import/export
+# ----------------------------------------------------------------------------------------------------------------------
+class FeedbackResource(resources.ModelResource):
+    class Meta:
+        model = Feedback
+
+
+class FeedbackAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
+    list_display = ('application', 'date_modified', 'feedback_entry', 'user')
+    list_filter = ('application',)
+    search_fields = ('application__name', 'feedback_entry', 'user__username')
+    ordering = ('application',)
+    date_hierarchy = 'date_added'
+    resource_class = FeedbackResource
+
+
+admin.site.register(Feedback, FeedbackAdmin)
 
 
 # ----------------------------------------------------------------------------------------------------------------------

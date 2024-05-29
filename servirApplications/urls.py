@@ -27,6 +27,7 @@ urlpatterns = [
     path('scientist/<int:post_id>', views.scientist, name='scientist'),
     path('app-table/', views.app_table, name='app-table'),
     path('log-submit/', views.log_submit, name='log-submit'),
+    path('feedback-submit/', views.feedback_submit, name='feedback-submit'),
     path('fill_information/', views.fill_information, name='fill_information'),
     path('login', views.login),
     path('accounts/', include('allauth.urls')),

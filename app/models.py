@@ -120,6 +120,21 @@ class Log(models.Model):
 
 
 # ---------------------------------------------------------------------------------------------
+# Feedback model - For feedback regarding specific applications
+# ---------------------------------------------------------------------------------------------
+class Feedback(models.Model):
+    application = models.ForeignKey('Application', on_delete=models.CASCADE)
+    feedback_entry = models.TextField()
+    date = models.DateField(help_text="Date feedback reported", blank=True, default=date.today)
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='feedback', default=7)  # Add this line
+
+    def __str__(self):
+        return self.application.name
+
+
+# ---------------------------------------------------------------------------------------------
 # Deployment environments - To track where the application is deployed
 # ---------------------------------------------------------------------------------------------
 class DeploymentEnvironment(models.Model):

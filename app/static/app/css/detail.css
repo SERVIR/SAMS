@@ -42,14 +42,14 @@ img {
     position: relative;
 }
 
-#logEntry {
+#logEntry, #feedbackEntry {
     border: none; /* Remove textarea border */
     background-color: transparent; /* Transparent background */
     flex: 1; /* Take up remaining space */
     resize: none; /* Disable textarea resizing */
 }
 
-#log_btn {
+#log_btn, #feedback_btn {
     margin-top: unset!important;
     position: absolute; /* Position the button absolutely */
     bottom: 5px; /* Distance from the bottom */
@@ -67,7 +67,7 @@ img {
     cursor: pointer; /* Add cursor pointer */
 }
 
-#log_btn:hover {
+#log_btn:hover, #feedback_btn:hover {
      background-image: url('/static/app/img/arrow_icon_hover.png');
 }
 

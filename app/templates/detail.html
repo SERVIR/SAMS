@@ -44,6 +44,38 @@
                 }
             });
         });
+
+        $('#feedbackForm').submit(function(event) {
+            // Prevent default form submission
+            event.preventDefault();
+
+            // Serialize form data including the application ID
+            var formData = $(this).serialize() + '&application_id={{ app.id }}';
+
+            // Submit form data via Ajax
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'feedback-submit' %}',  // Replace 'log_submit_url' with the actual URL to submit the form
+                 headers: {
+                    'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()  // Include the CSRF token in the request headers
+                },
+                data: formData,
+                success: function(data) {
+                    // Append new log entry to the list
+                     var newFeedbackEntry = '<li class="additional-link-div"><span class="badge badge-primary">' + data.date + '</span>' + data.feedback_entry + '</li>';
+                    $('#feedbackList').prepend(newFeedbackEntry);
+
+                    // Clear the textarea
+                    $('#feedbackEntry').val('');
+                    // Clear the textarea
+                    $('#feedbackEntry').val('');
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    console.error(xhr.responseText);
+                }
+            });
+        });
     });
 </script>
 {% endblock %}
@@ -101,38 +133,7 @@
                                 </div>
                             {% endif %}
 
-                        {% if request.user.is_staff %}
 
-
-
-                                                        <!-- Display Log Entries -->
-
-                                <div style="margin-top: 20px;">
-                                    <h2 class="product-title">Log Entries:</h2>
-
-                                    <form id="logForm">
-                                        <div class="comment-box">
-                                            {% csrf_token %}
-                                            <textarea id="logEntry" name="log_entry" rows="4" cols="50"
-                                                      placeholder="Register new entry"></textarea>
-                                            <button id="log_btn" class="open-app btn btn-default" type="submit">
-                                            </button>
-                                        </div>
-                                    </form>
-
-                                    <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;" id="logList">
-                                        {% for log_entry in app.log_set.all|sort_by_date:"date_modified" %}
-                                            <li class="additional-link-div">
-                                                <span class="badge badge-primary">{{ log_entry.date }}</span>
-                                                {{ log_entry.log_entry }}
-                                            </li>
-
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-
-
-                        {% endif %}
                     </div>
 
                 </div>
@@ -243,6 +244,72 @@
 
                     </div>
                 </div>
+                {% if request.user.is_staff %}
+
+
+
+                    <!-- Display Log Entries -->
+                    <div class="row">
+                        <br>
+
+                        <div class="col-md-6">
+                            <div style="margin-top: 20px;">
+                                <h2 class="product-title">Log Entries:</h2>
+
+                                <form id="logForm">
+                                    <div class="comment-box">
+                                        {% csrf_token %}
+                                        <textarea id="logEntry" name="log_entry" rows="4" cols="50"
+                                                  placeholder="Register new entry"></textarea>
+                                        <button id="log_btn" class="open-app btn btn-default" type="submit">
+                                        </button>
+                                    </div>
+                                </form>
+
+                                <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;"
+                                    id="logList">
+                                    {% for log_entry in app.log_set.all|sort_by_date:"date_modified" %}
+                                        <li class="additional-link-div">
+                                            <span class="badge badge-primary">{{ log_entry.date }}</span>
+                                            {{ log_entry.log_entry }}
+                                        </li>
+
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="margin-top: 20px;">
+                                <h2 class="product-title">Feedback:</h2>
+
+                                <form id="feedbackForm">
+                                    <div class="comment-box">
+                                        {% csrf_token %}
+                                        <textarea id="feedbackEntry" name="feedback_entry" rows="4" cols="50"
+                                                  placeholder="Add Feedback"></textarea>
+                                        <button id="feedback_btn" class="open-app btn btn-default" type="submit">
+                                        </button>
+                                    </div>
+                                </form>
+
+                                <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;"
+                                    id="feedbackList">
+                                    {% for feedback_entry in app.feedback_set.all|sort_by_date:"date_modified" %}
+                                        <li class="additional-link-div">
+                                            <span class="badge badge-primary">{{ feedback_entry.date }}</span>
+                                            {{ feedback_entry.feedback_entry }}
+                                        </li>
+
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                {% endif %}
             </div>
         </div>
     </div>
