@@ -183,7 +183,12 @@
                                 <a href="/admin/app/application/{{ app.pk }}/change/"><i
                                         class="fa-solid fa-pen-to-square detail-edit"></i></a>{% endif %}
 
-                            <span id="like-status" style="float:right; margin-left: 5px; font-size: 50%; line-height: 200%;">
+
+                            </h3>
+                        <h3>
+                        <i class="fa-solid fa-thumbs-up" id="like-btn" ></i>
+{#                        <img id="like-btn" src="{% static 'app/img/likes.png' %}" alt="Like" style="cursor: pointer; max-width: 30px; "/>#}
+                            <span id="like-status" style=" margin-left: 5px; font-size: 50%; line-height: 200%;">
                                 {% if i_like  %}
                                     You{% if total_likes_count > 0 %} and {{ total_likes_count }} other{% if total_likes_count > 1 %}s{% endif %} like this{% else %} like this{% endif %}
                                 {% else %}
@@ -195,8 +200,8 @@
                                 {% endif %}
 
                         </span>
-                            <img id="like-btn" src="{% static 'app/img/likes.png' %}" alt="Like" style="cursor: pointer; max-width: 30px; float:right;"/>
-                            </h3>
+
+                        </h3>
                             {% if app.incomplete_info %}
                                 <h3 class="product-title" style="font-size: 100%;">[ Additional information required ]</h3>
                             {% endif %}

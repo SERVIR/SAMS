@@ -128,11 +128,11 @@ img {
     }
 }
 
-.detail-edit{
+.detail-edit, #like-btn{
     color:#B5B1B0; padding: 0 5px;
 }
 
-.detail-edit:hover{
+.detail-edit:hover, #like-btn:hover{
     color: #888888; padding: 0 5px;
 }
 

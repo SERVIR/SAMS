@@ -18,7 +18,7 @@ from .custom_forms import UserRoleForm
 from django.contrib.auth.models import Group
 from django.core.mail import send_mail
 
-app_version = 1.04
+app_version = 1.05
 
 
 # Create your views here.
