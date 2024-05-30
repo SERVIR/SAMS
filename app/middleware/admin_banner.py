@@ -4,6 +4,8 @@ from django.contrib.auth.models import User, Group
 from django.utils import timezone
 from datetime import timedelta
 
+from app.models import Feedback
+
 
 class AdminBannerMiddleware(MiddlewareMixin):
     def process_view(self, request, view_func, view_args, view_kwargs):
@@ -21,6 +23,13 @@ class AdminBannerMiddleware(MiddlewareMixin):
 
             # Exclude users who belong to any of the excluded groups
             new_users = new_users.exclude(groups__in=excluded_group_objects).distinct()
+            unresolved_feedback = Feedback.objects.filter(resolved=False)
 
-            request.new_users = new_users
+            if new_users or unresolved_feedback:
+
+                if not hasattr(request, 'extras'):
+                    request.extras = type('extras', (object,), {})()
+
+                request.extras.new_users = new_users
+                request.extras.unresolved_feedback = unresolved_feedback
         return None
