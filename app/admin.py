@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from import_export.admin import ImportExportActionModelAdmin
@@ -253,12 +254,23 @@ admin.site.register(Log, LogAdmin)
 # Log model admin page
 # Added ModelResource to allow import/export
 # ----------------------------------------------------------------------------------------------------------------------
+class FeedbackAdminForm(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['application'].required = False
+
+
 class FeedbackResource(resources.ModelResource):
     class Meta:
         model = Feedback
 
 
 class FeedbackAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
+    form = FeedbackAdminForm
     list_display = ('application', 'date_modified', 'feedback_entry', 'user', 'resolved')
     list_filter = ('application', 'resolved')
     search_fields = ('application__name', 'feedback_entry', 'user__username')
