@@ -1,12 +1,12 @@
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.template.defaultfilters import date as django_date_format
 
-from .models import Application, Log, Feedback
+from .models import Application, Log, Feedback, Like
 from .models import ServiceArea
 from .models import Region
 from .models import Developer, Scientist
@@ -18,7 +18,7 @@ from .custom_forms import UserRoleForm
 from django.contrib.auth.models import Group
 from django.core.mail import send_mail
 
-app_version = 1.03
+app_version = 1.04
 
 
 # Create your views here.
@@ -44,9 +44,29 @@ def detail(request, post_id):
     stream = BytesIO()
     img.save(stream)
     svg = stream.getvalue().decode()
+    total_likes_count = app.like_set.count()
+    i_like = Like.objects.filter(application=app, user=request.user).exists()
 
-    context = {"app": app, "svg": svg, "version": app_version}
+    if i_like:
+        total_likes_count -= 1
+
+    context = {"app": app, "svg": svg, "version": app_version, "i_like":i_like, "total_likes_count":total_likes_count}
     return render(request, "detail.html", context=context)
+
+
+@login_required
+def toggle_like(request, app_id):
+    application = get_object_or_404(Application, id=app_id)
+    like, created = Like.objects.get_or_create(user=request.user, application=application)
+    if not created:
+        like.delete()
+
+    total_likes_count = application.like_set.count()
+    i_like = Like.objects.filter(application=application, user=request.user).exists()
+
+    if i_like:
+        total_likes_count -= 1
+    return JsonResponse({"total_likes_count": total_likes_count, "i_like": i_like})
 
 
 def scientist(request, post_id):

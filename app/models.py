@@ -57,6 +57,19 @@ class Application(models.Model):
         return self.name
 
 
+class Like(models.Model):
+    application = models.ForeignKey('Application', on_delete=models.CASCADE, default=None, null=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+
+    def __str__(self):
+        return f"{self.user.username} likes {self.application.name}"
+
+    class Meta:
+        unique_together = ('user', 'application')  # Ensures a user can only like an application once
+
+
+
 # ---------------------------------------------------------------------------------------------
 # Organization model - To identify the organizations associated with the applications
 # ---------------------------------------------------------------------------------------------
@@ -133,6 +146,7 @@ class Feedback(models.Model):
 
     def __str__(self):
         return str(self.pk)
+
 
 
 

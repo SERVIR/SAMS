@@ -76,6 +76,43 @@
                 }
             });
         });
+
+        $('#like-btn').click(function() {
+            $.ajax({
+                url: '{% url "toggle_like" app.id %}',
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                success: function(data) {
+                    {#var likeStatus = $('#like-status');#}
+                    {##}
+                    {##}
+                    {#if(data["i_like"]){#}
+                    {#    const othertext = data["total_likes_count"] < 1 ? "You like this" : data["total_likes_count"] == 1 ? "You and 1 other like this": "You and " + data["total_likes_count"] + " others like this"#}
+                    {#    likeStatus.text("You and " + data["total_likes_count"] < 0 ? data["total_likes_count"] : ""  + othertext);#}
+                    {#} else{#}
+                    {#    const secondaryothertext = data["total_likes_count"] < 1 ? "No likes yet " : data["total_likes_count"] == 1 ? "1 person likes this": data["total_likes_count"] + " people like this"#}
+                    {#    likeStatus.text(data["total_likes_count"]  < 0 ? data["total_likes_count"] : "" + secondaryothertext);#}
+                    {#}#}
+                        var likeStatus = $('#like-status');
+                        var tlc = data["total_likes_count"];
+
+                        if (data["i_like"]) {
+                            var likeCountText = tlc <= 0 ? "You like this" : tlc === 1 ? "1 other likes this" : tlc + " others like this";
+                            likeStatus.text("You and " + likeCountText);
+                        } else {
+                            var likeCountText = tlc <= 0 ? "No likes yet" : tlc === 1 ? "1 person likes this" : tlc + " people like this";
+                            likeStatus.text(likeCountText);
+                        }
+
+
+                    },
+                error: function(xhr, status, error) {
+                    console.error('An error occurred:', error);
+                }
+            });
+        });
     });
 </script>
 {% endblock %}
@@ -139,7 +176,7 @@
                 </div>
                 <div class="details col-md-6">
                     <div>
-                        <div class="col-md-9">
+                        <div class="row">
                             <div class="service-icons">
                                 <div class="icons">
                                     {% for servicearea in app.serviceareas.all %}
@@ -153,10 +190,27 @@
 
                             <h3 class="product-title">{{ app.name }} {% if request.user.is_staff %}
                                 <a href="/admin/app/application/{{ app.pk }}/change/"><i
-                                        class="fa-solid fa-pen-to-square detail-edit"></i></a>{% endif %}</h3>
+                                        class="fa-solid fa-pen-to-square detail-edit"></i></a>{% endif %}
+
+                            <span id="like-status" style="float:right; margin-left: 5px;">
+                                {% if i_like  %}
+                                    You{% if total_likes_count > 0 %} and {{ total_likes_count }} other{% if total_likes_count > 1 %}s{% endif %} like this{% else %} like this{% endif %}
+                                {% else %}
+                                    {% if total_likes_count > 0 %}
+                                        {{ total_likes_count }} {% if total_likes_count == 1 %}person {% else %}people {% endif %}like this
+                                    {% else %}
+                                        No likes yet
+                                    {% endif %}
+                                {% endif %}
+
+                        </span>
+                            <img id="like-btn" src="{% static 'app/img/likes.png' %}" alt="Like" style="cursor: pointer; max-width: 30px; float:right;"/>
+                            </h3>
                             {% if app.incomplete_info %}
                                 <h3 class="product-title" style="font-size: 100%;">[ Additional information required ]</h3>
                             {% endif %}
+
+
                         </div>
 
                         <p class="product-description">
