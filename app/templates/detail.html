@@ -99,8 +99,8 @@
                         var tlc = data["total_likes_count"];
 
                         if (data["i_like"]) {
-                            var likeCountText = tlc <= 0 ? "You like this" : tlc === 1 ? "1 other likes this" : tlc + " others like this";
-                            likeStatus.text("You and " + likeCountText);
+                            var likeCountText = tlc <= 0 ? "like this" : tlc === 1 ? "and 1 other likes this" : "and " + tlc + " others like this";
+                            likeStatus.text("You " + likeCountText);
                         } else {
                             var likeCountText = tlc <= 0 ? "No likes yet" : tlc === 1 ? "1 person likes this" : tlc + " people like this";
                             likeStatus.text(likeCountText);
