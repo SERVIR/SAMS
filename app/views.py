@@ -45,7 +45,10 @@ def detail(request, post_id):
     img.save(stream)
     svg = stream.getvalue().decode()
     total_likes_count = app.like_set.count()
-    i_like = Like.objects.filter(application=app, user=request.user).exists()
+    if request.user.is_authenticated:
+        i_like = Like.objects.filter(application=app, user=request.user).exists()
+    else:
+        i_like = False
 
     if i_like:
         total_likes_count -= 1
