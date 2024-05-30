@@ -85,16 +85,7 @@
                     'X-CSRFToken': '{{ csrf_token }}'
                 },
                 success: function(data) {
-                    {#var likeStatus = $('#like-status');#}
-                    {##}
-                    {##}
-                    {#if(data["i_like"]){#}
-                    {#    const othertext = data["total_likes_count"] < 1 ? "You like this" : data["total_likes_count"] == 1 ? "You and 1 other like this": "You and " + data["total_likes_count"] + " others like this"#}
-                    {#    likeStatus.text("You and " + data["total_likes_count"] < 0 ? data["total_likes_count"] : ""  + othertext);#}
-                    {#} else{#}
-                    {#    const secondaryothertext = data["total_likes_count"] < 1 ? "No likes yet " : data["total_likes_count"] == 1 ? "1 person likes this": data["total_likes_count"] + " people like this"#}
-                    {#    likeStatus.text(data["total_likes_count"]  < 0 ? data["total_likes_count"] : "" + secondaryothertext);#}
-                    {#}#}
+
                         var likeStatus = $('#like-status');
                         var tlc = data["total_likes_count"];
 

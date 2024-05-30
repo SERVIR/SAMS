@@ -70,16 +70,17 @@ class ApplicationAdminResource(resources.ModelResource):
 
 
 class ApplicationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
-    list_display = ('name', 'organization', 'active', 'shown', 'display_priority', 'incomplete_info')
+    list_display = ('name', 'organization', 'active', 'shown', 'display_priority', 'incomplete_info', 'total_likes')
     list_filter = ('active', 'shown', 'ast_round', 'organization')
     search_fields = ('name', 'description', 'organization__name')
     filter_horizontal = (
         'datasets', 'scientists', 'serviceareas', 'developers', 'deployment_environment', 'application_components')
     ordering = ('name',)
     inlines = [LinkInline, LogInline, FeedbackInline]
+    readonly_fields = ('total_likes',)
     fieldsets = (
         ('Identification', {
-            'fields': ('name', 'description', 'url', 'icon', 'organization', 'region', 'serviceareas',),
+            'fields': ('name', 'description', 'total_likes', 'url', 'icon', 'organization', 'region', 'serviceareas',),
         }),
         ('Infrastructure', {
             'fields': (
@@ -101,6 +102,11 @@ class ApplicationAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
 
     )
     resource_class = ApplicationAdminResource
+
+    def total_likes(self, obj):
+        return obj.like_count()
+
+    total_likes.short_description = 'Total Likes'
 
 
 admin.site.register(Application, ApplicationAdmin)

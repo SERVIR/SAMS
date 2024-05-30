@@ -53,6 +53,9 @@ class Application(models.Model):
         from django.urls import reverse
         return reverse('detail', kwargs={'post_id': self.pk})
 
+    def like_count(self):
+        return self.like_set.count()
+
     def __str__(self):
         return self.name
 
