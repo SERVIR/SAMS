@@ -13,7 +13,7 @@
     <script>
     $(document).ready(function(){
         // Submit form via Ajax
-        $('#logForm').submit(function(event) {
+        $('#logForm').submit(function (event) {
             // Prevent default form submission
             event.preventDefault();
 
@@ -24,13 +24,13 @@
             $.ajax({
                 type: 'POST',
                 url: '{% url 'log-submit' %}',  // Replace 'log_submit_url' with the actual URL to submit the form
-                 headers: {
+                headers: {
                     'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()  // Include the CSRF token in the request headers
                 },
                 data: formData,
-                success: function(data) {
+                success: function (data) {
                     // Append new log entry to the list
-                     var newLogEntry = '<li class="additional-link-div"><span class="badge badge-primary">' + data.date + '</span>' + data.log_entry + '</li>';
+                    var newLogEntry = '<li class="additional-link-div"><span class="badge badge-primary">' + data.date + '</span>' + data.log_entry + '</li>';
                     $('#logList').prepend(newLogEntry);
 
                     // Clear the textarea
@@ -38,14 +38,14 @@
                     // Clear the textarea
                     $('#logEntry').val('');
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     // Handle errors
                     console.error(xhr.responseText);
                 }
             });
         });
 
-        $('#feedbackForm').submit(function(event) {
+        $('#feedbackForm').submit(function (event) {
             // Prevent default form submission
             event.preventDefault();
 
@@ -56,13 +56,13 @@
             $.ajax({
                 type: 'POST',
                 url: '{% url 'feedback-submit' %}',  // Replace 'log_submit_url' with the actual URL to submit the form
-                 headers: {
+                headers: {
                     'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()  // Include the CSRF token in the request headers
                 },
                 data: formData,
-                success: function(data) {
+                success: function (data) {
                     // Append new log entry to the list
-                     var newFeedbackEntry = '<li class="additional-link-div"><span class="badge badge-primary">' + data.date + '</span>' + data.feedback_entry + '</li>';
+                    var newFeedbackEntry = '<li class="additional-link-div"><span class="badge badge-primary">' + data.date + '</span>' + data.feedback_entry + '</li>';
                     $('#feedbackList').prepend(newFeedbackEntry);
 
                     // Clear the textarea
@@ -70,46 +70,47 @@
                     // Clear the textarea
                     $('#feedbackEntry').val('');
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     // Handle errors
                     console.error(xhr.responseText);
                 }
             });
         });
-
-        $('#like-btn').click(function() {
-            $.ajax({
-                url: '{% url "toggle_like" app.id %}',
-                type: 'POST',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                success: function(data) {
-
-                        var likeStatus = $('#like-status');
-                        var tlc = data["total_likes_count"];
-
-                        if (data["i_like"]) {
-                            var likeCountText = tlc <= 0 ? "like this" : tlc === 1 ? "and 1 other likes this" : "and " + tlc + " others like this";
-                            likeStatus.text("You " + likeCountText);
-                        } else {
-                            var likeCountText = tlc <= 0 ? "No likes yet" : tlc === 1 ? "1 person likes this" : tlc + " people like this";
-                            likeStatus.text(likeCountText);
-                        }
-
-
+        {% if user.is_authenticated %}
+            $('#like-btn').click(function() {
+                $.ajax({
+                    url: '{% url "toggle_like" app.id %}',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
                     },
-                error: function(xhr, status, error) {
-                    console.error('An error occurred:', error);
-                }
+                    success: function(data) {
+                            var likeStatus = $('#like-status');
+                            var tlc = data["total_likes_count"];
+
+                            if (data["i_like"]) {
+                                var likeCountText = tlc <= 0 ? "like this" : tlc === 1 ? "and 1 other likes this" : "and " + tlc + " others like this";
+                                likeStatus.text("You " + likeCountText);
+                            } else {
+                                var likeCountText = tlc <= 0 ? "No likes yet" : tlc === 1 ? "1 person likes this" : tlc + " people like this";
+                                likeStatus.text(likeCountText);
+                            }
+                        },
+                    error: function(xhr, status, error) {
+                        console.error('An error occurred:', error);
+                    }
+                });
             });
-        });
+        {% else %}
+            $('#like-btn').click(function() {
+                alert("You must login to like an application.");
+            });
+        {% endif %}
     });
 </script>
 {% endblock %}
 {% block content %}
     <div class="card">
-
         <input
                 type="button"
                 value=""
@@ -118,11 +119,9 @@
                 style="position: absolute;right: 10px;top: 10px;"
                 onclick="history.back();"
         />
-
         <div class="container-fliud">
             <div class="wrapper row">
                 <div class="preview col-md-6">
-
                     <div class="preview-pic tab-content">
                         <div
                                 class="tab-pane active"
@@ -143,27 +142,21 @@
                                    target="_blank">View Code</a>
                             {% endif %}
                         </p>
-                            <!-- Display Additional Links-->
-                            {% if app.link_set.count > 0 %}
-                                <div style="margin-top: 20px;">
-                                    <h2 class="product-title">Additional links:</h2>
-
-                                    <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;">
-                                        {% for links in app.link_set.all %}
-                                            <li class="additional-link-div">
-
-                                                <a href="{{ links.url }}"
-                                                   class="additional-link">{{ links.description }}</a>
-                                            </li>
-
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endif %}
-
-
+                        <!-- Display Additional Links-->
+                        {% if app.link_set.count > 0 %}
+                            <div style="margin-top: 20px;">
+                                <h2 class="product-title">Additional links:</h2>
+                                <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;">
+                                    {% for links in app.link_set.all %}
+                                        <li class="additional-link-div">
+                                            <a href="{{ links.url }}"
+                                               class="additional-link">{{ links.description }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
                     </div>
-
                 </div>
                 <div class="details col-md-6">
                     <div>
@@ -174,39 +167,32 @@
                                         <img src="{{ servicearea.icon.url }}" alt="capacity_building"
                                              style="max-width:40px; display:inline-block"/>
                                     {% endfor %}
-
                                 </div>
                             </div>
-
-
                             <h3 class="product-title">{{ app.name }} {% if request.user.is_staff %}
                                 <a href="/admin/app/application/{{ app.pk }}/change/"><i
                                         class="fa-solid fa-pen-to-square detail-edit"></i></a>{% endif %}
-
-
                             </h3>
-                        <h3>
-                        <i class="fa-solid fa-thumbs-up" id="like-btn" ></i>
-{#                        <img id="like-btn" src="{% static 'app/img/likes.png' %}" alt="Like" style="cursor: pointer; max-width: 30px; "/>#}
-                            <span id="like-status" style=" margin-left: 5px; font-size: 50%; line-height: 200%;">
-                                {% if i_like  %}
-                                    You{% if total_likes_count > 0 %} and {{ total_likes_count }} other{% if total_likes_count > 1 %}s{% endif %} like this{% else %} like this{% endif %}
+                            <h3>
+                                <i class="fa-solid fa-thumbs-up" id="like-btn"></i>
+                                <span id="like-status" style=" margin-left: 5px; font-size: 50%; line-height: 200%;">
+                                {% if i_like %}
+                                    You{% if total_likes_count > 0 %} and {{ total_likes_count }} other
+                                    {% if total_likes_count > 1 %}s{% endif %} like this{% else %} like this{% endif %}
                                 {% else %}
                                     {% if total_likes_count > 0 %}
-                                        {{ total_likes_count }} {% if total_likes_count == 1 %}person {% else %}people {% endif %}like this
+                                        {{ total_likes_count }} {% if total_likes_count == 1 %}person {% else %}people
+                                    {% endif %}like this
                                     {% else %}
                                         No likes yet
                                     {% endif %}
                                 {% endif %}
+                                </span>
 
-                        </span>
-
-                        </h3>
+                            </h3>
                             {% if app.incomplete_info %}
-                                <h3 class="product-title" style="font-size: 100%;">[ Additional information required ]</h3>
+                                <h3 class="product-title" style="font-size: 100%;">[ Additional information required]</h3>
                             {% endif %}
-
-
                         </div>
 
                         <p class="product-description">
@@ -221,91 +207,76 @@
                             @ {{ app.organization }}</span>
                         </p>
                         {% if app.ast_round > 0 %}
-                            <p style="margin-bottom: 15px; font-size: 18px;line-height: 1.3;">AST Information: <span class="tag is-light" style="font-weight:500">{{ app.ast_pi }}, AST-{{ app.ast_round }}</span>
-                        </p>
+                            <p style="margin-bottom: 15px; font-size: 18px;line-height: 1.3;">AST Information: <span
+                                    class="tag is-light"
+                                    style="font-weight:500">{{ app.ast_pi }}, AST-{{ app.ast_round }}</span>
+                            </p>
                         {% endif %}
 
-                    <h3 class="product-title">Deployment Environment:</h3>
-                    <p>
-                        {% for dev_env in app.deployment_environment.all|sort_case_insensitive:"name" %}
-
-                                {% if dev_env.name|lower == 'tethys' %}
+                        <h3 class="product-title">Deployment Environment:</h3>
+                        <p>
+                            {% for dev_env in app.deployment_environment.all|sort_case_insensitive:"name" %}
+                                {% if 'tethys' in dev_env.name|lower %}
                                     <span class="tag is-light danger" style="font-weight:500">{{ dev_env.name }}</span>
                                 {% else %}
                                     <span class="tag is-light" style="font-weight:500">{{ dev_env.name }}</span>
                                 {% endif %}
                             {% empty %}
-                            <span class="tag is-light" style="font-weight:500">unspecified</span>
-
-                        {% endfor %}
-                    </p>
-
-                    <h3 class="product-title">Technology Stack:</h3>
-                    <p>
-                        {% for app_comp in app.application_components.all|sort_case_insensitive:"name" %}
-
-                                {% if app_comp.name|lower == 'tethys' %}
+                                <span class="tag is-light" style="font-weight:500">unspecified</span>
+                            {% endfor %}
+                        </p>
+                        <h3 class="product-title">Technology Stack:</h3>
+                        <p>
+                            {% for app_comp in app.application_components.all|sort_case_insensitive:"name" %}
+                                {% if 'tethys' in app_comp.name|lower %}
                                     <span class="tag is-light danger" style="font-weight:500">{{ app_comp.name }}</span>
                                 {% else %}
                                     <span class="tag is-light" style="font-weight:500">{{ app_comp.name }}</span>
                                 {% endif %}
                             {% empty %}
-                            <span class="tag is-light" style="font-weight:500">unspecified</span>
-
-                        {% endfor %}
-                    </p>
-
-
-    
+                                <span class="tag is-light" style="font-weight:500">unspecified</span>
+                            {% endfor %}
+                        </p>
                         <h3 class="product-title">Development Team:</h3>
-
                         <div class="flex-row">
                             {% for scientist in app.scientists.all %}
                                 <a href="/scientist/{{ scientist.pk }}">
-                                <div class="profile-container additional-link">
+                                    <div class="profile-container additional-link">
+                                        <img
+                                                src="{{ scientist.image_url }}"
+                                                class="profile-pic"
+                                                title="{{ scientist.name }}"
+                                                alt="{{ scientist.name }}"/>
+                                        <br/>
+                                        {{ scientist.name }} ({{ scientist.organization }})
 
-                                    <img
-                                            src="{{ scientist.image_url }}"
-                                            class="profile-pic"
-                                            title="{{ scientist.name }}"
-                                            alt="{{ scientist.name }}"/>
-                                    <br/>
-                                    {{ scientist.name }} ({{ scientist.organization }})
-
-                                </div>
+                                    </div>
                                 </a>
                             {% endfor %}
 
                             {% for developer in app.developers.all %}
                                 <a href="/developer/{{ developer.pk }}">
-                                <div class="profile-container additional-link">
+                                    <div class="profile-container additional-link">
+                                        <img
+                                                src="{{ developer.image_url }}"
+                                                alt="{{ developer.name }}"
+                                                title="{{ developer.name }}"
+                                                class="profile-pic"><br/>
+                                        {{ developer.name }} ({{ developer.organization }})
 
-                                    <img
-                                            src="{{ developer.image_url }}"
-                                            alt="{{ developer.name }}"
-                                            title="{{ developer.name }}"
-                                            class="profile-pic"><br/>
-                                    {{ developer.name }} ({{ developer.organization }})
-
-                                </div>
+                                    </div>
                                 </a>
                             {% endfor %}
                         </div>
-
                     </div>
                 </div>
                 {% if request.user.is_staff %}
-
-
-
                     <!-- Display Log Entries -->
                     <div class="row">
                         <br>
-
                         <div class="col-md-6">
                             <div style="margin-top: 20px;">
                                 <h2 class="product-title">Log Entries:</h2>
-
                                 <form id="logForm">
                                     <div class="comment-box">
                                         {% csrf_token %}
@@ -315,7 +286,6 @@
                                         </button>
                                     </div>
                                 </form>
-
                                 <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;"
                                     id="logList">
                                     {% for log_entry in app.log_set.all|sort_by_date:"date_modified" %}
@@ -323,7 +293,6 @@
                                             <span class="badge badge-primary">{{ log_entry.date }}</span>
                                             {{ log_entry.log_entry }}
                                         </li>
-
                                     {% endfor %}
                                 </ul>
                             </div>
@@ -331,7 +300,6 @@
                         <div class="col-md-6">
                             <div style="margin-top: 20px;">
                                 <h2 class="product-title">Feedback:</h2>
-
                                 <form id="feedbackForm">
                                     <div class="comment-box">
                                         {% csrf_token %}
@@ -341,7 +309,6 @@
                                         </button>
                                     </div>
                                 </form>
-
                                 <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;"
                                     id="feedbackList">
                                     {% for feedback_entry in app.feedback_set.all|sort_by_date:"date_modified" %}
@@ -349,16 +316,11 @@
                                             <span class="badge badge-primary">{{ feedback_entry.date }}</span>
                                             {{ feedback_entry.feedback_entry }}
                                         </li>
-
                                     {% endfor %}
                                 </ul>
                             </div>
                         </div>
                     </div>
-
-
-
-
                 {% endif %}
             </div>
         </div>
