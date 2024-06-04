@@ -47,19 +47,6 @@
 
 {% endblock %}
 {% block content %}
-    <div style="position: relative; height: 600px;background-image: url(/static/app/img/sign-up-hero.png);background-size: cover;background-position: center;">
-            <!-- Hero image in the home page -->
-            <div>
-
-                <div class="card-img-overlay ">
-                    <div class="text-center text-white vertical_center">
-                        <!-- Title on the hero image-->
-                        <p id="title_class">
-                            Welcome to SAMS </p>
-                    </div>
-                </div>
-            </div>
-        </div>
     <br>
     <div class="container mt-5">
         <div class="card">
@@ -72,15 +59,17 @@
                         <label for="role">Role</label>
                         {{ form.role }}
                     </div>
-                    <div id="otherExplanation" class="form-group hidden">
+                    <div id="otherExplanation" class="form-group hidden" >
                         <label for="id_other_explanation">Explanation</label>
                         {{ form.other_explanation }}
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" style="margin: 10px 0;">Submit</button>
                 </form>
                 <hr>
-                <p class="card-text">This information will be used to assign you to the appropriate role within the
-                    application, ensuring you receive the necessary permissions for your specific needs.</p>
+                <p class="card-text">We will use this information to add you to specific role(s) that you may require
+                    to interact with this application. <span style="font-weight: bold"> Please note, if you are not associated with SERVIR,
+                    registration is not required to browse the apps in this inventory and access the public code
+                    repositories behind them.</span></p>
             </div>
         </div>
     <br>
