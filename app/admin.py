@@ -335,3 +335,20 @@ admin.site.register(DeploymentEnvironment, DeploymentEnvironmentAdmin)
 
 admin.site.register(Like)
 
+
+# ----------------------------------------------------------------------------------------------------------------------
+# ExternalApp admin page
+# Added ModelResource to allow import/export
+# ----------------------------------------------------------------------------------------------------------------------
+class ExternalAppResource(resources.ModelResource):
+    class Meta:
+        model = ExternalApp
+
+class ExternalAppAdmin(ImportExportActionModelAdmin, ImportExportModelAdmin):
+    list_display = ('name', 'description', 'url', 'user', 'date_added')
+    search_fields = ('name', 'description', 'url', 'user')
+    ordering = ('name',)
+    filter_horizontal = ('serviceareas',)
+    date_hierarchy = 'date_added'
+
+admin.site.register(ExternalApp, ExternalAppAdmin)

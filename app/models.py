@@ -59,7 +59,9 @@ class Application(models.Model):
     def __str__(self):
         return self.name
 
-
+# ---------------------------------------------------------------------------------------------
+# "Like" model - To register likes for the applications
+# ---------------------------------------------------------------------------------------------
 class Like(models.Model):
     application = models.ForeignKey('Application', on_delete=models.CASCADE, default=None, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -273,3 +275,18 @@ class Link(models.Model):
 
     def __str__(self):
         return self.url
+
+
+# ---------------------------------------------------------------------------------------------
+# ExternalApp model - To track third party applications of interest to SERVIR
+# ---------------------------------------------------------------------------------------------
+class ExternalApp(models.Model):
+    url = models.URLField(max_length=255, help_text="Primary URL of the application", blank=True)
+    serviceareas = models.ManyToManyField('ServiceArea', blank=True)
+    name = models.CharField(help_text="Application name", max_length=250)
+    description = models.TextField(help_text="Brief description. Why is the app relevant for SERVIR?", blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ExternalApps', default=7)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
