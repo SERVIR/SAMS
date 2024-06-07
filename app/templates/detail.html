@@ -216,11 +216,9 @@
                         <h3 class="product-title">Deployment Environment:</h3>
                         <p>
                             {% for dev_env in app.deployment_environment.all|sort_case_insensitive:"name" %}
-                                {% if 'tethys' in dev_env.name|lower %}
-                                    <span class="tag is-light danger" style="font-weight:500">{{ dev_env.name }}</span>
-                                {% else %}
+
                                     <span class="tag is-light" style="font-weight:500">{{ dev_env.name }}</span>
-                                {% endif %}
+
                             {% empty %}
                                 <span class="tag is-light" style="font-weight:500">unspecified</span>
                             {% endfor %}
@@ -228,11 +226,9 @@
                         <h3 class="product-title">Technology Stack:</h3>
                         <p>
                             {% for app_comp in app.application_components.all|sort_case_insensitive:"name" %}
-                                {% if 'tethys' in app_comp.name|lower %}
-                                    <span class="tag is-light danger" style="font-weight:500">{{ app_comp.name }}</span>
-                                {% else %}
+
                                     <span class="tag is-light" style="font-weight:500">{{ app_comp.name }}</span>
-                                {% endif %}
+
                             {% empty %}
                                 <span class="tag is-light" style="font-weight:500">unspecified</span>
                             {% endfor %}
