@@ -23,6 +23,7 @@ app_version = 1.05
 
 # Create your views here.
 def index(request):
+    print("hello")
     is_new_user = request.session.get('is_new_user', False)
     if is_new_user:
         del request.session['is_new_user']
@@ -31,8 +32,9 @@ def index(request):
         "service_areas": ServiceArea.objects.all(), "regions": Region.objects.all()}
 
     # Include new users if the request has new_users attribute (set by middleware)
-    if hasattr(request, 'new_users'):
-        context['new_users'] = request.new_users
+    # if hasattr(request, 'new_users'):
+    #     print("here i am")
+    #     context['new_users'] = request.new_users
 
     return render(request, "index.html", context=context)
 
@@ -55,6 +57,26 @@ def detail(request, post_id):
 
     context = {"app": app, "svg": svg, "version": app_version, "i_like":i_like, "total_likes_count":total_likes_count}
     return render(request, "detail.html", context=context)
+
+
+def detail2(request, post_id):
+    app = Application.objects.get(pk=post_id)
+    factory = qrcode.image.svg.SvgImage
+    img = qrcode.make(app.url, image_factory=factory, box_size=10)
+    stream = BytesIO()
+    img.save(stream)
+    svg = stream.getvalue().decode()
+    total_likes_count = app.like_set.count()
+    if request.user.is_authenticated:
+        i_like = Like.objects.filter(application=app, user=request.user).exists()
+    else:
+        i_like = False
+
+    if i_like:
+        total_likes_count -= 1
+
+    context = {"app": app, "svg": svg, "version": app_version, "i_like":i_like, "total_likes_count":total_likes_count}
+    return render(request, "detail2.html", context=context)
 
 
 @login_required

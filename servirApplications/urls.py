@@ -23,6 +23,7 @@ urlpatterns = [
     path('', views.index, name='home'),
     path('about/', views.about, name='about'),
     path('detail/<int:post_id>', views.detail, name='detail'),
+    path('detail2/<int:post_id>', views.detail2, name='detail2'),
     path('toggle-like/<int:app_id>/', views.toggle_like, name='toggle_like'),
     path('developer/<int:post_id>', views.developer, name='developer'),
     path('scientist/<int:post_id>', views.scientist, name='scientist'),
