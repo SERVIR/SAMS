@@ -153,8 +153,10 @@
                         </ul>
                         <p> {{ app.description|linebreaks }}</p>
                         <ul class="actions">
-                            <li><a href="generic.html" class="button2 primary">Open App</a></li>
-                            <li><a href="generic.html" class="button2">Code Repo</a></li>
+                            <li><a href="{{ app.url }}" class="button2 primary">Open App</a></li>
+                            {% if app.code_repo_url|length > 0 %}
+                                <li><a href="{{ app.code_repo_url }}" class="button2">Code Repo</a></li>
+                            {% endif %}
                         </ul>
                         <h3>Additional Links</h3>
                         <ul>
