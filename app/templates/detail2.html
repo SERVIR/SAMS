@@ -31,11 +31,13 @@
                     data: formData,
                     success: function (data) {
                         // Append new log entry to the list
-                        var newLogEntry = '<li class="additional-link-div"><span class="badge badge-primary">' + data.date + '</span>' + data.log_entry + '</li>';
+                        {#var newLogEntry = '<li class="additional-link-div"><span class="badge badge-primary">' + data.date + '</span>' + data.log_entry + '</li>';#}
+
+                         var newLogEntry = '<tr><td><span>'+data.date+'</span><br/>'+data.username+'</td> <td>'+data.log_entry+'</td></tr>';
+
+
                         $('#logList').prepend(newLogEntry);
 
-                        // Clear the textarea
-                        $('#logEntry').val('');
                         // Clear the textarea
                         $('#logEntry').val('');
                     },
@@ -108,6 +110,26 @@
                 });
             {% endif %}
         });
+        function feedbackChange(which){
+            console.log(which);
+            switch (which) {
+                case "feedbackForm":
+                    // hide logForm, show feedbackForm
+                    $("#logForm").hide();
+                    $("#feedbackForm").show();
+                    break;
+                case "logForm":
+                    $("#feedbackForm").hide();
+                    $("#logForm").show();
+                    break;
+                default:
+                    $("#logForm").hide();
+                     $("#feedbackForm").hide();
+            }
+            // feedbackForm
+            // logForm
+
+        }
     </script>
 {% endblock %}
 {% block content %}
@@ -256,6 +278,75 @@
                     </li>
                 </ul>
             </section>
+
+        <section id="feedback" class="main special">
+				<header class="major">
+								<h2>Feedback & Logs</h2>
+								<div class="table-wrapper">
+									<table style="text-align: left;">
+										<thead>
+											<tr>
+												<th>Date/User</th>
+												<th>Description</th>
+											</tr>
+										</thead>
+										<tbody id="logList">
+                                        {% for log_entry in app.log_set.all|sort_by_date:"date_modified" %}
+
+                                            <tr>
+												<td><span>{{ log_entry.date }}</span><br/>{{ log_entry.user.username }}</td>
+												<td>{{ log_entry.log_entry }}</td>
+											</tr>
+
+                                    {% endfor %}
+
+
+										</tbody>
+									</table>
+								</div>
+								<h2>Your Feedback for this Application</h2>
+
+									<div class="row gtr-uniform">
+										<div class="col-12">
+											<select name="demo-category" id="demo-category" onchange="feedbackChange(this.value)">
+												<option value="">- Type of feedback you are providing -</option>
+												<option value="logForm">Event of note to be logged</option>
+												<option value="feedbackForm">Clarifications or edits</option>
+											</select>
+										</div>
+										<div class="col-12">
+                                            <form id="logForm" style="display: none;">
+                                                <div class="comment-box">
+                                                    {% csrf_token %}
+                                                    <textarea id="logEntry" name="log_entry"
+                                                              placeholder="Enter your message" rows="6"
+                                                              placeholder="Register new entry"></textarea>
+                                                    <ul class="actions">
+												<li><input id="log_btn"  type="submit" value="Send" class="primary" /></li>
+												<li><input type="reset" value="Reset" /></li>
+											</ul>
+
+                                                </div>
+                                            </form>
+                                            <form id="feedbackForm" style="display: none;">
+                                                <div class="comment-box">
+                                                    {% csrf_token %}
+                                                    <textarea id="feedbackEntry" name="feedback_entry"
+                                                              placeholder="Enter your message" rows="6"></textarea>
+
+                                                    <ul class="actions">
+												<li><input id="feedback_btn" type="submit" value="Send" class="primary" /></li>
+												<li><input type="reset" value="Reset" /></li>
+											</ul>
+                                                </div>
+                                            </form>
+										</div>
+
+									</div>
+
+				</header>
+
+</section>
 
 
         </div>

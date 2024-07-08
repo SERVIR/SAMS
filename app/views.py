@@ -177,7 +177,9 @@ def log_submit(request):
 
         # Return the new log entry as JSON response
         return JsonResponse(
-            {'date': django_date_format(new_log.date_modified, "M. j, Y"), 'log_entry': new_log.log_entry})
+            {'date': django_date_format(new_log.date_modified, "M. j, Y"),
+             'log_entry': new_log.log_entry,
+             'username': new_log.user.username})
     else:
         return JsonResponse({'error': 'Invalid request method'})
 

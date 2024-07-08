@@ -2219,6 +2219,10 @@ input, select, textarea {
 
 /* Icon */
 
+a {
+	color:#636363;
+}
+
 	.icon {
 		-webkit-box-align: unset;
     -ms-flex-align: unset;
@@ -2239,6 +2243,11 @@ input, select, textarea {
 		transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 		border-bottom: none;
 		position: relative;
+		color:#636363;
+		cursor:pointer;
+	}
+	.icon:hover {
+		color: #a2a2a2;
 	}
 
 		.icon:before {
@@ -3372,7 +3381,7 @@ input, select, textarea {
 		}
 
 		#main a:hover {
-			color: #636363;
+			color: #a2a2a2;
 		}
 
 		#main strong, #main b {
