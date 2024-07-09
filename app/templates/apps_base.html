@@ -22,7 +22,7 @@
             name="viewport"
             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi"
     />
-    <title>{% block title %}SERVIR Application Management System - SAMS{% endblock %}</title>
+    <title>{% block title %}App Center{% endblock %}</title>
     <link href='https://fonts.googleapis.com/css?family=Work Sans' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
@@ -137,7 +137,7 @@
     <nav id="nav" class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a href="{% if page == 'menu-home' %}#home {% else %} / {% endif %}" class="navbar-brand">
-                <img src="{% static 'app/img/logo_sams_white.png' %}" alt="SAMS"/>
+                <img src="{% static 'app/img/servir_color_white.fw.png' %}" alt="App Center" style="height:60px;"/>
             </a>
             <button
                     class="navbar-toggler"
@@ -154,7 +154,7 @@
                 <div class="navbar-nav mr-auto">
                     <p>
                         <a aria-current="page" id="menu-home" class="nav-link"
-                           href="{% url 'home' %}">SERVIR Applications Management System</a>
+                           href="{% url 'home' %}">App Center</a>
                     </p>
                     <p class="display-name separator">|</p>
                     <p>
@@ -229,7 +229,7 @@
     <div class="d-flex flex-column">
         <footer id="footer">
             <div class="climate-copy">
-                <a href="https://apps.servirglobal.net">SAMS</a>
+                <a href="https://appcenter.servirglobal.net">App Center</a>
                 {#            <span>© SERVIR Global</span>#}
             </div>
             <div class="ml-auto climate-power">

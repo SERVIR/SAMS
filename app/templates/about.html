@@ -1,20 +1,23 @@
 {% extends "apps_base.html" %}
 {% load static %}
-{% block title %}SERVIR Application Management System - SAMS - Detail{% endblock %}
+{% block title %}App Center - Detail{% endblock %}
 {% block script %}
-    <link href="{% static 'app/css/detail.css' %}" rel="stylesheet"/>
-    <link href="{% static 'app/css/about.css' %}" rel="stylesheet"/>
+        <link href="{% static 'app/css/details2.css' %}?v={{ version }}" rel="stylesheet"/>
+    <link href="{% static 'app/css/noscript.css' %}?v={{ version }}" rel="stylesheet"/>
 
 {% endblock %}
 {% block content %}
-    <div class="card">
-        <div class="container-fliud about-fluid">
+     <div id="wrapper">
+    <div id="main">
+        <div class="main">
             {% if request.user.is_staff %}
                 <div class="wrapper row">
                     <div class="row">
                         <div class="col-12">
-                            <p class="title" style="text-align: center">Editing instructions and guidelines</p>
-                            <p class="m10">To begin Adding, updating, or removing data from SAMS you will enter the Admin pages
+                            <header class="major">
+                            <h2>Editing instructions and guidelines</h2>
+                                </header>
+                            <p class="m10">To begin Adding, updating, or removing data from App Center you will enter the Admin pages
                                 by clicking the Admin link at the top right of your screen.</p>
                             <p class="m10">Once there you will see a section header labeled APP. Under that are all the
                                 data tables used to dynamically build the web page. These tables are where you will
@@ -30,7 +33,7 @@
                                 This is true for all fields except Serviceareas and Deployment environment: (if you
                                 believe you need to add to one of these please contact Francisco or Billy)</p>
                             <p class="m10">
-                                SAMS will do the best that it can to display the image you choose to upload for the
+                                App Center will do the best that it can to display the image you choose to upload for the
                                 application, however every image is different, so if you try one and don't enjoy how it
                                 displays, simple edit the application and upload a new one. If you need help resizing
                                 an image for the best display feel free to reach out to one of us.
@@ -50,7 +53,7 @@
                 <div class="row">
                     <div class="col-12">
                         <p>
-                            SAMS is brought to you by <a href="https://servirglobal.net" title="SERVIR Global">
+                            App Center is brought to you by <a href="https://servirglobal.net" title="SERVIR Global">
                             SERVIR</a>, a joint initiative of NASA, USAID, and leading geospatial organizations in Asia,
                             Africa,
                             and Latin America, SERVIR partners with countries and organizations to address critical
@@ -99,4 +102,5 @@
             </div>
         </div>
     </div>
+     </div>
 {% endblock %}
