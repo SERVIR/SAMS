@@ -1,0 +1,324 @@
+{% extends "apps_base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}SERVIR Application Management System - SAMS - Detail{% endblock %}
+{% block script %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <link href="{% static 'app/css/detail.css' %}?v={{ version }}" rel="stylesheet"/>
+
+    <script src="{% static 'app/js/detail.js' %}"></script>
+    <script>
+    $(document).ready(function(){
+        // Submit form via Ajax
+        $('#logForm').submit(function (event) {
+            // Prevent default form submission
+            event.preventDefault();
+
+            // Serialize form data including the application ID
+            var formData = $(this).serialize() + '&application_id={{ app.id }}';
+
+            // Submit form data via Ajax
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'log-submit' %}',  // Replace 'log_submit_url' with the actual URL to submit the form
+                headers: {
+                    'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()  // Include the CSRF token in the request headers
+                },
+                data: formData,
+                success: function (data) {
+                    // Append new log entry to the list
+                    var newLogEntry = '<li class="additional-link-div"><span class="badge badge-primary">' + data.date + '</span>' + data.log_entry + '</li>';
+                    $('#logList').prepend(newLogEntry);
+
+                    // Clear the textarea
+                    $('#logEntry').val('');
+                    // Clear the textarea
+                    $('#logEntry').val('');
+                },
+                error: function (xhr, status, error) {
+                    // Handle errors
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+
+        $('#feedbackForm').submit(function (event) {
+            // Prevent default form submission
+            event.preventDefault();
+
+            // Serialize form data including the application ID
+            var formData = $(this).serialize() + '&application_id={{ app.id }}';
+
+            // Submit form data via Ajax
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'feedback-submit' %}',  // Replace 'log_submit_url' with the actual URL to submit the form
+                headers: {
+                    'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()  // Include the CSRF token in the request headers
+                },
+                data: formData,
+                success: function (data) {
+                    // Append new log entry to the list
+                    var newFeedbackEntry = '<li class="additional-link-div"><span class="badge badge-primary">' + data.date + '</span>' + data.feedback_entry + '</li>';
+                    $('#feedbackList').prepend(newFeedbackEntry);
+
+                    // Clear the textarea
+                    $('#feedbackEntry').val('');
+                    // Clear the textarea
+                    $('#feedbackEntry').val('');
+                },
+                error: function (xhr, status, error) {
+                    // Handle errors
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+        {% if user.is_authenticated %}
+            $('#like-btn').click(function() {
+                $.ajax({
+                    url: '{% url "toggle_like" app.id %}',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    success: function(data) {
+                            var likeStatus = $('#like-status');
+                            var tlc = data["total_likes_count"];
+
+                            if (data["i_like"]) {
+                                var likeCountText = tlc <= 0 ? "like this" : tlc === 1 ? "and 1 other likes this" : "and " + tlc + " others like this";
+                                likeStatus.text("You " + likeCountText);
+                            } else {
+                                var likeCountText = tlc <= 0 ? "No likes yet" : tlc === 1 ? "1 person likes this" : tlc + " people like this";
+                                likeStatus.text(likeCountText);
+                            }
+                        },
+                    error: function(xhr, status, error) {
+                        console.error('An error occurred:', error);
+                    }
+                });
+            });
+        {% else %}
+            $('#like-btn').click(function() {
+                alert("You must login to like an application.");
+            });
+        {% endif %}
+    });
+</script>
+{% endblock %}
+{% block content %}
+    <div class="card">
+        <input
+                type="button"
+                value=""
+                class="btn-close btn-close-white pull-right"
+                aria-label="Close"
+                style="position: absolute;right: 10px;top: 10px;"
+                onclick="history.back();"
+        />
+        <div class="container-fliud">
+            <div class="wrapper row">
+                <div class="preview col-md-6">
+                    <div class="preview-pic tab-content">
+                        <div
+                                class="tab-pane active"
+                                id="pic-1" style="position:relative;">
+                            <div class="qr-code" style="position: absolute;  top: 0; right: 0;">
+                                {{ svg|safe }}
+                            </div>
+                            <img
+                                    src="{{ app.icon.url }}"
+                                    title="{{ app.name }}"
+                                    alt="{{ app.name }}"/>
+                        </div>
+                        <p style="text-align: center;" class="app-button-wrapper">
+                            <a href="{{ app.url }}" class="open-app btn btn-default"
+                               target="_blank">Open App</a>
+                            {% if app.code_repo_url|length > 0 %}
+                                <a href="{{ app.code_repo_url }}" class="open-app btn btn-default"
+                                   target="_blank">View Code</a>
+                            {% endif %}
+                        </p>
+                        <!-- Display Additional Links-->
+                        {% if app.link_set.count > 0 %}
+                            <div style="margin-top: 20px;">
+                                <h2 class="product-title">Additional links:</h2>
+                                <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;">
+                                    {% for links in app.link_set.all %}
+                                        <li class="additional-link-div">
+                                            <a href="{{ links.url }}"
+                                               class="additional-link">{{ links.description }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="details col-md-6">
+                    <div>
+                        <div class="row">
+                            <div class="service-icons">
+                                <div class="icons">
+                                    {% for servicearea in app.serviceareas.all %}
+                                        <img src="{{ servicearea.icon.url }}" alt="capacity_building"
+                                             style="max-width:40px; display:inline-block"/>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <h3 class="product-title">{{ app.name }} {% if request.user.is_staff %}
+                                <a href="/admin/app/application/{{ app.pk }}/change/"><i
+                                        class="fa-solid fa-pen-to-square detail-edit"></i></a>{% endif %}
+                            </h3>
+                            <h3>
+                                <i class="fa-solid fa-thumbs-up" id="like-btn"></i>
+                                <span id="like-status" style=" margin-left: 5px; font-size: 50%; line-height: 200%;">
+                                {% if i_like %}
+                                    You{% if total_likes_count > 0 %} and {{ total_likes_count }} other
+                                    {% if total_likes_count > 1 %}s{% endif %} like this{% else %} like this{% endif %}
+                                {% else %}
+                                    {% if total_likes_count > 0 %}
+                                        {{ total_likes_count }} {% if total_likes_count == 1 %}person {% else %}people
+                                    {% endif %}like this
+                                    {% else %}
+                                        No likes yet
+                                    {% endif %}
+                                {% endif %}
+                                </span>
+
+                            </h3>
+                            {% if app.incomplete_info %}
+                                <h3 class="product-title" style="font-size: 100%;">[ Additional information required]</h3>
+                            {% endif %}
+                        </div>
+
+                        <p class="product-description">
+                            {{ app.description|linebreaks }}
+                        </p>
+                        <p style="margin-bottom: 15px; font-size: 18px;">Status: <span style="font-weight:500">
+                        {% if app.active %}
+                            Active
+                        {% else %}
+                            Retired
+                        {% endif %}
+                            @ {{ app.organization }}</span>
+                        </p>
+                        {% if app.ast_round > 0 %}
+                            <p style="margin-bottom: 15px; font-size: 18px;line-height: 1.3;">AST Information: <span
+                                    class="tag is-light"
+                                    style="font-weight:500">{{ app.ast_pi }}, AST-{{ app.ast_round }}</span>
+                            </p>
+                        {% endif %}
+
+                        <h3 class="product-title">Deployment Environment:</h3>
+                        <p>
+                            {% for dev_env in app.deployment_environment.all|sort_case_insensitive:"name" %}
+
+                                    <span class="tag is-light" style="font-weight:500">{{ dev_env.name }}</span>
+
+                            {% empty %}
+                                <span class="tag is-light" style="font-weight:500">unspecified</span>
+                            {% endfor %}
+                        </p>
+                        <h3 class="product-title">Technology Stack:</h3>
+                        <p>
+                            {% for app_comp in app.application_components.all|sort_case_insensitive:"name" %}
+
+                                    <span class="tag is-light" style="font-weight:500">{{ app_comp.name }}</span>
+
+                            {% empty %}
+                                <span class="tag is-light" style="font-weight:500">unspecified</span>
+                            {% endfor %}
+                        </p>
+                        <h3 class="product-title">Development Team:</h3>
+                        <div class="flex-row">
+                            {% for scientist in app.scientists.all %}
+                                <a href="/scientist/{{ scientist.pk }}">
+                                    <div class="profile-container additional-link">
+                                        <img
+                                                src="{{ scientist.image_url }}"
+                                                class="profile-pic"
+                                                title="{{ scientist.name }}"
+                                                alt="{{ scientist.name }}"/>
+                                        <br/>
+                                        {{ scientist.name }} ({{ scientist.organization }})
+
+                                    </div>
+                                </a>
+                            {% endfor %}
+
+                            {% for developer in app.developers.all %}
+                                <a href="/developer/{{ developer.pk }}">
+                                    <div class="profile-container additional-link">
+                                        <img
+                                                src="{{ developer.image_url }}"
+                                                alt="{{ developer.name }}"
+                                                title="{{ developer.name }}"
+                                                class="profile-pic"><br/>
+                                        {{ developer.name }} ({{ developer.organization }})
+
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% if request.user.is_staff %}
+                    <!-- Display Log Entries -->
+                    <div class="row">
+                        <br>
+                        <div class="col-md-6">
+                            <div style="margin-top: 20px;">
+                                <h2 class="product-title">Log Entries:</h2>
+                                <form id="logForm">
+                                    <div class="comment-box">
+                                        {% csrf_token %}
+                                        <textarea id="logEntry" name="log_entry" rows="4" cols="50"
+                                                  placeholder="Register new entry"></textarea>
+                                        <button id="log_btn" class="open-app btn btn-default" type="submit">
+                                        </button>
+                                    </div>
+                                </form>
+                                <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;"
+                                    id="logList">
+                                    {% for log_entry in app.log_set.all|sort_by_date:"date_modified" %}
+                                        <li class="additional-link-div">
+                                            <span class="badge badge-primary">{{ log_entry.date }}</span>
+                                            {{ log_entry.log_entry }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="margin-top: 20px;">
+                                <h2 class="product-title">Feedback:</h2>
+                                <form id="feedbackForm">
+                                    <div class="comment-box">
+                                        {% csrf_token %}
+                                        <textarea id="feedbackEntry" name="feedback_entry" rows="4" cols="50"
+                                                  placeholder="Add Feedback"></textarea>
+                                        <button id="feedback_btn" class="open-app btn btn-default" type="submit">
+                                        </button>
+                                    </div>
+                                </form>
+                                <ul style="margin: unset; list-style:circle; padding: unset; padding-left: 2rem;"
+                                    id="feedbackList">
+                                    {% for feedback_entry in app.feedback_set.all|sort_by_date:"date_modified" %}
+                                        <li class="additional-link-div">
+                                            <span class="badge badge-primary">{{ feedback_entry.date }}</span>
+                                            {{ feedback_entry.feedback_entry }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

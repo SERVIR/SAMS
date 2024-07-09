@@ -39,6 +39,26 @@ def index(request):
     return render(request, "index.html", context=context)
 
 
+def detail1(request, post_id):
+    app = Application.objects.get(pk=post_id)
+    factory = qrcode.image.svg.SvgImage
+    img = qrcode.make(app.url, image_factory=factory, box_size=10)
+    stream = BytesIO()
+    img.save(stream)
+    svg = stream.getvalue().decode()
+    total_likes_count = app.like_set.count()
+    if request.user.is_authenticated:
+        i_like = Like.objects.filter(application=app, user=request.user).exists()
+    else:
+        i_like = False
+
+    if i_like:
+        total_likes_count -= 1
+
+    context = {"app": app, "svg": svg, "version": app_version, "i_like":i_like, "total_likes_count":total_likes_count}
+    return render(request, "detail1.html", context=context)
+
+
 def detail(request, post_id):
     app = Application.objects.get(pk=post_id)
     factory = qrcode.image.svg.SvgImage
@@ -57,26 +77,6 @@ def detail(request, post_id):
 
     context = {"app": app, "svg": svg, "version": app_version, "i_like":i_like, "total_likes_count":total_likes_count}
     return render(request, "detail.html", context=context)
-
-
-def detail2(request, post_id):
-    app = Application.objects.get(pk=post_id)
-    factory = qrcode.image.svg.SvgImage
-    img = qrcode.make(app.url, image_factory=factory, box_size=10)
-    stream = BytesIO()
-    img.save(stream)
-    svg = stream.getvalue().decode()
-    total_likes_count = app.like_set.count()
-    if request.user.is_authenticated:
-        i_like = Like.objects.filter(application=app, user=request.user).exists()
-    else:
-        i_like = False
-
-    if i_like:
-        total_likes_count -= 1
-
-    context = {"app": app, "svg": svg, "version": app_version, "i_like":i_like, "total_likes_count":total_likes_count}
-    return render(request, "detail2.html", context=context)
 
 
 @login_required
