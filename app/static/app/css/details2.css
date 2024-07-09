@@ -2519,6 +2519,7 @@ a {
 /* Actions */
 
 	ul.actions {
+		margin-top: 30px;
 		display: -moz-flex;
 		display: -webkit-flex;
 		display: -ms-flex;

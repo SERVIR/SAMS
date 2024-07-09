@@ -70,8 +70,17 @@
 
                         // Clear the textarea
                         $('#feedbackEntry').val('');
-                        // Clear the textarea
-                        $('#feedbackEntry').val('');
+                        // add bootstrap Dismissible popover that says "Thanks you, we'll address your suggestions as soon as possible"
+                        $('#feedback-comment-box > :nth-last-child(2)').after('<div id="popoverContainer" ></div>');
+                        $('#popoverContainer').html('<div class="popover fade bs-popover-top show" role="tooltip" id="popover-content"><div class="arrow"></div><h3 class="popover-header">Thank you!</h3><div class="popover-body">We\'ll address your suggestions as soon as possible. </div></div>');
+
+
+                        // Hide popover after a few seconds
+                        setTimeout(function() {
+                            $('#popover-content').fadeOut('slow', function() {
+                                $(this).remove();
+                            });
+                        }, 5000);
                     },
                     error: function (xhr, status, error) {
                         // Handle errors
@@ -130,6 +139,10 @@
             // logForm
 
         }
+        function resetForms(){
+              $('#feedbackEntry').val('');
+            $('#logEntry').val('');
+        }
     </script>
 {% endblock %}
 {% block content %}
@@ -140,7 +153,7 @@
                 <li><a href="#about" class="active">About</a></li>
                 <li><a href="#team">Implementation Team</a></li>
                 <li><a href="#tech">Technology</a></li>
-                <li><a href="#feedback">Feedback & Logs</a></li>
+                <li><a href="#flform">Feedback & Logs</a></li>
             </ul>
         </nav>
 
@@ -238,10 +251,12 @@
                         </li>
                     {% endfor %}
                 </ul>
+            {% if app.ast_pi %}
                 <footer2 class="major">
                     <h3><a href="#" class="icon fa-regular fa-star"><span class="label">AST</span></a>
-                        Co-developed with <strong>John Doe, University of Alabama in Huntsville, AST-3</strong></h3>
+                        Co-developed with <strong>{{ app.ast_pi.name }}, {{ app.ast_pi.organization }}, AST-{{ app.ast_round }}</strong></h3>
                 </footer2>
+            {% endif %}
             </section>
 
 
@@ -279,7 +294,7 @@
                 </ul>
             </section>
 
-        <section id="feedback" class="main special">
+        <section id="flform" class="main special">
 				<header class="major">
 								<h2>Feedback & Logs</h2>
 								<div class="table-wrapper">
@@ -323,20 +338,20 @@
                                                               placeholder="Register new entry"></textarea>
                                                     <ul class="actions">
 												<li><input id="log_btn"  type="submit" value="Send" class="primary" /></li>
-												<li><input type="reset" value="Reset" /></li>
+												<li><input type="reset" value="Reset" onclick="resetForms"/></li>
 											</ul>
 
                                                 </div>
                                             </form>
                                             <form id="feedbackForm" style="display: none;">
-                                                <div class="comment-box">
+                                                <div class="comment-box" id="feedback-comment-box">
                                                     {% csrf_token %}
                                                     <textarea id="feedbackEntry" name="feedback_entry"
                                                               placeholder="Enter your message" rows="6"></textarea>
 
                                                     <ul class="actions">
 												<li><input id="feedback_btn" type="submit" value="Send" class="primary" /></li>
-												<li><input type="reset" value="Reset" /></li>
+												<li><input type="reset" value="Reset" onclick="resetForms"/></li>
 											</ul>
                                                 </div>
                                             </form>
