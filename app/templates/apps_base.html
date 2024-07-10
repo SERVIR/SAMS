@@ -137,7 +137,7 @@
     <nav id="nav" class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a href="{% if page == 'menu-home' %}#home {% else %} / {% endif %}" class="navbar-brand">
-                <img src="{% static 'app/img/SERVIR_flat_white2.png' %}" alt="App Center" style="height:40px;"/>
+                <img src="{% static 'app/img/SERVIR_flat_white2.png' %}" alt="App Center" style="height:40px; max-width: none;"/>
             </a>
             <button
                     class="navbar-toggler"
@@ -229,11 +229,10 @@
     <div class="d-flex flex-column">
         <footer id="footer">
             <div class="climate-copy">
-                <a href="https://appcenter.servirglobal.net">App Center</a>
-                {#            <span>© SERVIR Global</span>#}
+                <a href="https://servirglobal.net/privacy-terms-of-use">Privacy & Terms of Use</a>
             </div>
             <div class="ml-auto climate-power">
-                {#            <span>Powered by </span>#}
+
                 <a href="https://servirglobal.net">
                     <img
                             src="{% static 'app/img/servir_global_full_logo_white.png' %}"
