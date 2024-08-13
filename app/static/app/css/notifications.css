@@ -131,6 +131,11 @@ input, select, textarea {
 		line-height: 1.65;
 	}
 
+    .accordion-item li {
+    padding: 0 15px;
+    border-bottom: 3px solid #e7f1ff;
+}
+
 		@media screen and (max-width: 1680px) {
 
 			body, input, select, textarea {
