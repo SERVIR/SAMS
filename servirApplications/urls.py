@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', views.index, name='home'),
     path('about/', views.about, name='about'),
+    path('notifications/', views.notifications, name='notifications'),
     path('detail/<int:post_id>', views.detail, name='detail'),
     path('detail2/<int:post_id>', views.detail1, name='detail1'),
     path('toggle-like/<int:app_id>/', views.toggle_like, name='toggle_like'),

@@ -166,6 +166,12 @@
 
                     {% if user.is_authenticated %}
                         <p class="display-name welcome">Welcome, {{ user.username }}</p>
+                        {% if is_approver and request.extras %}
+                            {% if request.extras.new_users or request.extras.unresolved_feedback %}
+                                <a class="nav-link" href="{% url 'notifications' %}"><i
+                                        class="icon fa-solid fa-circle-exclamation"></i></a>
+                            {% endif %}
+                        {% endif %}
                         <p class="display-name separator"> |</p>
                         <p><a class="nav-link" href="{% url 'account_logout' %}?next={{ request.path }}">Log Out</a></p>
                     {% else %}

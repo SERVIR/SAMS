@@ -29,12 +29,7 @@ def index(request):
         del request.session['is_new_user']
         return HttpResponseRedirect('fill_information')
     context = {"apps": Application.objects.exclude(shown=False).all().order_by("display_priority"),
-        "service_areas": ServiceArea.objects.all(), "regions": Region.objects.all()}
-
-    # Include new users if the request has new_users attribute (set by middleware)
-    # if hasattr(request, 'new_users'):
-    #     print("here i am")
-    #     context['new_users'] = request.new_users
+               "service_areas": ServiceArea.objects.all(), "regions": Region.objects.all()}
 
     return render(request, "index.html", context=context)
 
@@ -55,7 +50,7 @@ def detail1(request, post_id):
     if i_like:
         total_likes_count -= 1
 
-    context = {"app": app, "svg": svg, "version": app_version, "i_like":i_like, "total_likes_count":total_likes_count}
+    context = {"app": app, "svg": svg, "version": app_version, "i_like": i_like, "total_likes_count": total_likes_count}
     return render(request, "detail1.html", context=context)
 
 
@@ -75,7 +70,7 @@ def detail(request, post_id):
     if i_like:
         total_likes_count -= 1
 
-    context = {"app": app, "svg": svg, "version": app_version, "i_like":i_like, "total_likes_count":total_likes_count}
+    context = {"app": app, "svg": svg, "version": app_version, "i_like": i_like, "total_likes_count": total_likes_count}
     return render(request, "detail.html", context=context)
 
 
@@ -152,6 +147,10 @@ def about(request):
     return render(request, "about.html", context={})
 
 
+def notifications(request):
+    return render(request, "notifications.html", context={})
+
+
 def is_scoscience(user):
     return user.groups.filter(name='scoscience').exists()
 
@@ -172,8 +171,8 @@ def log_submit(request):
 
         # Create a new log entry
         new_log = Log.objects.create(application=application,
-            log_entry=log_entry_text, user=request.user  # Assign the current user
-        )
+                                     log_entry=log_entry_text, user=request.user  # Assign the current user
+                                     )
 
         # Return the new log entry as JSON response
         return JsonResponse(
@@ -193,12 +192,14 @@ def feedback_submit(request):
 
         # Create a new feedback entry
         new_feedback = Feedback.objects.create(application=application,
-            feedback_entry=feedback_entry_text, user=request.user  # Assign the current user
-        )
+                                               feedback_entry=feedback_entry_text, user=request.user
+                                               # Assign the current user
+                                               )
 
         # Return the new log entry as JSON response
         return JsonResponse(
-            {'date': django_date_format(new_feedback.date_modified, "M. j, Y"), 'feedback_entry': new_feedback.feedback_entry})
+            {'date': django_date_format(new_feedback.date_modified, "M. j, Y"),
+             'feedback_entry': new_feedback.feedback_entry})
     else:
         return JsonResponse({'error': 'Invalid request method'})
 
@@ -214,6 +215,7 @@ def general_feedback_submit(request):
 
         # Return the new log entry as JSON response
         return JsonResponse(
-            {'date': django_date_format(new_feedback.date_modified, "M. j, Y"), 'message': "Thank you for your feedback."})
+            {'date': django_date_format(new_feedback.date_modified, "M. j, Y"),
+             'message': "Thank you for your feedback."})
     else:
         return JsonResponse({'error': 'Invalid request method'})

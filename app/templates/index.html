@@ -6,60 +6,7 @@
      <script src="{% static 'app/js/index.js' %}"></script>
 {% endblock %}
 {% block content %}
-    {% if request.user.is_authenticated and is_approver and request.extras %}
-        {% if request.extras.new_users or request.extras.unresolved_feedback %}
-            <div class="alert alert-info accordion" role="alert" id="new_user_alert">
-        {% endif %}
-    {% if request.extras.new_users %}
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#newUsersCollapse" aria-expanded="true" aria-controls="newUsersCollapse">
-                    New Users in the Last 7 Days
-                </button>
-            </h2>
-            <div id="newUsersCollapse" class="accordion-collapse collapse show" data-bs-parent="#new_user_alert">
-                <ul>
-                    {% for user in request.extras.new_users.all %}
-                        <li>
-                            {{ user.username }} - <a href="{% url 'admin:auth_user_change' user.id %}">Edit</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
 
-    {% endif %}
-
-    <!-- Unresolved Feedback Section -->
-    {% if request.extras.unresolved_feedback %}
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#unresolvedFeedbackCollapse" aria-expanded="true"
-                        aria-controls="unresolvedFeedbackCollapse">
-                    Unresolved Feedback
-                </button>
-            </h2>
-            <div id="unresolvedFeedbackCollapse" class="accordion-collapse collapse show"
-                 data-bs-parent="#new_user_alert">
-                <ul>
-                    {% for feedback in request.extras.unresolved_feedback %}
-                        <li>
-                            Feedback ID: {{ feedback.pk }} {% if feedback.application %}
-                                - Application: {{ feedback.application.name }}
-                            {% endif %} -  {{ feedback.feedback_entry }}
-                            - <a href="{% url 'admin:app_feedback_change' feedback.id %}">Edit</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    {% endif %}
-    {% if request.extras.new_users or request.extras.unresolved_feedback %}
-        </div>
-    {% endif %}
-    {% endif %}
 
     <div style="background-color: #3c3837;">
         <div>
