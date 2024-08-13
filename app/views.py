@@ -146,7 +146,11 @@ def fill_information(request):
 def about(request):
     return render(request, "about.html", context={})
 
+def is_approver(user):
+    return user.groups.filter(name='Approver').exists()
 
+@login_required
+@user_passes_test(is_approver)
 def notifications(request):
     return render(request, "notifications.html", context={})
 
