@@ -188,8 +188,12 @@
                         </ul>
                         <p> {{ app.description|linebreaks }}</p>
                         <ul class="actions">
+                        {% if app.active %}
                             <li><a href="{{ app.url }}" class="button2 primary">Open App</a></li>
-                            {% if app.code_repo_url|length > 0 %}
+                        {% else %}
+                        <li><a href="#" class="button2 disabled">No Longer Active</a></li>
+                        {% endif %}
+                        {% if app.code_repo_url|length > 0 %}
                                 <li><a href="{{ app.code_repo_url }}" class="button2">Code Repo</a></li>
                             {% endif %}
                         </ul>
