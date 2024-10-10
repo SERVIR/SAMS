@@ -88,36 +88,36 @@
                     }
                 });
             });
-            {% if user.is_authenticated %}
-                $('#like-btn').click(function () {
-                    $.ajax({
-                        url: '{% url "toggle_like" app.id %}',
-                        type: 'POST',
-                        headers: {
-                            'X-CSRFToken': '{{ csrf_token }}'
-                        },
-                        success: function (data) {
-                            var likeStatus = $('#like-status');
-                            var tlc = data["total_likes_count"];
-
-                            if (data["i_like"]) {
-                                var likeCountText = tlc <= 0 ? "like this" : tlc === 1 ? "and 1 other likes this" : "and " + tlc + " others like this";
-                                likeStatus.text("You " + likeCountText);
-                            } else {
-                                var likeCountText = tlc <= 0 ? "No likes yet" : tlc === 1 ? "1 person likes this" : tlc + " people like this";
-                                likeStatus.text(likeCountText);
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('An error occurred:', error);
-                        }
-                    });
-                });
-            {% else %}
-                $('#like-btn').click(function () {
-                    alert("You must login to like an application.");
-                });
-            {% endif %}
+{#            {% if user.is_authenticated %}#}
+{#                $('#like-btn').click(function () {#}
+{#                    $.ajax({#}
+{#                        url: '{% url "toggle_like" app.id %}',#}
+{#                        type: 'POST',#}
+{#                        headers: {#}
+{#                            'X-CSRFToken': '{{ csrf_token }}'#}
+{#                        },#}
+{#                        success: function (data) {#}
+{#                            var likeStatus = $('#like-status');#}
+{#                            var tlc = data["total_likes_count"];#}
+{##}
+{#                            if (data["i_like"]) {#}
+{#                                var likeCountText = tlc <= 0 ? "like this" : tlc === 1 ? "and 1 other likes this" : "and " + tlc + " others like this";#}
+{#                                likeStatus.text("You " + likeCountText);#}
+{#                            } else {#}
+{#                                var likeCountText = tlc <= 0 ? "No likes yet" : tlc === 1 ? "1 person likes this" : tlc + " people like this";#}
+{#                                likeStatus.text(likeCountText);#}
+{#                            }#}
+{#                        },#}
+{#                        error: function (xhr, status, error) {#}
+{#                            console.error('An error occurred:', error);#}
+{#                        }#}
+{#                    });#}
+{#                });#}
+{#            {% else %}#}
+{#                $('#like-btn').click(function () {#}
+{#                    alert("You must login to like an application.");#}
+{#                });#}
+{#            {% endif %}#}
         });
         function feedbackChange(which){
             console.log(which);
@@ -200,8 +200,8 @@
                         <h3>Additional Links</h3>
                         <ul>
                             {% for links in app.link_set.all %}
-                                <li>
-                                    <a href="{{ links.url }}">{{ links.description }}</a>
+                                <li class="additional-link">
+                                    <a href="{{ links.url }}" class="additional-link">{{ links.description }}</a>
                                 </li>
                             {% endfor %}
 
@@ -378,4 +378,38 @@
 <script src="{% static 'app/js/breakpoints.min.js' %}"></script>
 <script src="{% static 'app/js/util.js' %}"></script>
 <script src="{% static 'app/js/main.js' %}"></script>
+      <script>
+    {% if user.is_authenticated %}
+         $(document).ready(function () {
+            $('#like-btn').click(function() {
+                $.ajax({
+                    url: '{% url "toggle_like" app.id %}',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    success: function(data) {
+                            var likeStatus = $('#like-status');
+                            var tlc = data["total_likes_count"];
+
+                            if (data["i_like"]) {
+                                var likeCountText = tlc <= 0 ? "like this" : tlc === 1 ? "and 1 other likes this" : "and " + tlc + " others like this";
+                                likeStatus.text("You " + likeCountText);
+                            } else {
+                                var likeCountText = tlc <= 0 ? "No likes yet" : tlc === 1 ? "1 person likes this" : tlc + " people like this";
+                                likeStatus.text(likeCountText);
+                            }
+                        },
+                    error: function(xhr, status, error) {
+                        console.error('An error occurred:', error);
+                    }
+                });
+            });
+         });
+        {% else %}
+            $('#like-btn').click(function() {
+                alert("You must login to like an application.");
+            });
+        {% endif %}
+    </script>
 {% endblock %}

@@ -72,6 +72,14 @@ input, select, textarea {
 	appearance: none;
 }
 
+.additional-link{
+    color: #5A9BD5;
+}
+
+.additional-link:hover{
+    color: #9acff2!important;
+}
+
 /* Basic */
 
 	@-ms-viewport {
