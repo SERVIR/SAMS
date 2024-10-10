@@ -80,6 +80,18 @@ input, select, textarea {
     color: #9acff2!important;
 }
 
+.servicearea-icons {
+    display: flex;
+    gap: 10px; /* Adds space between the icons */
+    flex-wrap: wrap; /* Allows wrapping to the next line if the screen is too small */
+}
+
+.servicearea-icon {
+    width: 50px; /* Adjust the size as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+
 /* Basic */
 
 	@-ms-viewport {
