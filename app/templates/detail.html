@@ -158,7 +158,7 @@
                         </ul>
                     <div class="servicearea-icons">
     {% for servicearea in app.serviceareas.all %}
-        <img src="{{ servicearea.icon.url }}" alt="{{ servicearea.name }}" class="servicearea-icon" />
+        <img src="{{ servicearea.icon.url }}" alt="{{ servicearea.name }}" title="{{ servicearea.name }}" class="servicearea-icon" />
     {% endfor %}
 </div>
                         <p> {{ app.description|linebreaks }}</p>
