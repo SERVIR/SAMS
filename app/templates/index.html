@@ -118,7 +118,7 @@
 
                                 {% for region in app.region.all %}{{ region.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
                         class="gallery-card ember-view">
-                    <div class="inner img-wrapper" style="background-image:url({{ app.icon.url }})"
+                    <div class="inner img-wrapper {% if not app.active %}inactive{% endif %}" style="background-image:url({{ app.icon.url }})"
                          title="{{ app.name }}">
                         <a href="/detail/{{ app.pk }}" class="img-link">
                             <div class="image">

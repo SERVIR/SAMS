@@ -250,8 +250,12 @@ body{
 .img-wrapper {
     position: relative; /* Required for overlay positioning */
 }
+.img-wrapper.inactive {
+    filter: grayscale(100%); /* Make image grayscale */
+}
 .overlay-image{
-    padding: 0 15px 30px 15px;
+    padding: 0 0 25% 55%;
+    object-fit: contain!important;
 }
 
 @media (max-width: 767px) and (min-width: 601px) {
