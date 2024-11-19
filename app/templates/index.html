@@ -3,7 +3,7 @@
 {% block title %}SERVIR Application Management System - SAMS - Home{% endblock %}
 {% block script %}
     <link href="{% static 'app/css/home.css' %}" rel="stylesheet"/>
-     <script src="{% static 'app/js/index.js' %}"></script>
+    <script src="{% static 'app/js/index.js' %}"></script>
 {% endblock %}
 {% block content %}
 
@@ -61,7 +61,6 @@
             </div>
         </div>
         <div id="service_area_filter">
-            {#        <h1 style="color:#FFFFFF; font-size: 2em; padding: 20px;">SERVIR Applications</h1>#}
             <nav class="navbar navbar-expand-lg navbar-dark tabcontrol">
                 <div class="container-fluid">
                     <button
@@ -113,16 +112,17 @@
                 <div
                         id="app_{{ app.id }}"
                         app_filter="-999,
+
                                 {% for servicearea in app.serviceareas.all %}{{ servicearea.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
                         region="-999,
+
                                 {% for region in app.region.all %}{{ region.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
                         class="gallery-card ember-view">
                     <div class="inner img-wrapper" style="background-image:url({{ app.icon.url }})"
                          title="{{ app.name }}">
                         <a href="/detail/{{ app.pk }}" class="img-link">
                             <div class="image">
-                                <p class="app-title">{{ app.name }}
-                                </p>
+                                <p class="app-title">{{ app.name }}</p>
                                 <input type="hidden" class="hidden-description" value="{{ app.description }}"/>
                             </div>
                         </a>
@@ -131,9 +131,18 @@
                                 <i class="fa-solid fa-link"></i>
                             </a>
                         {% endif %}
+
+                        <!-- Add overlay if app.active is False -->
+                        {% if not app.active %}
+                            <div class="inner img-wrapper inactive-overlay">
+                                <img src="{% static 'app/img/inactive.png' %}" alt="Inactive Overlay"
+                                     class="overlay-image">
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
+
         </div>
     </div>
 {% endblock %}
