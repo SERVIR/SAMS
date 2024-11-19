@@ -250,8 +250,19 @@ body{
 .img-wrapper {
     position: relative; /* Required for overlay positioning */
 }
-.img-wrapper.inactive {
-    filter: grayscale(100%); /* Make image grayscale */
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0; /* Keep it below the overlay */
+    transition: filter 0.3s ease; /* Smooth transition for state changes */
+}
+.img-wrapper.inactive .background-image {
+    filter: grayscale(100%); /* Apply grayscale to background image */
 }
 .overlay-image{
     padding: 0 0 25% 55%;
