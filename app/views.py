@@ -18,7 +18,7 @@ from .custom_forms import UserRoleForm
 from django.contrib.auth.models import Group
 from django.core.mail import send_mail
 
-app_version = 1.05
+app_version = 1.06
 
 
 # Create your views here.
@@ -29,7 +29,7 @@ def index(request):
         del request.session['is_new_user']
         return HttpResponseRedirect('fill_information')
     context = {"apps": Application.objects.exclude(shown=False).all().order_by("display_priority"),
-               "service_areas": ServiceArea.objects.all(), "regions": Region.objects.all()}
+               "service_areas": ServiceArea.objects.all(), "regions": Region.objects.all(), "version": app_version}
 
     return render(request, "index.html", context=context)
 

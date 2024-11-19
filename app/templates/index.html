@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}SERVIR Application Management System - SAMS - Home{% endblock %}
 {% block script %}
-    <link href="{% static 'app/css/home.css' %}" rel="stylesheet"/>
+    <link href="{% static 'app/css/home.css' %}?v={{ version }}" rel="stylesheet"/>
     <script src="{% static 'app/js/index.js' %}"></script>
 {% endblock %}
 {% block content %}
