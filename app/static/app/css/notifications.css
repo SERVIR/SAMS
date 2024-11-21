@@ -37,6 +37,14 @@ ol, ul {
 	list-style: none;
 }
 
+a {
+	color:#5A9BD5;
+}
+
+a:hover {
+    color: #9acff2 !important;
+}
+
 blockquote, q {
 	quotes: none;
 }

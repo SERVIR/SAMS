@@ -56,11 +56,12 @@
                                         <ul>
                                             {% for feedback in request.extras.unresolved_feedback %}
                                                 <li>
-                                                    Feedback ID: {{ feedback.pk }} {% if feedback.application %}
-                                                    - Application: {{ feedback.application.name }}
-                                                {% endif %} - {{ feedback.feedback_entry }}
-                                                    - <a
+                                                    {% if feedback.application %}
+                                                    <span style="font-weight: bold">{{ feedback.application.name }}: </span>
+                                                {% endif %}{{ feedback.date }} <p style="margin:0;">{{ feedback.feedback_entry }}
+                                                    <br><a
                                                         href="{% url 'admin:app_feedback_change' feedback.id %}">Edit</a>
+                                                </p>
                                                 </li>
                                             {% endfor %}
                                         </ul>
