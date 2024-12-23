@@ -134,7 +134,7 @@
                 <div class="spotlight">
                     <div class="content">
                         <header class="major">
-                            <h2>{{ app.name }} </h2>
+                            <h2>{{ app.name }}</h2>
                         </header>
                         <ul class="actions">
                             <li>  {{ svg|safe }}</li>
@@ -162,6 +162,7 @@
         <img src="{{ servicearea.icon.url }}" alt="{{ servicearea.name }}" title="{{ servicearea.name }}" class="servicearea-icon" />
     {% endfor %}
 </div>
+                    <span style="font-size:50%">Record last updated: {{ last_updated }}</span>
                         <p> {{ app.description|linebreaks }}</p>
                         <ul class="actions">
                         {% if app.active %}

@@ -17,6 +17,8 @@ from .models import Application
 from .custom_forms import UserRoleForm
 from django.contrib.auth.models import Group
 from django.core.mail import send_mail
+from django.contrib.admin.models import LogEntry
+from django.contrib.contenttypes.models import ContentType
 
 app_version = 1.10
 
@@ -56,6 +58,7 @@ def detail1(request, post_id):
 
 def detail(request, post_id):
     app = Application.objects.get(pk=post_id)
+    last_updated = get_last_updated(app)
     factory = qrcode.image.svg.SvgImage
     img = qrcode.make(app.url, image_factory=factory, box_size=10)
     stream = BytesIO()
@@ -70,7 +73,13 @@ def detail(request, post_id):
     if i_like:
         total_likes_count -= 1
 
-    context = {"app": app, "svg": svg, "version": app_version, "i_like": i_like, "total_likes_count": total_likes_count}
+    context = {
+        "app": app,
+        "svg": svg,
+        "version": app_version,
+        "i_like": i_like,
+        "total_likes_count": total_likes_count,
+        "last_updated": last_updated}
     return render(request, "detail.html", context=context)
 
 
@@ -106,6 +115,18 @@ def developer(request, post_id):
 def login(request):
     response = redirect('accounts/google/login/')
     return response
+
+
+def get_last_updated(obj):
+    content_type = ContentType.objects.get_for_model(obj)
+    last_update = LogEntry.objects.filter(
+        content_type=content_type,
+        object_id=obj.pk,
+        action_flag=2  # Action flag 2 corresponds to "CHANGE"
+    ).order_by('-action_time').first()
+    if last_update:
+        return last_update.action_time.strftime('%m/%d/%Y')  # Format as mm/dd/yyyy
+    return "N/A"
 
 
 def fill_information(request):
