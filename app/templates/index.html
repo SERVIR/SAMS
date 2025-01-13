@@ -108,6 +108,22 @@
             </nav>
         </div>
         <div style="display: flex; flex-direction: row; flex-wrap: wrap; background-color: #a5a5a5;">
+            {% if is_staff_or_contributor %}
+                <div id="new_app"  class="gallery-card ember-view">
+                    <div class="inner img-wrapper" title="Add New App">
+                     <div class="background-image background-image-missing-app"
+                 style="background-image:url({% static 'app/img/add-new-app.jpg'%});" >
+                         <span class="missing-app">Are we missing a great app?</span>
+                     </div>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLScVF6gZv1F6H85fj0OynCIstMs7lValBCB4SmyDG0enXCnQ2A/viewform" target="_blank" class="img-link">
+                            <div class="image">
+                                <p class="app-title" style="color:#ffe699; font-weight: bold;">Tell us about it!</p>
+                            </div>
+                        </a>
+                        <span class="open_app_url">&nbsp;</span>
+                    </div>
+                </div>
+            {% endif %}
             {% for app in apps %}
                 <div
                         id="app_{{ app.id }}"

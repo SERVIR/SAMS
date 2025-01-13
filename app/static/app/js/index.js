@@ -15,10 +15,14 @@ function filter_service_area(which) {
     const apps = $(".gallery-card.ember-view");
     apps.map(function (i, app) {
         const app_obj = $(app);
-        if (app_obj.attr('app_filter').includes(selected_service_area) && app_obj.attr('region').includes($('input[name=region_radio]:checked').val())) {
+        if(app_obj.attr('app_filter')) {
+            if (app_obj.attr('app_filter').includes(selected_service_area) && app_obj.attr('region').includes($('input[name=region_radio]:checked').val())) {
+                app_obj.show();
+            } else {
+                app_obj.hide();
+            }
+        } else{
             app_obj.show();
-        } else {
-            app_obj.hide();
         }
     });
 }
@@ -28,10 +32,14 @@ function text_filter(search) {
     const apps = $(".gallery-card.ember-view");
     apps.map(function (i, app) {
         const app_obj = $(app);
-        if (app_obj.find(".hidden-description").val().toLowerCase().includes(search_value) || app_obj.find(".app-title").val().toLowerCase().includes(search_value)) {
+        if(app_obj.attr('app_filter')) {
+            if (app_obj.find(".hidden-description").val().toLowerCase().includes(search_value) || app_obj.find(".app-title").val().toLowerCase().includes(search_value)) {
+                app_obj.show();
+            } else {
+                app_obj.hide();
+            }
+        }else{
             app_obj.show();
-        } else {
-            app_obj.hide();
         }
     });
 }

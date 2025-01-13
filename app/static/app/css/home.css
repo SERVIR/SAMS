@@ -175,6 +175,20 @@ body{
     object-fit: cover;
 }
 
+.background-image-missing-app{
+    display:flex;
+    align-items: center;
+    font-size: 150%;
+    text-align: center;
+    padding: 0 15%;
+}
+
+.missing-app {
+    color:#ffe699;
+    font-weight: bold;
+    text-shadow: 2px 2px 3px black;
+}
+
 .gallery-card .headline {
     width: auto;
     position: relative !important;
@@ -269,7 +283,23 @@ body{
     object-fit: contain!important;
 }
 
+@media (max-width: 950px) and (min-width: 792px){
+    .background-image-missing-app{
+        padding:0;
+    }
+}
+
+@media (max-width: 791px) and (min-width: 768px){
+    .missing-app{
+        font-size: 75%;
+    }
+}
+
 @media (max-width: 767px) and (min-width: 601px) {
+    .missing-app{
+        text-align: center;
+        width: 100%;
+    }
     .gallery-container {
         padding: 105px 20px 20px 20px;
     }

@@ -30,8 +30,11 @@ def index(request):
     if is_new_user:
         del request.session['is_new_user']
         return HttpResponseRedirect('fill_information')
+    user = request.user
+    is_staff_or_contributor = user.is_staff or user.groups.filter(name="contributors").exists()
     context = {"apps": Application.objects.exclude(shown=False).all().order_by("display_priority"),
-               "service_areas": ServiceArea.objects.all(), "regions": Region.objects.all(), "version": app_version}
+               "service_areas": ServiceArea.objects.all(), "regions": Region.objects.all(),
+               "is_staff_or_contributor": is_staff_or_contributor, "version": app_version}
 
     return render(request, "index.html", context=context)
 
